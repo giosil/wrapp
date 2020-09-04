@@ -1,0 +1,22 @@
+{
+	"hello": {
+		"title" : "Hello page",
+		"description": "This is an example of Wrapp page",
+		"layout": "default",
+		"modifier": "public",
+		"header": "",
+		"content": "",
+		"footer": "",
+		"script": "WuxDOM.render(new HelloWorld(), 'view-root');",
+		"css": [
+			"/hello/css/main.css"
+		],
+		"scripts": [
+			"/hello/js/wux.min.js",
+			"/hello/js/hello.js"
+		],
+		"attributes": {
+			"locale": "IT"
+		}
+	}
+}
