@@ -25,13 +25,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>Wrapp | Search</title>
+<title><%= App.getAppName() %> | <%= App.getMessage("search") %></title>
 
 <%@ include file="_imp_header.jsp"%>
 </head>
 <body <%=WebUtil.getBodyClass(request)%>>
 	<div id="wrapper">
-	<% WebUtil.writePageHeader(request, out, "Search", "Internal search engine."); %>
+	<% WebUtil.writePageHeader(request, out, App.getMessage("search"), "Internal search engine."); %>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="ibox float-e-margins">

@@ -1,5 +1,9 @@
 {
 	"name": "Wrapp",
 	"version": "1.0.0",
-	"menumanager": "default"
+	"locale": "en",
+	"app": "default",
+	"login": "default",
+	"log": "default",
+	"menu": "default"
 }

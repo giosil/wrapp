@@ -1,19 +1,24 @@
-package org.dew.wrapp;
+package org.dew.wrapp.impl;
 
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dew.wrapp.App;
+import org.dew.wrapp.MenuItem;
+import org.dew.wrapp.User;
+import org.dew.wrapp.mgr.AMenuManager;
+
 public 
-class SideMenuManager extends AMenuManager
+class DefaultMenuManager extends AMenuManager
 {
-  private static final long serialVersionUID = -5292212595703100627L;
+  private static final long serialVersionUID = -58131811631943249L;
   
-  public SideMenuManager()
+  public DefaultMenuManager()
   {
   }
   
-  public SideMenuManager(User user)
+  public DefaultMenuManager(User user)
   {
     this.user = user;
   }
@@ -59,7 +64,7 @@ class SideMenuManager extends AMenuManager
     sb.append("<li><a href=\"" + contextPath + "home.jsp\">Home</a></li>");
     sb.append("<li class=\"divider\"></li>");
     // See _imp_footer.jsp (dialog #dlg-cp)
-    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">Modify Password</a></li>");
+    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage("modpwd") + "</a></li>");
     sb.append("<li><a href=\"" + contextPath + "logout.jsp\">Logout</a></li>");
     sb.append("</ul>");
     sb.append("</div>");

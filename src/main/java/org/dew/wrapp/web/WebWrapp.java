@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dew.wrapp.App;
+import org.dew.wrapp.User;
+import org.dew.wrapp.WebUtil;
 
 @WebServlet(name = "WebWrapp", loadOnStartup = 1, urlPatterns = { "/wrapp/*" })
 public 
@@ -23,6 +25,14 @@ class WebWrapp extends HttpServlet
     throws ServletException
   {
     App.startup();
+  }
+  
+  @Override
+  protected 
+  void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException
+  {
+    doGet(request, response);
   }
   
   @Override
@@ -47,7 +57,19 @@ class WebWrapp extends HttpServlet
       }
       else if(command.equalsIgnoreCase("update")) {
         
-        App.update(request.getParameter("module"));
+        String module  = request.getParameter("module");
+        String oldPassword = request.getParameter("op");
+        
+        if(module != null && module.length() > 0) {
+          App.update(request.getParameter("module"));
+        }
+        else if(oldPassword != null && oldPassword.length() > 0) {
+          String newPassword = request.getParameter("np");
+          User user = WebUtil.getUser(request);
+          if(user != null) {
+            App.updatePassword(user.getUserName(), oldPassword, newPassword);
+          }
+        }
         
       }
       
@@ -64,7 +86,6 @@ class WebWrapp extends HttpServlet
   public
   void destroy()
   {
-    App.shutdown();
+    App.destroy();
   }
 }
-

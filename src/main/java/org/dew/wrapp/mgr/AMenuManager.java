@@ -1,4 +1,4 @@
-package org.dew.wrapp;
+package org.dew.wrapp.mgr;
 
 import java.io.Serializable;
 import java.io.Writer;
@@ -7,6 +7,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dew.wrapp.MenuItem;
+import org.dew.wrapp.User;
 import org.dew.wrapp.util.WUtil;
 
 public abstract

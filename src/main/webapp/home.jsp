@@ -10,16 +10,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>Wrapp | Home</title>
+<title><%= App.getAppName() %> | <%= App.getMessage("home") %></title>
 
 <%@ include file="_imp_header.jsp" %>
 </head>
 <body <%=WebUtil.getBodyClass(request)%>>
 	<div id="wrapper">
 		<%
-			WebUtil.writePageHeader(request, out, "Home", "Home page");
+			WebUtil.writePageHeader(request, out, App.getMessage("home"), "Home page");
 		%>
-		<h2>Welcome in Wrapp</h2>
+		<h2><%= App.getMessage("welcome") %> in <%= App.getAppName() %></h2>
 		<%
 			WebUtil.writePageFooter(request, out);
 		%>

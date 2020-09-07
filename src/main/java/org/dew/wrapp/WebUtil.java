@@ -19,7 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
+import org.dew.wrapp.impl.DefaultMenuManager;
+import org.dew.wrapp.impl.TopMenuManager;
 import org.dew.wrapp.json.JSON;
+import org.dew.wrapp.mgr.AMenuManager;
+import org.dew.wrapp.mgr.ILoginManager;
 import org.dew.wrapp.util.WUtil;
 
 public 
@@ -185,19 +189,24 @@ class WebUtil
           user = getUser(request);
         }
         
-        IUserMenuManager userMenuManager = new UserMenuManager();
-        if(userMenuManager != null) {
-          AMenuManager menuManager = userMenuManager.createMenuManager(user);
+        ILoginManager loginManager = App.getLoginManagerInstance();
+        
+        AMenuManager menuManager = null;
+        try {
+          menuManager = loginManager.createMenuManager(user);
           if(menuManager != null) {
             httpSession.setAttribute("menu", menuManager);
             return menuManager;
           }
         }
+        catch(Exception ex) {
+          ex.printStackTrace();
+        }
       }
       
-      Object oMenu = httpSession.getAttribute("menu");
-      if (oMenu instanceof AMenuManager) {
-        return (AMenuManager) oMenu;
+      Object menuManager = httpSession.getAttribute("menu");
+      if (menuManager instanceof AMenuManager) {
+        return (AMenuManager) menuManager;
       }
     }
     return null;
@@ -238,13 +247,13 @@ class WebUtil
     out.write("<div class=\"navbar-header\">");
     out.write("<a class=\"navbar-minimalize minimalize-styl-2 btn btn-primary\" href=\"#\"><i class=\"fa fa-bars\"></i> </a>");
     out.write("<form role=\"search\" class=\"navbar-form-custom\" action=\"" + contextPath + "search.jsp\">");
-    out.write("<div class=\"form-group\"><input type=\"text\" placeholder=\"Cerca...\" class=\"form-control\" name=\"qs\" id=\"qs\"></div>");
+    out.write("<div class=\"form-group\"><input type=\"text\" placeholder=\""  + App.getMessage("search") + "...\" class=\"form-control\" name=\"qs\" id=\"qs\"></div>");
     out.write("</form>");
     out.write("</div>");
     out.write("<ul class=\"nav navbar-top-links navbar-right\" style=\"margin-top: 10px;\">");
-    out.write("<li><a href=\"" + contextPath + "home.jsp\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> Home Page</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "help.jsp\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> Help</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "logout.jsp\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i> Log out</a></li>");
+    out.write("<li><a href=\"" + contextPath + "home.jsp\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> " + App.getMessage("home") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + "help.jsp\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> " + App.getMessage("help") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + "logout.jsp\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i>" + App.getMessage("logout") + "</a></li>");
     out.write("</ul>");
     out.write("</nav></div>");
   }
@@ -313,7 +322,7 @@ class WebUtil
             out.write("Home");
           }
           else {
-            out.write("<a href=\"" + contextPath + "home.jsp\">Home</a>");
+            out.write("<a href=\"" + contextPath + "home.jsp\">" + App.getMessage("home") + "</a>");
           }
           
           MenuItem menuItem0 = listOfMenuItem.get(0);
@@ -363,7 +372,7 @@ class WebUtil
     writeMenu(request, out);
     AMenuManager menuManager = getMenu(request);
     if (menuManager != null) {
-      if (menuManager instanceof SideMenuManager) {
+      if (menuManager instanceof DefaultMenuManager) {
         out.write("<div id=\"page-wrapper\" class=\"gray-bg\">");
         writeHeader(request, out, menuManager.getUser());
         writeTitleH(request, out, sTitle, sSubTitle, true);
@@ -607,7 +616,6 @@ class WebUtil
       out.write("<script>window._appConfig={};</script>");
       return;
     }
-    
     String js = "<script>";
     js += "window._appConfig=" + JSON.stringify(App.config) + ";";
     js += "</script>";
@@ -622,13 +630,11 @@ class WebUtil
       out.write("<script>window._pageAttributes={};</script>");
       return;
     }
-    
     Map<String, Object> attributes = page.getAttributes();
     if(attributes == null || attributes.isEmpty()) {
       out.write("<script>window._pageAttributes={};</script>");
       return;
     }
-    
     String js = "<script>";
     js += "window._pageAttributes=" + JSON.stringify(attributes) + ";";
     js += "</script>";
@@ -665,8 +671,17 @@ class WebUtil
     String sUsername = request.getParameter("j_username");
     String sPassword = request.getParameter("j_password");
     
-    // Login
-    User user = login(sUsername, sPassword);
+    ILoginManager loginManager = App.getLoginManagerInstance();
+    
+    User user = null;
+    try {
+      user = loginManager.login(sUsername, sPassword);
+    }
+    catch(Exception ex) {
+      ex.printStackTrace();
+      request.setAttribute("message", App.getMessage("error.login"));
+      return null;
+    }
     
     if (user != null) {
       HttpSession httpSession = request.getSession(true);
@@ -677,23 +692,23 @@ class WebUtil
         remoteAddr = request.getRemoteAddr();
       }
       
-      IUserMenuManager userMenuManager = new UserMenuManager();
-      
-      AMenuManager menuManager = userMenuManager.createMenuManager(user);
-      if(menuManager != null) {
-        httpSession.setAttribute("menu", menuManager);
+      AMenuManager menuManager = null;
+      try {
+        menuManager = loginManager.createMenuManager(user);
+        if(menuManager != null) {
+          httpSession.setAttribute("menu", menuManager);
+        }
+      }
+      catch(Exception ex) {
+        ex.printStackTrace();
+        request.setAttribute("message", App.getMessage("error.menu"));
+        return null;
       }
     } 
     else {
-      request.setAttribute("message", "Utente non riconosciuto");
+      request.setAttribute("message", App.getMessage("error.user"));
     }
     return user;
-  }
-  
-  public static 
-  User login(String sUsername, String sPassword) 
-  {
-    return new User(sUsername);
   }
   
   public static 

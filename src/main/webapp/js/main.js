@@ -131,12 +131,26 @@ function updatePassword(){
 	if(!f.valid())return;
 	var op=$('#cpop').val();
 	var np=$('#cpnp').val();
-	
-	$("#dlg-cp").modal('hide');
-	_showSuccess("Write update password procedure in main.js");
-	$('#cpop').val('');
-	$('#cpnp').val('');
-	$('#cpcp').val('');
+	var uu=window.location.href.indexOf('/page/')>=0?"../wrapp/update":"wrapp/update";
+	$.ajax({
+		url: uu,
+		type: "post",
+		data: { 
+			"op": op, 
+			"np": np
+		},
+		success: function(res) {
+			$("#dlg-cp").modal('hide');
+			_showSuccess("Password updated");
+			$('#cpop').val('');
+			$('#cpnp').val('');
+			$('#cpcp').val('');
+		},
+		error: function(xhr) {
+			_showWarning("Invalid password");
+			$('#cpop').focus();
+		}
+	});
 };
 $(function(){DevExpress.ui.dxOverlay.baseZIndex(3000);});
 function fixDataGridHeightInsideModal(e){

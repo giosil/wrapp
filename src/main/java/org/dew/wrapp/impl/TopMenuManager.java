@@ -1,13 +1,17 @@
-package org.dew.wrapp;
+package org.dew.wrapp.impl;
 
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dew.wrapp.MenuItem;
+import org.dew.wrapp.User;
+import org.dew.wrapp.mgr.AMenuManager;
+
 public 
 class TopMenuManager extends AMenuManager 
 {
-  private static final long serialVersionUID = -7818627396458706362L;
+  private static final long serialVersionUID = 3669509984508149585L;
   
   public TopMenuManager()
   {

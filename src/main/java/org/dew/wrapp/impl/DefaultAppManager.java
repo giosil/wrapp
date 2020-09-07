@@ -1,4 +1,4 @@
-package org.dew.wrapp;
+package org.dew.wrapp.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,39 +11,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.dew.wrapp.MenuItem;
+import org.dew.wrapp.Page;
 import org.dew.wrapp.json.JSON;
-
+import org.dew.wrapp.mgr.ConfigManager;
+import org.dew.wrapp.mgr.IAppManager;
 import org.dew.wrapp.util.WUtil;
 
 public 
-class JSONAppLoader implements IAppLoader
+class DefaultAppManager implements IAppManager
 {
-  public JSONAppLoader()
+  @Override
+  public 
+  Map<String, Page> loadPages() 
+    throws Exception 
   {
-    String sUserHome  = System.getProperty("user.home");
-    
-    File folder = new File(sUserHome + File.separator + "cfg");
-    if(!folder.exists()) folder.mkdirs();
-  }
-  
-  @Override
-  public Map<String, Object> loadConfig() throws Exception {
-    String json = loadFile("wrapp_config.json");
-    
-    if(json == null || json.length() < 3) {
-      return new HashMap<String, Object>();
-    }
-    
-    Map<String, Object> mapResult = JSON.parseObj(json);
-    if(mapResult == null) {
-      return new HashMap<String, Object>();
-    }
-    
-    return mapResult;
-  }
-  
-  @Override
-  public Map<String, Page> loadPages() throws Exception {
     String json = loadFile("wrapp_pages.json");
     if(json == null || json.length() < 3) {
       return new HashMap<String, Page>();
@@ -73,7 +55,10 @@ class JSONAppLoader implements IAppLoader
   }
   
   @Override
-  public Map<String, List<MenuItem>> loadMenus() throws Exception {
+  public 
+  Map<String, List<MenuItem>> loadMenus() 
+    throws Exception 
+  {
     String json = loadFile("wrapp_menus.json");
     if(json == null || json.length() < 3) {
       return new HashMap<String, List<MenuItem>>();
@@ -125,7 +110,7 @@ class JSONAppLoader implements IAppLoader
     throws Exception
   {
     String sUserHome = System.getProperty("user.home");
-    String sFilePath = sUserHome + File.separator + "cfg" + File.separator + sFile;
+    String sFilePath = sUserHome + File.separator + ConfigManager.CONFIG_FOLDER_NAME + File.separator + sFile;
     
     byte[] content = null;
     
