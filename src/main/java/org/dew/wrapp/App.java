@@ -95,7 +95,7 @@ class App
     
     getLoggerInstance();
     _loginManager = null;
-    _appManager = null;
+    _appManager   = null;
     
     IAppManager appLoader = getAppManagerInstance();
     
@@ -334,43 +334,55 @@ class App
   }
   
   public static ILoginManager getLoginManagerInstance() {
+    if(_loginManager != null) return _loginManager;
+    
     String className = getConfigStr("login");
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
-      return new DefaultLoginManager();
+      _loginManager = new DefaultLoginManager();
+      return _loginManager;
     }
     
     try {
       Object object = Class.forName(className).getDeclaredConstructor().newInstance();
       if(object instanceof ILoginManager) {
-        return (ILoginManager) object;
+        _loginManager = (ILoginManager) object;
+        return _loginManager;
       }
     }
     catch(Exception ex) {
       System.err.println("App.getLoginManagerInstance() Exception: " + ex);
     }
     
-    return new DefaultLoginManager();
+    _loginManager = new DefaultLoginManager();
+    return _loginManager;
   }
   
   public static IAppManager getAppManagerInstance() {
+    if(_appManager != null) return _appManager;
+    
     String className = getConfigStr("menu");
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
-      return new DefaultAppManager();
+      _appManager = new DefaultAppManager();
+      return _appManager;
     }
     try {
       Object object = Class.forName(className).getDeclaredConstructor().newInstance();
       if(object instanceof IAppManager) {
-        return (IAppManager) object;
+        _appManager = (IAppManager) object;
+        return _appManager;
       }
     }
     catch(Exception ex) {
       System.err.println("App.getAppManagerInstance() Exception: " + ex);
     }
-    return new DefaultAppManager();
+    _appManager = new DefaultAppManager();
+    return _appManager;
   }
   
-  public static AMenuManager getMenuManagerInstance(User user) {
-    String className = getConfigStr("menu");
+  public static AMenuManager getMenuManagerInstance(User user, String className) {
+    if(className == null || className.length() == 0) {
+      className = getConfigStr("menu");
+    }
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
       return new DefaultMenuManager(user);
     }
@@ -378,7 +390,7 @@ class App
       Object object = Class.forName(className).getDeclaredConstructor().newInstance();
       if(object instanceof AMenuManager) {
         ((AMenuManager) object).setUser(user);
-        return (AMenuManager) object;
+        return ((AMenuManager) object);
       }
     }
     catch(Exception ex) {

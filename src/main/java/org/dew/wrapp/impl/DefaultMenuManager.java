@@ -65,7 +65,7 @@ class DefaultMenuManager extends AMenuManager
     sb.append("<li class=\"divider\"></li>");
     // See _imp_footer.jsp (dialog #dlg-cp)
     sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage("modpwd") + "</a></li>");
-    sb.append("<li><a href=\"" + contextPath + "logout.jsp\">Logout</a></li>");
+    sb.append("<li><a href=\"" + contextPath + "logout.jsp\">" + App.getMessage("logout") + "</a></li>");
     sb.append("</ul>");
     sb.append("</div>");
     sb.append("<div class=\"logo-element\">Wrapp</div>");

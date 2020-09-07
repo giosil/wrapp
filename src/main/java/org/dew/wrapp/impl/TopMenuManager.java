@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.User;
 import org.dew.wrapp.mgr.AMenuManager;
@@ -54,7 +55,7 @@ class TopMenuManager extends AMenuManager
     sb.append("<button aria-controls=\"navbar\" aria-expanded=\"false\" data-target=\"#navbar\" data-toggle=\"collapse\" class=\"navbar-toggle collapsed\" type=\"button\">");
     sb.append("<i class=\"fa fa-reorder\"></i>");
     sb.append("</button>");
-    sb.append("<a href=\"" + contextPath + "index.jsp\" class=\"navbar-brand\">Home</a>");
+    sb.append("<a href=\"" + contextPath + "home.jsp\" class=\"navbar-brand\">" + App.getMessage("home") + "</a>");
     sb.append("</div>");
     
     sb.append("<div class=\"navbar-collapse collapse\" id=\"navbar\">");
@@ -146,7 +147,8 @@ class TopMenuManager extends AMenuManager
     sb.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa fa-user\"></i><span class=\"nav-label\">" + sUserName + "</span><span class=\"caret\"></span></a>");
     sb.append("<ul role=\"menu\" class=\"dropdown-menu\">");
     // See _imp_footer.jsp (dialog #dlg-cp)
-    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">Modify Password</a></li>");
+    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage("modpwd") + "</a></li>");
+    sb.append("<li><a href=\"" + contextPath + "logout.jsp\">" + App.getMessage("logout") + "</a></li>");
     sb.append("</ul>");
     
     sb.append("</div>");

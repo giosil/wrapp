@@ -18,7 +18,7 @@ class DefaultLoginManager implements ILoginManager
   public DefaultLoginManager()
   {
   }
-
+  
   @Override
   public 
   User login(String username, String password) 
@@ -26,14 +26,14 @@ class DefaultLoginManager implements ILoginManager
   {
     return new User(username);
   }
-
+  
   @Override
   public 
   void logout(User user) 
     throws Exception 
   {
   }
-
+  
   @Override
   public 
   AMenuManager createMenuManager(User user) 
@@ -41,15 +41,28 @@ class DefaultLoginManager implements ILoginManager
   {
     if(user == null) return null;
     
-    AMenuManager menuManager = App.getMenuManagerInstance(user);
+    String username = user.getUserName();
     
-    List<MenuItem> menuItems = App.getMenu("main");
+    // Retrieve menu manager class name from user...
+    String menuManagerClassName = "";
+    
+    // Example...
+    if("top".equals(username)) {
+      menuManagerClassName = TopMenuManager.class.getName();
+    }
+    
+    AMenuManager menuManager = App.getMenuManagerInstance(user, menuManagerClassName);
+    
+    // Retrieve menu from user...
+    String menu = "main";
+    
+    List<MenuItem> menuItems = App.getMenu(menu);
     
     menuManager.setMenuItems(menuItems);
     
     return menuManager;
   }
-
+  
   @Override
   public 
   boolean updatePassword(String username, String currentPassword, String newPassword) 
