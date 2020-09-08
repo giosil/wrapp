@@ -33,6 +33,8 @@ function getLocale(): string {
     return WUX.WUtil.getString(getConfig(), 'locale', '');
 }
 
+WUX.global.locale = getLocale();
+
 class HelloWorld extends WUX.WComponent {
 
     constructor() {
@@ -41,15 +43,12 @@ class HelloWorld extends WUX.WComponent {
 
     protected render() {
         let user = getUserLogged();
-
         console.log("user.userName = " + user.userName);
 
         let align = WUX.WUtil.getString(getPage(), 'align', 'left');
-
         console.log("page.align = " + align);
 
         let locale = getLocale();
-
         console.log("locale = " + locale);
 
         let greeting = locale == "it" ? "Ciao" : "Hello";

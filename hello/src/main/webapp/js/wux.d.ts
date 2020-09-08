@@ -483,6 +483,11 @@ declare namespace WUX {
         ACT_OUTLINE_INFO = "btn btn-sm btn-info btn-outline",
         ACT_OUTLINE_DANGER = "btn btn-sm btn-danger btn-outline"
     }
+    class ATT {
+        static readonly STICKY_CONTAINER = "data-b2x-sticky-container";
+        static readonly STICKY_ELEMENT = "data-b2x-sticky-element data-b2x-sticky-element-z-index=\"3\"";
+        static readonly BOX_FILTER = "data-b2x-sticky-element data-b2x-sticky-element-ignore-margin-bottom=\"true\" data-b2x-sticky-element-z-index=\"3\"";
+    }
     class CSS {
         static readonly NORMAL: WStyle;
         static readonly ERROR: WStyle;
@@ -611,6 +616,39 @@ declare namespace WUX {
         static readonly CLOSE = "Chiudi";
         static readonly CANCEL = "Annulla";
         static readonly ERR_DATE = "Data non ammessa.";
+    }
+}
+declare namespace WUX {
+    interface WChartData {
+        labels?: string[];
+        titles?: string[];
+        series?: number[][];
+    }
+    class WChartJS extends WComponent<'line' | 'bar' | 'pie' | 'doughnut' | 'polarArea', WChartData> {
+        chart: Chart;
+        protected _opset: boolean;
+        protected _options: Chart.ChartOptions;
+        title: string;
+        legend: boolean;
+        colors: string[];
+        bg0: string;
+        bg1: string;
+        bg2: string;
+        bc0: string;
+        bc1: string;
+        bc2: string;
+        p0: string;
+        p1: string;
+        p2: string;
+        pbc: string;
+        constructor(id: string, type?: 'line' | 'bar' | 'pie' | 'doughnut' | 'polarArea', classStyle?: string, style?: string | WStyle, attributes?: string | object);
+        get options(): Chart.ChartOptions;
+        set options(o: Chart.ChartOptions);
+        onClickChart(h: (e: WEvent) => any): void;
+        getLabel(e: WUX.WEvent): string;
+        getValue(e: WUX.WEvent): number;
+        protected componentDidMount(): void;
+        protected buildChart(): void;
     }
 }
 declare namespace WUX {
@@ -1093,5 +1131,718 @@ declare namespace WUX {
         protected render(): WContainer;
         componentWillUnmount(): void;
         protected buildTitle(title: string): string;
+    }
+}
+declare namespace WUX {
+    class WDXTable extends WComponent<DevExpress.ui.dxDataGridOptions, any[]> implements WITable {
+        header: string[];
+        keys: any[];
+        types: string[];
+        widths: number[];
+        widthsPerc: boolean;
+        selectionMode: 'single' | 'multiple' | 'none';
+        templates: ((cnt: JQuery, opt: {
+            data: any;
+            text: string;
+        }) => any)[];
+        selectedIndex: number;
+        filter: boolean;
+        hideHeader: boolean;
+        keepSorting: boolean;
+        exportFile: string;
+        scrolling: string;
+        pageSize: number;
+        paging: boolean;
+        selectionFilter: any[];
+        dataSource: any;
+        storeKey: string;
+        keyExpr: string;
+        parentIdExpr: string;
+        autoExpandAll: boolean;
+        actions: WUX.WField[];
+        actionsTitle: string;
+        actionsStyle: WUX.WStyle;
+        actionWidth: number;
+        groups: string[];
+        groupsCols: number[][];
+        _editable: boolean;
+        editables: boolean[];
+        editmap: {};
+        filterOps: string[];
+        hiddenCols: string[];
+        $cbSelAll: JQuery;
+        constructor(id: string, header: string[], keys?: any[], classStyle?: string, style?: string | WStyle, attributes?: string | Object, props?: any);
+        get editable(): boolean;
+        set editable(b: boolean);
+        setCellEditable(row: number, col: number | string, editable: boolean): this;
+        addHidden(col: string): this;
+        refresh(): this;
+        refreshAndEdit(row?: number, col?: any, t?: number): this;
+        repaintAndEdit(row?: number, col?: any, t?: number): this;
+        repaint(): this;
+        closeEditCell(): this;
+        repaintRows(idxs: number[]): this;
+        repaintRowByKey(key: any): this;
+        addActions(key: string, field: WUX.WField): this;
+        addGroupBefore(name: string, col?: string | number): void;
+        addGroupAfter(name: string, col: string | number): void;
+        addGroup(name: string, cols: any[]): void;
+        onClickAction(h: (e: JQueryEventObject) => any): void;
+        onSelectionChanged(h: (e: {
+            element?: JQuery;
+            selectedRowsData?: Array<any>;
+        }) => any): void;
+        onDoubleClick(h: (e: {
+            element?: JQuery;
+        }) => any): void;
+        onSelectAll(h: (e: JQueryEventObject) => any): void;
+        onDoneRefresh(h: (e: WEvent) => any): void;
+        onRowPrepared(h: (e: {
+            element?: JQuery;
+            rowElement?: JQuery;
+            data?: any;
+            rowIndex?: number;
+            isSelected?: boolean;
+        }) => any): void;
+        onCellPrepared(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            data?: any;
+            key?: any;
+            value?: any;
+            displayValue?: string;
+            text?: string;
+            columnIndex?: number;
+            column?: DevExpress.ui.dxDataGridColumn;
+            rowIndex?: number;
+            rowType?: string;
+            row?: DevExpress.ui.dxDataGridRowObject;
+            isSelected?: boolean;
+            isExpanded?: boolean;
+            cellElement?: DevExpress.core.dxElement;
+        }) => any): void;
+        onContentReady(h: (e: {
+            component?: DevExpress.ui.dxDataGrid;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+        }) => any): void;
+        onRowUpdated(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            data?: any;
+            key?: any;
+            error?: Error;
+        }) => any): void;
+        onEditorPreparing(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            cancel?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            editorName?: string;
+            editorOptions?: any;
+            dataField?: string;
+            row?: DevExpress.ui.dxDataGridRowObject;
+        }) => any): void;
+        onEditorPrepared(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            dataField?: string;
+            row?: DevExpress.ui.dxDataGridRowObject;
+        }) => any): void;
+        onEditingStart(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            dataField?: string;
+            row?: DevExpress.ui.dxDataGridRowObject;
+        }) => any): void;
+        onCellClick(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            jQueryEvent?: JQueryEventObject;
+            event?: DevExpress.event;
+            data?: any;
+            key?: any;
+            value?: any;
+            displayValue?: string;
+            text?: string;
+            columnIndex?: number;
+            column?: any;
+            rowIndex?: number;
+            rowType?: string;
+            cellElement?: DevExpress.core.dxElement;
+            row?: DevExpress.ui.dxDataGridRowObject;
+        }) => any): void;
+        onScroll(handler: (e: {
+            element?: JQuery;
+            reachedBottom?: boolean;
+            reachedLeft?: boolean;
+            reachedRight?: boolean;
+            reachedTop?: boolean;
+            scrollOffset?: {
+                top?: number;
+                left?: number;
+            };
+        }) => any): void;
+        onKeyDown(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            jQueryEvent?: JQueryEventObject;
+            event?: DevExpress.event;
+            handled?: boolean;
+        }) => any): void;
+        scrollTo(location: any): void;
+        clearFilter(): void;
+        off(events?: string): this;
+        clearSelection(): this;
+        deselectAll(): this;
+        select(idxs: number[]): this;
+        selectRows(keys: any[], preserve: boolean): this;
+        deselectRows(keys: any[]): this;
+        selectAll(toggle?: boolean): this;
+        setSelectionMode(s: 'single' | 'multiple' | 'none'): this;
+        setColVisible(col: string, vis: boolean): this;
+        edit(row: number, col: any, t?: number): this;
+        getFilter(key: string): string;
+        getInstance(): DevExpress.ui.dxDataGrid;
+        getSelectedKeys(): any[];
+        getSelectedRows(): number[];
+        isSelected(data: any): boolean;
+        getSelectedRowsData(): any[];
+        getFilteredRowsData(): any[];
+        cellValue(rowIndex: number, dataField: string): any;
+        cellValue(rowIndex: number, dataField: string, value?: any): any;
+        saveEditData(r?: number): this;
+        count(): number;
+        beforeInit(gopt: DevExpress.ui.dxDataGridOptions): void;
+        protected componentDidMount(): void;
+        protected componentWillUpdate(nextProps: any, nextState: any): void;
+    }
+    class WDXTreeList extends WComponent<DevExpress.ui.dxTreeListOptions, any[]> implements WITable {
+        header: string[];
+        keys: any[];
+        types: string[];
+        widths: number[];
+        widthsPerc: boolean;
+        selectionMode: 'single' | 'multiple' | 'none';
+        templates: ((cnt: JQuery, opt: {
+            data: any;
+            text: string;
+        }) => any)[];
+        selectedIndex: number;
+        filter: boolean;
+        hideHeader: boolean;
+        keepSorting: boolean;
+        scrolling: string;
+        dataSource: any;
+        keyExpr: string;
+        parentIdExpr: string;
+        autoExpandAll: boolean;
+        actions: WUX.WField[];
+        actionsTitle: string;
+        actionsStyle: WUX.WStyle;
+        actionWidth: number;
+        actions_1: WUX.WField[];
+        keyLev1: string;
+        actions_2: WUX.WField[];
+        keyLev2: string;
+        groups: string[];
+        groupsCols: number[][];
+        _editable: boolean;
+        editables: boolean[];
+        editmap: {};
+        filterOps: string[];
+        hiddenCols: string[];
+        constructor(id: string, header: string[], keys?: any[], classStyle?: string, style?: string | WStyle, attributes?: string | Object, props?: any);
+        get editable(): boolean;
+        set editable(b: boolean);
+        setCellEditable(row: number, col: number | string, editable: boolean): this;
+        addHidden(col: string): this;
+        refresh(): this;
+        refreshAndEdit(row?: number, col?: any, t?: number): this;
+        repaintAndEdit(row?: number, col?: any, t?: number): this;
+        closeEditCell(): this;
+        repaintRows(idxs: number[]): this;
+        addActions(key: string, field: WUX.WField): this;
+        addActionsLevel1(key: string, field: WUX.WField, keyLev1?: string): this;
+        addActionsLevel2(key: string, field: WUX.WField, keyLev2?: string): this;
+        addGroupBefore(name: string, col?: string | number): void;
+        addGroupAfter(name: string, col: string | number): void;
+        addGroup(name: string, cols: any[]): void;
+        onClickAction(h: (e: JQueryEventObject) => any): void;
+        onSelectionChanged(h: (e: {
+            element?: JQuery;
+            selectedRowsData?: Array<any>;
+        }) => any): void;
+        onDoubleClick(h: (e: {
+            element?: JQuery;
+        }) => any): void;
+        onRowPrepared(h: (e: {
+            element?: JQuery;
+            rowElement?: JQuery;
+            data?: any;
+            rowIndex?: number;
+            level?: number;
+            isSelected?: boolean;
+        }) => any): void;
+        onCellPrepared(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            data?: any;
+            key?: any;
+            value?: any;
+            displayValue?: string;
+            text?: string;
+            columnIndex?: number;
+            column?: DevExpress.ui.dxTreeListColumn;
+            rowIndex?: number;
+            rowType?: string;
+            row?: DevExpress.ui.dxTreeListRowObject;
+            isSelected?: boolean;
+            isExpanded?: boolean;
+            cellElement?: DevExpress.core.dxElement;
+        }) => any): void;
+        onContentReady(h: (e: {
+            component?: DevExpress.ui.dxTreeList;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+        }) => any): void;
+        onRowUpdated(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            data?: any;
+            key?: any;
+            error?: Error;
+        }) => any): void;
+        onEditorPreparing(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            cancel?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            editorName?: string;
+            editorOptions?: any;
+            dataField?: string;
+            row?: DevExpress.ui.dxTreeListRowObject;
+        }) => any): void;
+        onEditorPrepared(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            dataField?: string;
+            row?: DevExpress.ui.dxTreeListRowObject;
+        }) => any): void;
+        onEditingStart(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            parentType?: string;
+            value?: any;
+            setValue?: any;
+            updateValueTimeout?: number;
+            width?: number;
+            disabled?: boolean;
+            rtlEnabled?: boolean;
+            editorElement?: DevExpress.core.dxElement;
+            readOnly?: boolean;
+            dataField?: string;
+            row?: DevExpress.ui.dxTreeListRowObject;
+        }) => any): void;
+        onCellClick(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            jQueryEvent?: JQueryEventObject;
+            event?: DevExpress.event;
+            data?: any;
+            key?: any;
+            value?: any;
+            displayValue?: string;
+            text?: string;
+            columnIndex?: number;
+            column?: any;
+            rowIndex?: number;
+            rowType?: string;
+            cellElement?: DevExpress.core.dxElement;
+            row?: DevExpress.ui.dxTreeListRowObject;
+        }) => any): void;
+        onScroll(handler: (e: {
+            element?: JQuery;
+            reachedBottom?: boolean;
+            reachedLeft?: boolean;
+            reachedRight?: boolean;
+            reachedTop?: boolean;
+            scrollOffset?: {
+                top?: number;
+                left?: number;
+            };
+        }) => any): void;
+        onKeyDown(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            jQueryEvent?: JQueryEventObject;
+            event?: DevExpress.event;
+            handled?: boolean;
+        }) => any): void;
+        scrollTo(location: any): void;
+        clearFilter(): void;
+        off(events?: string): this;
+        clearSelection(): this;
+        deselectAll(): this;
+        select(idxs: number[]): this;
+        selectAll(toggle?: boolean): this;
+        setSelectionMode(s: 'single' | 'multiple' | 'none'): this;
+        setColVisible(col: string, vis: boolean): this;
+        edit(row: number, col: any, t?: number): this;
+        getFilter(key: string): string;
+        getInstance(): DevExpress.ui.dxTreeList;
+        getSelectedRows(): number[];
+        getSelectedRowsData(): any[];
+        getFilteredRowsData(): any[];
+        cellValue(rowIndex: number, dataField: string): any;
+        cellValue(rowIndex: number, dataField: string, value?: any): any;
+        saveEditData(r?: number): this;
+        count(): number;
+        beforeInit(gopt: DevExpress.ui.dxTreeListOptions): void;
+        protected componentDidMount(): void;
+        protected componentWillUpdate(nextProps: any, nextState: any): void;
+    }
+    class WDXFileUploader extends WComponent<string, string> {
+        widgetContainer: JQuery;
+        fileUploader: JQuery;
+        selectedFiles: JQuery;
+        uploadURL: string;
+        showSelFiles: boolean;
+        constructor(id: string, classStyle?: string, style?: string | WStyle, attributes?: string | object, uploadURL?: string);
+        onUploaded(handler: (e: {
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            file?: File;
+            jQueryEvent?: JQueryEventObject;
+        }) => any): void;
+        clear(): this;
+        protected componentDidMount(): void;
+    }
+    class WDXMenu extends WUX.WComponent {
+        handler: (e: JQueryEventObject) => any;
+        items: WUX.WEntity[];
+        title: string;
+        caret: string;
+        protected mapOfId: {
+            [idx: number]: string;
+        };
+        protected mtitle: any;
+        constructor(id?: string, classStyle?: string, title?: string);
+        addItem(item: WUX.WEntity): this;
+        addItem(id: string, icon: WUX.WIcon | string, text: string, bdef?: boolean): this;
+        addSep(): this;
+        addSection(name: string): this;
+        onClick(handler?: (e: JQueryEventObject) => any): void;
+        protected componentDidMount(): void;
+    }
+    class WDXCalendar extends WUX.WComponent<string, Date> {
+        _min: Date;
+        _max: Date;
+        _template: (data: {
+            date?: Date;
+            text?: string;
+            view?: string;
+        }) => any;
+        constructor(id?: string, props?: string, classStyle?: string, style?: string | WStyle);
+        get min(): Date;
+        set min(d: Date);
+        get max(): Date;
+        set max(d: Date);
+        onDoubleClick(h: (e: {
+            element?: JQuery;
+        }) => any): void;
+        cellTemplate(f: (data: {
+            date?: Date;
+            text?: string;
+            view?: string;
+        }) => any): void;
+        refresh(): this;
+        repaint(): this;
+        protected updateProps(nextProps: string): void;
+        protected updateState(nextState: Date): void;
+        beforeInit(opt: DevExpress.ui.dxCalendarOptions): void;
+        protected componentDidMount(): void;
+    }
+    class WDxCircularGauge extends WUX.WComponent<string, number> {
+        height: number;
+        ranges: any[];
+        scale: DevExpress.viz.gauges.dxCircularGaugeScale;
+        geometry: {
+            startAngle?: number;
+            endAngle?: number;
+        };
+        constructor(id?: string);
+        protected updateState(nextState: number): void;
+        beforeInit(opt: DevExpress.viz.gauges.dxCircularGaugeOptions): void;
+        protected componentDidMount(): void;
+    }
+}
+declare namespace WUX {
+    class WSelect2 extends WUX.WComponent implements WISelectable {
+        options: Array<string | WEntity>;
+        multiple: boolean;
+        openOnFocus: boolean;
+        prefix: string;
+        suffix: string;
+        lastChange: number;
+        count: number;
+        _init: boolean;
+        protected dontOpen: boolean;
+        protected $cb: JQuery;
+        constructor(id: string, options?: Array<string | WEntity>, multiple?: boolean, classStyle?: string, style?: string | WStyle, attributes?: string | object, props?: any);
+        set visible(b: boolean);
+        focus(): this;
+        getProps(): any;
+        getState(): any;
+        getValue(): WEntity;
+        select(i: number): this;
+        selectVal(av: any[], ad?: any[], r?: boolean): this;
+        setOptions(items: Array<string | WEntity>): this;
+        reload(clear?: boolean): this;
+        protected render(): string;
+        protected updateState(nextState: any): void;
+        protected componentDidMount(): void;
+        protected init(options: Select2Options): void;
+        transferTo(dest: WComponent, force?: boolean, callback?: () => any): boolean;
+    }
+    class WTags extends WComponent<WComponent, any> {
+        hideZeroValues: boolean;
+        constructor(id: string, comp?: WComponent, classStyle?: string, style?: string | WStyle, attributes?: string | object, type?: string);
+        protected updateState(nextState: any): void;
+        protected componentDidMount(): void;
+        protected buildView(): void;
+    }
+    class WLinkOptions extends WComponent implements WISelectable {
+        options: Array<string | WEntity>;
+        constructor(id: string, options: Array<string | WEntity>, classStyle?: string, style?: string | WStyle, attributes?: string | object, props?: any);
+        set tooltip(s: string);
+        select(i: number): this;
+        protected componentDidMount(): void;
+    }
+    class WButtonSelect extends WComponent<string, string> {
+        options: Array<string | WEntity>;
+        btnClass: string;
+        constructor(id: string, text?: string, options?: Array<string | WEntity>, classStyle?: string, style?: string | WStyle, attributes?: string | object);
+        protected componentDidMount(): void;
+        protected componentWillUpdate(nextProps: any, nextState: any): void;
+    }
+    interface WGridElement {
+        width: number;
+        height: number;
+        classStyle: string;
+        style: string | WStyle;
+        ylayout?: boolean;
+        components?: Array<WElement>;
+        css(s: string | WStyle): this;
+        removeClass(className: string): this;
+    }
+    class WGridCol implements WGridElement {
+        grid: WGrid;
+        row: WGridRow;
+        index: number;
+        width: number;
+        height: number;
+        classStyle: string;
+        style: string | WStyle;
+        components: Array<WElement>;
+        ylayout: boolean;
+        titles: string[];
+        constructor(grid: WGrid, row: WGridRow, index: number, width?: number, height?: number, classStyle?: string, style?: string | WStyle, ...components: (WElement)[]);
+        css(s: string | WStyle): this;
+        removeClass(className: string): this;
+        addCol(width?: number, height?: number, ...components: (WElement)[]): WGridCol;
+        addRow(width?: number, height?: number, classStyle?: string, style?: string): WGridRow;
+        add(component?: WElement): this;
+        cell(...components: (WElement)[]): this;
+        y(): this;
+        tip(...titles: string[]): this;
+        title(k?: number): string;
+    }
+    class WGridRow implements WGridElement {
+        grid: WGrid;
+        index: number;
+        width: number;
+        height: number;
+        classStyle: string;
+        style: string | WStyle;
+        cols: WGridCol[];
+        ref: string;
+        attributes: string;
+        constructor(grid: WGrid, index: number, width?: number, height?: number, classStyle?: string, style?: string | WStyle, attributes?: string | object);
+        css(s: string | WStyle): this;
+        removeClass(className: string): this;
+        addCol(width?: number, height?: number, ...components: (WElement)[]): WGridCol;
+        addRow(width?: number, height?: number, classStyle?: string, style?: string | WStyle): WGridRow;
+    }
+    class WGrid extends WComponent<any, any> {
+        rows: WGridRow[];
+        rowsStyle: string | WStyle;
+        colsStyle: string | WStyle;
+        headStyle: string | WStyle;
+        footStyle: string | WStyle;
+        ydivStyle: string | WStyle;
+        textStyle: string | WStyle;
+        overflow: 'visible' | 'hidden' | 'scroll' | 'auto' | 'initial' | 'inherit';
+        constructor(id?: string, classStyle?: string, style?: string, attributes?: string | object, props?: any);
+        getWidth(): number;
+        getHeight(): number;
+        getRowIndex(ref: string): number;
+        removeAll(): this;
+        addRow(width?: number, height?: number, classStyle?: string, style?: string | WStyle, attributes?: string | object): WGridRow;
+        addCol(width?: number, height?: number, ...components: (WElement)[]): WGridCol;
+        add(component?: WElement): WGridCol;
+        y(): WGridCol;
+        tip(...titles: string[]): WGridCol;
+        row(r?: number): WGridRow;
+        col(r?: number, c?: number): WGridCol;
+        find(component?: WElement): [number, number, number];
+        element(row: number): JQuery;
+        element(row: number, col: number): JQuery;
+        element(row: number, col: number, idx: number): WElement;
+        html(row: number, col: number, k: number, h: string): boolean;
+        cell(row: number, col: number, ...ac: (WElement)[]): boolean;
+        protected make(): string;
+        protected componentDidMount(): void;
+        componentWillUnmount(): void;
+        protected buildRowStyle(e: WGridElement, fistRow: boolean, lastRow: boolean): string;
+        protected buildColStyle(e: WGridElement, fistRow: boolean, lastRow: boolean, fill?: boolean, h?: number): string;
+        protected buildClass(e: WGridElement): string;
+        protected isAllText(ae: WElement[]): boolean;
+        protected isText(e: WElement): boolean;
+    }
+    class WFullDialog<P = any, S = any> extends WComponent<P, S> {
+        cntRoot: WContainer;
+        cntMain: WContainer;
+        cntContent: WContainer;
+        cntHeader: WContainer;
+        cntBody: WContainer;
+        cntFooter: WContainer;
+        protected _title: string;
+        protected tagTitle: string;
+        btnCloseHeader: WButton;
+        btnOK: WButton;
+        btnCancel: WButton;
+        txtCancel: string;
+        buttons: WButton[];
+        ok: boolean;
+        cancel: boolean;
+        isShown: boolean;
+        parentHandler: (e?: JQueryEventObject) => any;
+        protected phHidden: boolean;
+        static fullDialogsShown: WFullDialog[];
+        constructor(id: string, name?: string, btnOk?: boolean, btnClose?: boolean, classStyle?: string, style?: string | WStyle, attributes?: string | object);
+        onShownModal(handler: (e?: JQueryEventObject) => any): void;
+        onHiddenModal(handler: (e?: JQueryEventObject) => any): void;
+        get header(): WContainer;
+        get body(): WContainer;
+        get footer(): WContainer;
+        get title(): string;
+        set title(s: string);
+        protected onClickOk(): boolean;
+        protected onClickCancel(): boolean;
+        protected buildBtnOK(): WButton;
+        protected buildBtnCancel(): WButton;
+        buttonOk(): WButton;
+        buttonCancel(): WButton;
+        show(parent: WComponent, handler?: (e?: JQueryEventObject) => any): void;
+        hide(e?: JQueryEventObject): void;
+        protected showView(): void;
+        protected hideView(): void;
+        close(): void;
+        selection(table: WITable, warn?: string): boolean;
+        protected beforeShow(): boolean;
+        protected onShown(): void;
+        protected onHidden(): void;
+        protected render(): WContainer;
+        componentWillUnmount(): void;
+        protected buildTitle(title: string): string;
+    }
+    class WLookupDialog extends WDialog<any, any[]> {
+        fp: WUX.WFormPanel;
+        table: WUX.WITable;
+        keys: any[];
+        selected: any;
+        lookup: (params: any[], rh: (result: any) => void, eh?: (error: JRPCError) => void) => void;
+        startup: boolean;
+        lc: string;
+        ld: string;
+        constructor(id: string, title: string, keys: any[], tbl?: WUX.WITable, onlyTable?: boolean);
+        protected updateState(nextState: any[]): void;
+        setFilter(params: any[]): void;
+        getFilter(): any[];
+        onSelected(handler: (e: WEvent) => any): void;
+        protected onShown(): void;
+        protected onClickOk(): boolean;
+    }
+    class WMenu extends WUX.WComponent {
+        handler: (e: JQueryEventObject) => any;
+        data: any;
+        items: WUX.WEntity[];
+        title: string;
+        constructor(id?: string, classStyle?: string);
+        addItem(item: WUX.WEntity): this;
+        addItem(id: string, icon: WUX.WIcon | string, text: string, bdef?: boolean): this;
+        addSep(): this;
+        addSection(name: string): this;
+        onClick(handler?: (e: JQueryEventObject) => any): void;
+        protected buildItem(node: JQuery, code: string, icon: string, text: string, bdef?: boolean): void;
+        protected componentDidMount(): void;
     }
 }

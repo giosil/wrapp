@@ -22,6 +22,7 @@ function getLocale() {
         return u.locale;
     return WUX.WUtil.getString(getConfig(), 'locale', '');
 }
+WUX.global.locale = getLocale();
 var HelloWorld = (function (_super) {
     __extends(HelloWorld, _super);
     function HelloWorld() {

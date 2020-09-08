@@ -220,7 +220,7 @@ var WUX;
                         this.root.hide();
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WComponent.prototype, "enabled", {
@@ -236,7 +236,7 @@ var WUX;
                 if (this.root && this.root.length)
                     this.root.prop('disabled', !this._enabled);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WComponent.prototype, "style", {
@@ -252,7 +252,7 @@ var WUX;
                 if (this.root && this.root.length)
                     this.root.attr('style', this._style);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WComponent.prototype, "classStyle", {
@@ -295,7 +295,7 @@ var WUX;
                     }
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WComponent.prototype, "attributes", {
@@ -309,7 +309,7 @@ var WUX;
                 if (this.internal)
                     this.internal.attributes = s;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WComponent.prototype, "tooltip", {
@@ -325,7 +325,7 @@ var WUX;
                 if (this.root && this.root.length)
                     this.root.attr('title', this._tooltip);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WComponent.prototype.css = function () {
@@ -2527,10 +2527,26 @@ var WUX;
         init: function _init(callback) {
             if (WUX.debug)
                 console.log('[WUX] global.init...');
-            if (WUX.debug)
-                console.log('[WUX] global.init completed');
-            if (callback)
-                callback();
+            var x = location.pathname.indexOf('/', 1);
+            var b = x <= 0 ? "cldr/" : location.pathname.substring(0, x) + "/cldr/";
+            $.when($.getJSON(b + 'ca-gregorian.json'), $.getJSON(b + 'numbers.json'), $.getJSON(b + 'currencies.json'), $.getJSON(b + 'timeZoneNames.json'), $.getJSON(b + 'supplemental/likelySubtags.json'), $.getJSON(b + 'supplemental/timeData.json'), $.getJSON(b + 'supplemental/weekData.json'), $.getJSON(b + 'supplemental/currencyData.json'), $.getJSON(b + 'supplemental/numberingSystems.json'), $.getJSON(b + 'supplemental/plurals.json'), $.getJSON(b + 'supplemental/ordinals.json'))
+                .then(function () {
+                return [].slice.apply(arguments, [0]).map(function (result) { return result[0]; });
+            })
+                .then(Globalize.load)
+                .then(function () {
+                Globalize.locale(WUX.global.locale);
+                DevExpress.localization.locale(WUX.global.locale);
+                DevExpress.config({ defaultCurrency: 'EUR' });
+                if (WUX.debug)
+                    console.log('[WUX] global.init completed');
+                if (callback)
+                    callback();
+            })
+                .fail(function () {
+                if (WUX.debug)
+                    console.log('[WUX] global.init failed');
+            });
         },
         setData: function (key, data, dontTrigger) {
             if (dontTrigger === void 0) { dontTrigger = false; }
@@ -3035,6 +3051,15 @@ var WUX;
         BTN["ACT_OUTLINE_INFO"] = "btn btn-sm btn-info btn-outline";
         BTN["ACT_OUTLINE_DANGER"] = "btn btn-sm btn-danger btn-outline";
     })(BTN = WUX.BTN || (WUX.BTN = {}));
+    var ATT = (function () {
+        function ATT() {
+        }
+        ATT.STICKY_CONTAINER = 'data-b2x-sticky-container';
+        ATT.STICKY_ELEMENT = 'data-b2x-sticky-element data-b2x-sticky-element-z-index="3"';
+        ATT.BOX_FILTER = 'data-b2x-sticky-element data-b2x-sticky-element-ignore-margin-bottom="true" data-b2x-sticky-element-z-index="3"';
+        return ATT;
+    }());
+    WUX.ATT = ATT;
     var CSS = (function () {
         function CSS() {
         }
@@ -3173,6 +3198,161 @@ var WUX;
         return RES;
     }());
     WUX.RES = RES;
+})(WUX || (WUX = {}));
+var WUX;
+(function (WUX) {
+    var WChartJS = (function (_super) {
+        __extends(WChartJS, _super);
+        function WChartJS(id, type, classStyle, style, attributes) {
+            var _this = _super.call(this, id, 'WChartJS', type, classStyle, style, attributes) || this;
+            _this.rootTag = 'canvas';
+            _this.title = '';
+            _this._opset = false;
+            _this.legend = type == 'pie' || type == 'doughnut' || type == 'polarArea' ? true : false;
+            _this.colors = [];
+            _this.bg0 = WUX.global.chart_bg0;
+            _this.bg1 = WUX.global.chart_bg1;
+            _this.bg2 = WUX.global.chart_bg2;
+            _this.bc0 = WUX.global.chart_bc0;
+            _this.bc1 = WUX.global.chart_bc1;
+            _this.bc2 = WUX.global.chart_bc2;
+            _this.p0 = WUX.global.chart_p0;
+            _this.p1 = WUX.global.chart_p1;
+            _this.p2 = WUX.global.chart_p2;
+            _this.pbc = '#fff';
+            _this.forceOnChange = true;
+            return _this;
+        }
+        Object.defineProperty(WChartJS.prototype, "options", {
+            get: function () {
+                return this._options;
+            },
+            set: function (o) {
+                this._options = o;
+                if (o) {
+                    this._opset = true;
+                }
+                else {
+                    this._opset = false;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WChartJS.prototype.onClickChart = function (h) {
+            if (!h)
+                return;
+            if (!this.handlers['_click'])
+                this.handlers['_click'] = [];
+            this.handlers['_click'].push(h);
+        };
+        WChartJS.prototype.getLabel = function (e) {
+            if (!this.state)
+                return '';
+            if (!e || !e.data)
+                return '';
+            var di = e.data.split('_');
+            var i = WUX.WUtil.toNumber(di[di.length - 1]);
+            return WUX.WUtil.toString(this.state.labels[i]);
+        };
+        WChartJS.prototype.getValue = function (e) {
+            if (!this.state)
+                return 0;
+            if (!e || !e.data)
+                return 0;
+            var di = e.data.split('_');
+            var d = di.length > 1 ? WUX.WUtil.toNumber(di[0]) : 0;
+            var i = WUX.WUtil.toNumber(di[di.length - 1]);
+            return this.state.series[d][i];
+        };
+        WChartJS.prototype.componentDidMount = function () {
+            if (this._tooltip) {
+                this.root.attr('title', this._tooltip);
+            }
+            if (this.state) {
+                this.buildChart();
+            }
+        };
+        WChartJS.prototype.buildChart = function () {
+            var _this = this;
+            if (!this.state || !this.root)
+                return;
+            if (!this.state.labels)
+                this.state.labels = [];
+            if (!this.state.titles)
+                this.state.titles = [];
+            if (!this.state.series)
+                this.state.series = [[]];
+            if (!this.props)
+                this.props = 'line';
+            if (!this._opset || !this._options) {
+                if (this.props == 'pie' || this.props == 'doughnut' || this.props == 'polarArea') {
+                    this.legend = true;
+                }
+                else {
+                    if (!this.state.titles || !this.state.titles.length) {
+                        if (!this.title)
+                            this.legend = false;
+                    }
+                }
+                this._options = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: function (e, a) {
+                        var p = _this.chart.getElementAtEvent(e);
+                        if (!p || !p.length)
+                            return;
+                        var d = WUX.WUtil.getString(p[0], '_datasetIndex', '');
+                        var i = WUX.WUtil.getString(p[0], '_index', '');
+                        _this.trigger('_click', d + '_' + i);
+                    },
+                    legend: {
+                        display: this.legend
+                    }
+                };
+            }
+            var cd;
+            if (this.props == 'pie' || this.props == 'doughnut' || this.props == 'polarArea') {
+                if (!this.colors || !this.colors.length) {
+                    this.colors = ["#dfefdf", "#e4f4ff", "#ffffcc", "#ffddaa", "#ffccff", "#e6ccff", "#f1e7cb", "#eeeeee", "#d9f2e6", "#d9e6f2"];
+                }
+                cd = {
+                    labels: this.state.labels,
+                    datasets: [{
+                            backgroundColor: this.colors,
+                            data: this.state.series[0]
+                        }]
+                };
+            }
+            else {
+                var ds = [];
+                for (var i = 0; i < this.state.series.length; i++) {
+                    var lbl = this.state.titles[i];
+                    if (!lbl)
+                        lbl = '';
+                    ds.push({
+                        label: lbl,
+                        backgroundColor: i == 0 ? this.bg0 : i == 1 ? this.bg1 : this.bg2,
+                        borderColor: i == 0 ? this.bc0 : i == 1 ? this.bc1 : this.bc2,
+                        pointBackgroundColor: i == 0 ? this.p0 : i == 1 ? this.p1 : this.p2,
+                        pointBorderColor: this.pbc,
+                        data: this.state.series[i]
+                    });
+                }
+                cd = {
+                    labels: this.state.labels,
+                    datasets: ds
+                };
+            }
+            this.chart = new Chart((this.root[0].getContext('2d')), {
+                type: this.props,
+                data: cd,
+                options: this._options
+            });
+        };
+        return WChartJS;
+    }(WUX.WComponent));
+    WUX.WChartJS = WChartJS;
 })(WUX || (WUX = {}));
 var WUX;
 (function (WUX) {
@@ -3717,7 +3897,7 @@ var WUX;
                     }
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WBox.prototype.addTool = function (tool, icon, attributes, handler) {
@@ -3773,14 +3953,14 @@ var WUX;
                     return this._header;
                 return this._header = new WContainer('', WUX.cls(WUX.global.box_header, this._addClassStyle));
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WBox.prototype, "content", {
             get: function () {
                 return this;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WBox.prototype, "footer", {
@@ -3789,7 +3969,7 @@ var WUX;
                     return this._footer;
                 return this._footer = new WContainer('', WUX.cls(WUX.global.box_footer, this._addClassStyle));
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WBox.prototype.componentDidMount = function () {
@@ -3920,7 +4100,7 @@ var WUX;
                 this.cntHeader.add(this.btnCloseHeader);
                 return this.cntHeader;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WDialog.prototype, "body", {
@@ -3930,7 +4110,7 @@ var WUX;
                 this.cntBody = new WContainer('', WUX.cls('modal-body', this._classStyle), '', this._attributes);
                 return this.cntBody;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WDialog.prototype, "footer", {
@@ -3940,7 +4120,7 @@ var WUX;
                 this.cntFooter = new WContainer('', 'modal-footer');
                 return this.cntFooter;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WDialog.prototype, "title", {
@@ -3957,7 +4137,7 @@ var WUX;
                     this.header.add(this.buildTitle(s));
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WDialog.prototype.onClickOk = function () {
@@ -4128,7 +4308,7 @@ var WUX;
             set: function (i) {
                 this.update(i, this.state, true, false, false);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WLabel.prototype.updateState = function (nextState) {
@@ -4368,7 +4548,7 @@ var WUX;
                 if (this.mounted)
                     this.root.html(s);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WCheck.prototype, "checked", {
@@ -4380,7 +4560,7 @@ var WUX;
             set: function (b) {
                 this.setProps(b);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WCheck.prototype.getState = function () {
@@ -4457,7 +4637,7 @@ var WUX;
             set: function (i) {
                 this.update(i, this.state, true, false, false);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WButton.prototype.setText = function (text, icon) {
@@ -4512,7 +4692,7 @@ var WUX;
             set: function (s) {
                 this.update(s, this.state, true, false, false);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WLink.prototype, "href", {
@@ -4530,7 +4710,7 @@ var WUX;
                     }
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WLink.prototype, "target", {
@@ -4548,7 +4728,7 @@ var WUX;
                     }
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WLink.prototype.render = function () {
@@ -4847,7 +5027,7 @@ var WUX;
                         $item.attr('title', this._tooltip);
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WRadio.prototype.select = function (i) {
@@ -5642,7 +5822,7 @@ var WUX;
                     }
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WFormPanel.prototype.setEnabled = function (fieldId, enabled) {
@@ -6728,7 +6908,7 @@ var WUX;
                 this.cntHeader.add(this.btnCloseHeader);
                 return this.cntHeader;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WWindow.prototype, "body", {
@@ -6738,7 +6918,7 @@ var WUX;
                 this.cntBody = new WContainer('', WUX.cls(this._classStyle));
                 return this.cntBody;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WWindow.prototype, "container", {
@@ -6776,7 +6956,7 @@ var WUX;
                 this.cntRoot = new WContainer(this.id, this._classStyle, crs, this._attributes);
                 return this.cntRoot;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(WWindow.prototype, "title", {
@@ -6793,7 +6973,7 @@ var WUX;
                     this.header.add(this.buildTitle(s));
                 }
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         WWindow.prototype.show = function (parent) {
@@ -6964,5 +7144,3596 @@ var WUX;
         return WWindow;
     }(WUX.WComponent));
     WUX.WWindow = WWindow;
+})(WUX || (WUX = {}));
+var WUX;
+(function (WUX) {
+    var WDXTable = (function (_super) {
+        __extends(WDXTable, _super);
+        function WDXTable(id, header, keys, classStyle, style, attributes, props) {
+            var _this = _super.call(this, id, 'WDXTable', props, classStyle, style, attributes) || this;
+            _this.header = header;
+            _this.keys = [];
+            if (keys) {
+                for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+                    var key = keys_2[_i];
+                    _this.keys.push(WUX.WUtil.toString(key));
+                }
+            }
+            else {
+                if (_this.header)
+                    for (var i = 0; i < _this.header.length; i++)
+                        _this.keys.push(i.toString());
+            }
+            _this.types = [];
+            _this.widths = [];
+            _this.templates = [];
+            _this.selectionMode = 'single';
+            _this.filter = false;
+            _this.keepSorting = false;
+            _this.scrolling = 'virtual';
+            _this.pageSize = 100;
+            _this.paging = false;
+            _this.actions = [];
+            _this.groups = [];
+            _this.groupsCols = [];
+            _this._editable = false;
+            _this.editables = [];
+            _this.editmap = {};
+            _this.hiddenCols = [];
+            return _this;
+        }
+        Object.defineProperty(WDXTable.prototype, "editable", {
+            get: function () {
+                return this._editable;
+            },
+            set: function (b) {
+                this._editable = b;
+                if (this.mounted) {
+                    var gopt = {
+                        editing: { mode: "cell", allowUpdating: true }
+                    };
+                    this.root.dxDataGrid(gopt);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WDXTable.prototype.setCellEditable = function (row, col, editable) {
+            this.editmap[row + '_' + col] = editable;
+            if (!this.mounted)
+                return this;
+            return this;
+        };
+        WDXTable.prototype.addHidden = function (col) {
+            this.hiddenCols.push(col);
+            return this;
+        };
+        WDXTable.prototype.refresh = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').refresh();
+            return this;
+        };
+        WDXTable.prototype.refreshAndEdit = function (row, col, t) {
+            if (t === void 0) { t = 50; }
+            if (!this.mounted)
+                return this;
+            var i = this.root.dxDataGrid('instance');
+            if (row == null || col == null || col == '' || col == -1) {
+                i.refresh();
+            }
+            else {
+                i.refresh().done([function () { setTimeout(function () { if (col)
+                        i.editCell(row, col); }, t); }]);
+            }
+            return this;
+        };
+        WDXTable.prototype.repaintAndEdit = function (row, col, t) {
+            if (t === void 0) { t = 50; }
+            if (!this.mounted)
+                return this;
+            var i = this.root.dxDataGrid('instance');
+            if (row == null || col == null || col == '' || col == -1) {
+                i.repaint();
+            }
+            else {
+                i.repaintRows([row]);
+                if (col != null)
+                    setTimeout(function () { if (col)
+                        i.editCell(row, col); }, t);
+            }
+            return this;
+        };
+        WDXTable.prototype.repaint = function () {
+            var _this = this;
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').repaint();
+            if (this.handlers['_selectall'] && this.selectionMode == 'multiple') {
+                setTimeout(function () {
+                    var $cb = $('.dx-header-row .dx-checkbox').first();
+                    if ($cb && $cb.length) {
+                        if (!_this.$cbSelAll || !_this.$cbSelAll.is($cb)) {
+                            _this.$cbSelAll = $cb;
+                            var val_1 = _this.$cbSelAll.dxCheckBox('instance').option('value');
+                            _this.$cbSelAll.on('click', function (e) {
+                                e.data = val_1;
+                                for (var _i = 0, _a = _this.handlers['_selectall']; _i < _a.length; _i++) {
+                                    var h = _a[_i];
+                                    h(e);
+                                }
+                            });
+                        }
+                    }
+                }, 500);
+            }
+            return this;
+        };
+        WDXTable.prototype.closeEditCell = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').closeEditCell();
+            return this;
+        };
+        WDXTable.prototype.repaintRows = function (idxs) {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').repaintRows(idxs);
+            return this;
+        };
+        WDXTable.prototype.repaintRowByKey = function (key) {
+            if (!this.mounted || !key)
+                return this;
+            var i = this.root.dxDataGrid('instance');
+            var idx = i.getRowIndexByKey(key);
+            if (idx < 0)
+                return this;
+            i.repaintRows([idx]);
+            return this;
+        };
+        WDXTable.prototype.addActions = function (key, field) {
+            if (!field)
+                return this;
+            if (!key)
+                key = '';
+            field.key = key;
+            this.actions.push(field);
+            return this;
+        };
+        WDXTable.prototype.addGroupBefore = function (name, col) {
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var s = 0;
+            var e = this.keys.length;
+            if (col != null) {
+                if (typeof col != 'number') {
+                    var k = this.keys.indexOf(col);
+                    if (k > 0)
+                        e = k;
+                }
+                else {
+                    e = col;
+                }
+            }
+            var g = [];
+            for (var i = s; i < e; i++)
+                g.push(i);
+            this.groupsCols.push(g);
+        };
+        WDXTable.prototype.addGroupAfter = function (name, col) {
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var s = 0;
+            var e = this.keys.length;
+            if (col != null) {
+                if (typeof col != 'number') {
+                    var k = this.keys.indexOf(col);
+                    if (k >= 0)
+                        s = k + 1;
+                }
+                else {
+                    s = col + 1;
+                }
+            }
+            var g = [];
+            for (var i = s; i < e; i++)
+                g.push(i);
+            this.groupsCols.push(g);
+        };
+        WDXTable.prototype.addGroup = function (name, cols) {
+            if (!cols || !cols.length)
+                return;
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var c0 = cols[0];
+            if (typeof c0 != 'number') {
+                var coln = [];
+                for (var i = 0; i < cols.length; i++) {
+                    var k = this.keys.indexOf(cols[i]);
+                    if (k >= 0)
+                        coln.push(k);
+                }
+                this.groupsCols.push(coln);
+            }
+            else {
+                this.groupsCols.push(cols);
+            }
+        };
+        WDXTable.prototype.onClickAction = function (h) {
+            if (!this.handlers['_clickaction'])
+                this.handlers['_clickaction'] = [];
+            this.handlers['_clickaction'].push(h);
+        };
+        WDXTable.prototype.onSelectionChanged = function (h) {
+            this.handlers['_selectionchanged'] = [];
+            this.handlers['_selectionchanged'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onSelectionChanged: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onDoubleClick = function (h) {
+            if (!this.handlers['_doubleclick'])
+                this.handlers['_doubleclick'] = [];
+            this.handlers['_doubleclick'].push(h);
+        };
+        WDXTable.prototype.onSelectAll = function (h) {
+            if (!this.handlers['_selectall'])
+                this.handlers['_selectall'] = [];
+            this.handlers['_selectall'].push(h);
+        };
+        WDXTable.prototype.onDoneRefresh = function (h) {
+            if (!this.handlers['_donerefresh'])
+                this.handlers['_donerefresh'] = [];
+            this.handlers['_donerefresh'].push(h);
+        };
+        WDXTable.prototype.onRowPrepared = function (h) {
+            this.handlers['_rowprepared'] = [];
+            this.handlers['_rowprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onRowPrepared: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onCellPrepared = function (h) {
+            this.handlers['_cellprepared'] = [];
+            this.handlers['_cellprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onCellPrepared: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onContentReady = function (h) {
+            this.handlers['_contentready'] = [];
+            this.handlers['_contentready'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onContentReady: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onRowUpdated = function (h) {
+            this.handlers['_rowupdated'] = [];
+            this.handlers['_rowupdated'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onRowUpdated: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onEditorPreparing = function (h) {
+            this.handlers['_editorpreparing'] = [];
+            this.handlers['_editorpreparing'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditorPreparing: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onEditorPrepared = function (h) {
+            this.handlers['_editorprepared'] = [];
+            this.handlers['_editorprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditorPrepared: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onEditingStart = function (h) {
+            this.handlers['_editingstart'] = [];
+            this.handlers['_editingstart'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditingStart: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onCellClick = function (h) {
+            this.handlers['_cellclick'] = [];
+            this.handlers['_cellclick'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onCellClick: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onScroll = function (handler) {
+            this.handlers['_scroll'] = [];
+            this.handlers['_scroll'].push(handler);
+            if (this.mounted) {
+                this.root.dxDataGrid('instance').getScrollable().on('scroll', handler);
+            }
+        };
+        WDXTable.prototype.onKeyDown = function (h) {
+            this.handlers['_keydown'] = [];
+            this.handlers['_keydown'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onKeyDown: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.scrollTo = function (location) {
+            if (!this.mounted)
+                return;
+            this.root.dxDataGrid('instance').getScrollable().scrollTo(location);
+        };
+        WDXTable.prototype.clearFilter = function () {
+            if (!this.mounted || !this.state)
+                return;
+            this.root.dxDataGrid('instance').clearFilter();
+        };
+        WDXTable.prototype.off = function (events) {
+            _super.prototype.off.call(this, events);
+            if (!events)
+                return this;
+            var gopt = {};
+            if (events.indexOf('_selectionchanged') >= 0)
+                gopt.onSelectionChanged = null;
+            if (events.indexOf('_rowprepared') >= 0)
+                gopt.onRowPrepared = null;
+            if (events.indexOf('_cellprepared') >= 0)
+                gopt.onCellPrepared = null;
+            if (events.indexOf('_contentready') >= 0)
+                gopt.onContentReady = null;
+            if (events.indexOf('_rowupdated') >= 0)
+                gopt.onRowUpdated = null;
+            if (events.indexOf('_editorprepared') >= 0)
+                gopt.onEditorPrepared = null;
+            if (events.indexOf('_editorpreparing') >= 0)
+                gopt.onEditorPreparing = null;
+            if (events.indexOf('_editingstart') >= 0)
+                gopt.onEditingStart = null;
+            if (events.indexOf('_cellclick') >= 0)
+                gopt.onCellClick = null;
+            if (events.indexOf('_keydown') >= 0)
+                gopt.onKeyDown = null;
+            this.root.dxDataGrid(gopt);
+            return this;
+        };
+        WDXTable.prototype.clearSelection = function () {
+            if (!this.mounted || !this.state)
+                return this;
+            this.root.dxDataGrid('instance').clearSelection();
+            return this;
+        };
+        WDXTable.prototype.deselectAll = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').deselectAll();
+            return this;
+        };
+        WDXTable.prototype.select = function (idxs) {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').selectRowsByIndexes(idxs);
+            return this;
+        };
+        WDXTable.prototype.selectRows = function (keys, preserve) {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').selectRows(keys, preserve);
+            return this;
+        };
+        WDXTable.prototype.deselectRows = function (keys) {
+            if (!this.mounted)
+                return this;
+            this.root.dxDataGrid('instance').deselectRows(keys);
+            return this;
+        };
+        WDXTable.prototype.selectAll = function (toggle) {
+            if (!this.mounted)
+                return this;
+            if (toggle) {
+                var rsize = WUX.WUtil.size(this.getSelectedRows());
+                var ssize = WUX.WUtil.size(this.state);
+                if (rsize && rsize == ssize) {
+                    this.root.dxDataGrid('instance').clearSelection();
+                }
+                else {
+                    this.root.dxDataGrid('instance').selectAll();
+                }
+            }
+            else {
+                this.root.dxDataGrid('instance').selectAll();
+            }
+            return this;
+        };
+        WDXTable.prototype.setSelectionMode = function (s) {
+            this.selectionMode = s;
+            if (!this.mounted)
+                return this;
+            var gopt = {};
+            if (this.selectionFilter && this.selectionFilter.length) {
+                gopt.selection = { mode: this.selectionMode, deferred: true };
+            }
+            else {
+                gopt.selection = { mode: this.selectionMode };
+            }
+            this.root.dxDataGrid(gopt);
+            return this;
+        };
+        WDXTable.prototype.setColVisible = function (col, vis) {
+            this.root.dxDataGrid('columnOption', col, 'visible', vis);
+            return this;
+        };
+        WDXTable.prototype.edit = function (row, col, t) {
+            var _this = this;
+            if (t === void 0) { t = 200; }
+            if (!this.mounted)
+                return this;
+            setTimeout(function () {
+                _this.root.dxDataGrid('instance').editCell(row, col);
+            }, t);
+            return this;
+        };
+        WDXTable.prototype.getFilter = function (key) {
+            if (!this.mounted)
+                return '';
+            var c = this.root.dxDataGrid('instance').getCombinedFilter(true);
+            var s = WUX.WUtil.size(c);
+            for (var i = 0; i < s; i++) {
+                var f = c[i];
+                if (Array.isArray(f)) {
+                    if (f.length > 2) {
+                        if (key != f[0])
+                            continue;
+                        return '' + f[1] + '' + f[2];
+                    }
+                }
+                else if (typeof f == 'string') {
+                    if (key == f && s > 2) {
+                        return '' + c[1] + '' + c[2];
+                    }
+                }
+            }
+            return '';
+        };
+        WDXTable.prototype.getInstance = function () {
+            if (!this.mounted)
+                return null;
+            return this.root.dxDataGrid('instance');
+        };
+        WDXTable.prototype.getSelectedKeys = function () {
+            if (!this.mounted)
+                return [];
+            return this.root.dxDataGrid('instance').getSelectedRowKeys();
+        };
+        WDXTable.prototype.getSelectedRows = function () {
+            if (!this.mounted)
+                return [];
+            var i = this.root.dxDataGrid('instance');
+            var keys = i.getSelectedRowKeys();
+            if (!keys || !keys.length)
+                return [];
+            var rows = [];
+            for (var _i = 0, keys_3 = keys; _i < keys_3.length; _i++) {
+                var key = keys_3[_i];
+                var idx = i.getRowIndexByKey(key);
+                if (idx < 0)
+                    continue;
+                rows.push(idx);
+            }
+            return rows;
+        };
+        WDXTable.prototype.isSelected = function (data) {
+            if (!this.mounted)
+                return false;
+            return this.root.dxDataGrid('instance').isRowSelected(data);
+        };
+        WDXTable.prototype.getSelectedRowsData = function () {
+            if (!this.mounted)
+                return [];
+            return this.root.dxDataGrid('instance').getSelectedRowsData();
+        };
+        WDXTable.prototype.getFilteredRowsData = function () {
+            if (!this.root)
+                return this.state;
+            var i = this.root.dxDataGrid('instance');
+            var ds = i.getDataSource();
+            if (!ds)
+                return this.state;
+            var r = ds.items();
+            if (!r || !r.length)
+                return this.state;
+            return r;
+        };
+        WDXTable.prototype.cellValue = function (rowIndex, dataField, value) {
+            if (!this.root)
+                return null;
+            var i = this.root.dxDataGrid('instance');
+            if (value === undefined)
+                return i.cellValue(rowIndex, dataField);
+            i.cellValue(rowIndex, dataField, value);
+        };
+        WDXTable.prototype.saveEditData = function (r) {
+            var i = this.root.dxDataGrid('instance');
+            if (r != null) {
+                i.saveEditData().done([function () { setTimeout(function () { i.repaintRows([r]); }, 0); }]);
+            }
+            else {
+                i.saveEditData();
+            }
+            return this;
+        };
+        WDXTable.prototype.count = function () {
+            if (this.state)
+                return this.state.length;
+            return 0;
+        };
+        WDXTable.prototype.beforeInit = function (gopt) {
+        };
+        WDXTable.prototype.componentDidMount = function () {
+            var _this = this;
+            if (!this.header)
+                this.header = [];
+            var _self = this;
+            var gopt;
+            if (typeof (this.props) == 'object') {
+                gopt = this.props;
+            }
+            else {
+                gopt = {
+                    showColumnLines: true,
+                    showRowLines: true,
+                    showBorders: true,
+                    allowColumnResizing: true,
+                    columnAutoWidth: true,
+                    rowAlternationEnabled: false
+                };
+            }
+            if (this._editable) {
+                gopt.editing = { mode: "cell", allowUpdating: true };
+            }
+            if (this.hideHeader) {
+                gopt.showColumnHeaders = false;
+            }
+            this.editmap = {};
+            var cols = [];
+            if (this.groups && this.groups.length) {
+                for (var g = 0; g < this.groups.length; g++) {
+                    var gname = this.groups[g];
+                    var gcols = this.groupsCols[g];
+                    var col = { caption: gname };
+                    var subCols = [];
+                    for (var s = 0; s < gcols.length; s++) {
+                        var i = gcols[s];
+                        var scol = void 0;
+                        if (this.keys && this.keys.length) {
+                            var k = this.keys[i];
+                            if (this.hiddenCols.indexOf(k) >= 0)
+                                continue;
+                            scol = { caption: this.header[i], dataField: k };
+                        }
+                        else {
+                            var k = i.toString();
+                            if (this.hiddenCols.indexOf(k) >= 0)
+                                continue;
+                            scol = { caption: this.header[i], dataField: i.toString() };
+                        }
+                        var w = this.widths && this.widths.length > i ? this.widths[i] : 0;
+                        if (w) {
+                            if (w < 0) {
+                                scol.allowSorting = false;
+                            }
+                            else {
+                                scol.width = this.widthsPerc ? w + '%' : w;
+                                if (i == 0)
+                                    scol.fixed = true;
+                            }
+                        }
+                        var x = this.filterOps && this.filterOps.length > i ? this.filterOps[i] : undefined;
+                        if (x) {
+                            if (x == '-') {
+                                scol.allowFiltering = false;
+                            }
+                            else {
+                                scol.selectedFilterOperation = x;
+                            }
+                        }
+                        var f = this.templates && this.templates.length > i ? this.templates[i] : undefined;
+                        if (f)
+                            scol.cellTemplate = f;
+                        scol.allowEditing = this.editables && this.editables.length > i ? this.editables[i] : false;
+                        var t = WUX.WUtil.getItem(this.types, i);
+                        switch (t) {
+                            case 's':
+                                scol.dataType = 'string';
+                                break;
+                            case 'w':
+                                scol.dataType = 'string';
+                                scol.alignment = 'center';
+                                break;
+                            case 'c':
+                                scol.dataType = 'number';
+                                scol.format = { type: 'currency', precision: 2 };
+                                break;
+                            case 'c5':
+                                scol.dataType = 'number';
+                                scol.format = { type: 'currency', precision: 5 };
+                                break;
+                            case 'i':
+                                scol.dataType = 'number';
+                                scol.format = { precision: 0 };
+                                break;
+                            case 'n':
+                                scol.dataType = 'number';
+                                scol.format = { precision: 2 };
+                                break;
+                            case 'd':
+                                scol.dataType = 'date';
+                                scol.format = 'dd/MM/yyyy';
+                                break;
+                            case 't':
+                                scol.dataType = 'date';
+                                scol.format = 'dd/MM/yyyy HH:mm:ss';
+                                break;
+                            case 'b':
+                                scol.dataType = 'boolean';
+                                break;
+                        }
+                        subCols.push(scol);
+                    }
+                    if (gname != '-' && subCols.length) {
+                        col.columns = subCols;
+                        cols.push(col);
+                    }
+                    else {
+                        for (var _i = 0, subCols_1 = subCols; _i < subCols_1.length; _i++) {
+                            var scol = subCols_1[_i];
+                            cols.push(scol);
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < this.header.length; i++) {
+                    var col = void 0;
+                    if (this.keys && this.keys.length) {
+                        var k = this.keys[i];
+                        if (this.hiddenCols.indexOf(k) >= 0)
+                            continue;
+                        col = { caption: this.header[i], dataField: k };
+                    }
+                    else {
+                        var k = i.toString();
+                        if (this.hiddenCols.indexOf(k) >= 0)
+                            continue;
+                        col = { caption: this.header[i], dataField: k };
+                    }
+                    var w = this.widths && this.widths.length > i ? this.widths[i] : 0;
+                    if (w) {
+                        if (w < 0) {
+                            col.allowSorting = false;
+                        }
+                        else {
+                            col.width = this.widthsPerc ? w + '%' : w;
+                            if (i == 0)
+                                col.fixed = true;
+                        }
+                    }
+                    var x = this.filterOps && this.filterOps.length > i ? this.filterOps[i] : undefined;
+                    if (x) {
+                        if (x == '-') {
+                            col.allowFiltering = false;
+                        }
+                        else {
+                            col.selectedFilterOperation = x;
+                        }
+                    }
+                    var f = this.templates && this.templates.length > i ? this.templates[i] : undefined;
+                    if (f)
+                        col.cellTemplate = f;
+                    col.allowEditing = this.editables && this.editables.length > i ? this.editables[i] : false;
+                    var t = WUX.WUtil.getItem(this.types, i);
+                    switch (t) {
+                        case 's':
+                            col.dataType = 'string';
+                            break;
+                        case 'w':
+                            col.dataType = 'string';
+                            col.alignment = 'center';
+                            break;
+                        case 'c':
+                            col.dataType = 'number';
+                            col.format = { type: 'currency', precision: 2 };
+                            break;
+                        case 'c5':
+                            col.dataType = 'number';
+                            col.format = { type: 'currency', precision: 5 };
+                            break;
+                        case 'i':
+                            col.dataType = 'number';
+                            col.format = { precision: 0 };
+                            break;
+                        case 'n':
+                            col.dataType = 'number';
+                            col.format = { precision: 2 };
+                            break;
+                        case 'd':
+                            col.dataType = 'date';
+                            col.format = 'dd/MM/yyyy';
+                            break;
+                        case 't':
+                            col.dataType = 'date';
+                            col.format = 'dd/MM/yyyy HH:mm:ss';
+                            break;
+                        case 'b':
+                            col.dataType = 'boolean';
+                            break;
+                    }
+                    cols.push(col);
+                }
+            }
+            if (this.actions && this.actions.length) {
+                if (!this.actionsTitle)
+                    this.actionsTitle = '';
+                var aw = this.actionWidth ? this.actionWidth : 'auto';
+                cols.push({
+                    caption: this.actionsTitle,
+                    width: aw,
+                    alignment: 'center',
+                    allowFiltering: false,
+                    allowReordering: false,
+                    allowResizing: false,
+                    allowSorting: false,
+                    allowEditing: false,
+                    cellTemplate: function (container, options) {
+                        if (_self.actionsStyle) {
+                            WUX.setCss(container, _self.actionsStyle);
+                        }
+                        else {
+                            container.addClass('actions');
+                        }
+                        for (var i = 0; i < _self.actions.length; i++) {
+                            var f = _self.actions[i];
+                            if (f.build) {
+                                f.build(container, options.row.data);
+                                continue;
+                            }
+                            var cid = void 0;
+                            if (f.key)
+                                cid = WUX.WUtil.getValue(options.row.data, f.key);
+                            if (!cid)
+                                cid = '_' + options.row.rowIndex;
+                            var s = WUX.style(f.labelCss);
+                            s = s ? ' style="' + s + '"' : '';
+                            var $a = $('<a id="' + f.id + '-' + cid + '" class="' + f.classStyle + '"' + s + '>' + WUX.buildIcon(f.icon, '', '', 0, WUX.cls(f.style), f.label) + '</a>');
+                            container.append($a);
+                            $a.on('click', function (e) {
+                                if (!_self.handlers['_clickaction'])
+                                    return;
+                                for (var _i = 0, _a = _self.handlers['_clickaction']; _i < _a.length; _i++) {
+                                    var h = _a[_i];
+                                    h(e);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            gopt.columns = cols;
+            if (this.dataSource) {
+                gopt.dataSource = this.dataSource;
+            }
+            else {
+                gopt.dataSource = this.state;
+            }
+            gopt.filterRow = { visible: this.filter };
+            gopt.paging = { enabled: this.paging, pageSize: this.pageSize };
+            if (this.paging) {
+                gopt.pager = { showPageSizeSelector: false, allowedPageSizes: [this.pageSize], showInfo: true };
+            }
+            else {
+                gopt.scrolling = { mode: this.scrolling };
+            }
+            gopt.onRowClick = function (e) {
+                var lastClick = e.component['lastClick'];
+                var currClick = e.component['lastClick'] = new Date();
+                if (lastClick && (currClick.getTime() - lastClick.getTime() < 300)) {
+                    if (!_this.handlers['_doubleclick'])
+                        return;
+                    for (var _i = 0, _a = _this.handlers['_doubleclick']; _i < _a.length; _i++) {
+                        var handler = _a[_i];
+                        handler({ element: _this.root, data: e.data });
+                    }
+                }
+            };
+            if (this.selectionMode && this.selectionMode != 'none') {
+                if (this.selectionFilter && this.selectionFilter.length) {
+                    gopt.selection = { mode: this.selectionMode, deferred: true };
+                }
+                else {
+                    gopt.selection = { mode: this.selectionMode };
+                }
+            }
+            if (this.selectionFilter && this.selectionFilter.length) {
+                gopt.selectionFilter = this.selectionFilter;
+            }
+            if (this.exportFile) {
+                gopt.export = { enabled: true, fileName: this.exportFile };
+            }
+            if (this.handlers['_selectionchanged'] && this.handlers['_selectionchanged'].length) {
+                gopt.onSelectionChanged = this.handlers['_selectionchanged'][0];
+            }
+            if (this.handlers['_rowprepared'] && this.handlers['_rowprepared'].length) {
+                gopt.onRowPrepared = this.handlers['_rowprepared'][0];
+            }
+            if (this.handlers['_cellprepared'] && this.handlers['_cellprepared'].length) {
+                gopt.onCellPrepared = this.handlers['_cellprepared'][0];
+            }
+            if (this.handlers['_contentready'] && this.handlers['_contentready'].length) {
+                gopt.onContentReady = this.handlers['_contentready'][0];
+            }
+            if (this.handlers['_rowupdated'] && this.handlers['_rowupdated'].length) {
+                gopt.onRowUpdated = this.handlers['_rowupdated'][0];
+            }
+            if (this.handlers['_cellclick'] && this.handlers['_cellclick'].length) {
+                gopt.onCellClick = this.handlers['_cellclick'][0];
+            }
+            if (this.handlers['_editorprepared'] && this.handlers['_editorprepared'].length) {
+                gopt.onEditorPrepared = this.handlers['_editorprepared'][0];
+            }
+            if (this.handlers['_editorpreparing'] && this.handlers['_editorpreparing'].length) {
+                gopt.onEditorPreparing = this.handlers['_editorpreparing'][0];
+            }
+            if (this.handlers['_editingstart'] && this.handlers['_editingstart'].length) {
+                gopt.onEditingStart = this.handlers['_editingstart'][0];
+            }
+            if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
+                gopt.onKeyDown = this.handlers['_keydown'][0];
+            }
+            this.beforeInit(gopt);
+            this.root.dxDataGrid(gopt);
+            if (this.handlers['_scroll'] && this.handlers['_scroll'].length) {
+                this.root.dxDataGrid('instance').getScrollable().on('scroll', this.handlers['_scroll'][0]);
+            }
+        };
+        WDXTable.prototype.componentWillUpdate = function (nextProps, nextState) {
+            var _this = this;
+            if (!nextState)
+                nextState = [];
+            this.editmap = {};
+            var gopt;
+            if (this.storeKey) {
+                var ds = new DevExpress.data.DataSource(new DevExpress.data.ArrayStore({
+                    data: nextState,
+                    key: this.storeKey
+                }));
+                gopt = { dataSource: ds };
+            }
+            else {
+                gopt = { dataSource: nextState };
+            }
+            gopt.paging = { enabled: this.paging, pageSize: this.pageSize };
+            if (this.paging)
+                gopt.pager = { showPageSizeSelector: false, allowedPageSizes: [this.pageSize], showInfo: true };
+            if (!this.keepSorting) {
+                this.root.dxDataGrid('instance').clearSorting();
+            }
+            if (!this.selectionFilter || !this.selectionFilter.length) {
+                this.root.dxDataGrid('instance').clearSelection();
+            }
+            this.root.dxDataGrid(gopt);
+            this.root.dxDataGrid('instance').refresh().done(function () {
+                if (_this.handlers['_donerefresh']) {
+                    for (var _i = 0, _a = _this.handlers['_donerefresh']; _i < _a.length; _i++) {
+                        var h = _a[_i];
+                        h(_this.createEvent('_donerefresh'));
+                    }
+                }
+                if (_this.handlers['_selectall'] && _this.selectionMode == 'multiple') {
+                    var $cb = $('.dx-header-row .dx-checkbox').first();
+                    if ($cb && $cb.length) {
+                        if (!_this.$cbSelAll || !_this.$cbSelAll.is($cb)) {
+                            _this.$cbSelAll = $cb;
+                            var val_2 = _this.$cbSelAll.dxCheckBox('instance').option('value');
+                            _this.$cbSelAll.on('click', function (e) {
+                                e.data = val_2;
+                                for (var _i = 0, _a = _this.handlers['_selectall']; _i < _a.length; _i++) {
+                                    var h = _a[_i];
+                                    h(e);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+            this.root.find('.dx-loadpanel-content').hide();
+        };
+        return WDXTable;
+    }(WUX.WComponent));
+    WUX.WDXTable = WDXTable;
+    var WDXTreeList = (function (_super) {
+        __extends(WDXTreeList, _super);
+        function WDXTreeList(id, header, keys, classStyle, style, attributes, props) {
+            var _this = _super.call(this, id, 'WDXTreeList', props, classStyle, style, attributes) || this;
+            _this.header = header;
+            _this.keys = [];
+            if (keys) {
+                for (var _i = 0, keys_4 = keys; _i < keys_4.length; _i++) {
+                    var key = keys_4[_i];
+                    _this.keys.push(WUX.WUtil.toString(key));
+                }
+            }
+            else {
+                if (_this.header)
+                    for (var i = 0; i < _this.header.length; i++)
+                        _this.keys.push(i.toString());
+            }
+            _this.types = [];
+            _this.widths = [];
+            _this.templates = [];
+            _this.selectionMode = 'single';
+            _this.filter = false;
+            _this.keepSorting = false;
+            _this.scrolling = 'virtual';
+            _this.autoExpandAll = true;
+            _this.actions = [];
+            _this.groups = [];
+            _this.groupsCols = [];
+            _this.actions_1 = [];
+            _this.actions_2 = [];
+            _this._editable = false;
+            _this.editables = [];
+            _this.editmap = {};
+            _this.hiddenCols = [];
+            return _this;
+        }
+        Object.defineProperty(WDXTreeList.prototype, "editable", {
+            get: function () {
+                return this._editable;
+            },
+            set: function (b) {
+                this._editable = b;
+                if (this.mounted) {
+                    var gopt = {
+                        editing: { mode: "cell", allowUpdating: true }
+                    };
+                    this.root.dxTreeList(gopt);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WDXTreeList.prototype.setCellEditable = function (row, col, editable) {
+            this.editmap[row + '_' + col] = editable;
+            if (!this.mounted)
+                return this;
+            return this;
+        };
+        WDXTreeList.prototype.addHidden = function (col) {
+            this.hiddenCols.push(col);
+            return this;
+        };
+        WDXTreeList.prototype.refresh = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxTreeList('instance').refresh();
+            return this;
+        };
+        WDXTreeList.prototype.refreshAndEdit = function (row, col, t) {
+            if (t === void 0) { t = 50; }
+            if (!this.mounted)
+                return this;
+            var i = this.root.dxTreeList('instance');
+            if (row == null || col == null || col == '' || col == -1) {
+                i.refresh();
+            }
+            else {
+                i.refresh().done([function () { setTimeout(function () { if (col)
+                        i.editCell(row, col); }, t); }]);
+            }
+            return this;
+        };
+        WDXTreeList.prototype.repaintAndEdit = function (row, col, t) {
+            if (t === void 0) { t = 50; }
+            if (!this.mounted)
+                return this;
+            var i = this.root.dxTreeList('instance');
+            if (row == null || col == null || col == '' || col == -1) {
+                i.repaint();
+            }
+            else {
+                i.repaintRows([row]);
+                if (col != null)
+                    setTimeout(function () { i.editCell(row, col); }, t);
+            }
+            return this;
+        };
+        WDXTreeList.prototype.closeEditCell = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxTreeList('instance').closeEditCell();
+            return this;
+        };
+        WDXTreeList.prototype.repaintRows = function (idxs) {
+            if (!this.mounted)
+                return this;
+            this.root.dxTreeList('instance').repaintRows(idxs);
+            return this;
+        };
+        WDXTreeList.prototype.addActions = function (key, field) {
+            if (!field)
+                return this;
+            if (!key)
+                key = '';
+            field.key = key;
+            this.actions.push(field);
+            return this;
+        };
+        WDXTreeList.prototype.addActionsLevel1 = function (key, field, keyLev1) {
+            if (!field)
+                return this;
+            if (!key)
+                key = '';
+            field.key = key;
+            this.actions_1.push(field);
+            this.keyLev1 = keyLev1;
+            return this;
+        };
+        WDXTreeList.prototype.addActionsLevel2 = function (key, field, keyLev2) {
+            if (!field)
+                return this;
+            if (!key)
+                key = '';
+            field.key = key;
+            this.actions_2.push(field);
+            this.keyLev2 = keyLev2;
+            return this;
+        };
+        WDXTreeList.prototype.addGroupBefore = function (name, col) {
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var s = 0;
+            var e = this.keys.length;
+            if (col != null) {
+                if (typeof col != 'number') {
+                    var k = this.keys.indexOf(col);
+                    if (k > 0)
+                        e = k;
+                }
+                else {
+                    e = col;
+                }
+            }
+            var g = [];
+            for (var i = s; i < e; i++)
+                g.push(i);
+            this.groupsCols.push(g);
+        };
+        WDXTreeList.prototype.addGroupAfter = function (name, col) {
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var s = 0;
+            var e = this.keys.length;
+            if (col != null) {
+                if (typeof col != 'number') {
+                    var k = this.keys.indexOf(col);
+                    if (k >= 0)
+                        s = k + 1;
+                }
+                else {
+                    s = col + 1;
+                }
+            }
+            var g = [];
+            for (var i = s; i < e; i++)
+                g.push(i);
+            this.groupsCols.push(g);
+        };
+        WDXTreeList.prototype.addGroup = function (name, cols) {
+            if (!cols || !cols.length)
+                return;
+            if (!name)
+                name = '';
+            this.groups.push(name);
+            var c0 = cols[0];
+            if (typeof c0 != 'number') {
+                var coln = [];
+                for (var i = 0; i < cols.length; i++) {
+                    var k = this.keys.indexOf(cols[i]);
+                    if (k >= 0)
+                        coln.push(k);
+                }
+                this.groupsCols.push(coln);
+            }
+            else {
+                this.groupsCols.push(cols);
+            }
+        };
+        WDXTreeList.prototype.onClickAction = function (h) {
+            if (!this.handlers['_clickaction'])
+                this.handlers['_clickaction'] = [];
+            this.handlers['_clickaction'].push(h);
+        };
+        WDXTreeList.prototype.onSelectionChanged = function (h) {
+            this.handlers['_selectionchanged'] = [];
+            this.handlers['_selectionchanged'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onSelectionChanged: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onDoubleClick = function (h) {
+            if (!this.handlers['_doubleclick'])
+                this.handlers['_doubleclick'] = [];
+            this.handlers['_doubleclick'].push(h);
+        };
+        WDXTreeList.prototype.onRowPrepared = function (h) {
+            this.handlers['_rowprepared'] = [];
+            this.handlers['_rowprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onRowPrepared: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onCellPrepared = function (h) {
+            this.handlers['_cellprepared'] = [];
+            this.handlers['_cellprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onCellPrepared: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onContentReady = function (h) {
+            this.handlers['_contentready'] = [];
+            this.handlers['_contentready'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onContentReady: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onRowUpdated = function (h) {
+            this.handlers['_rowupdated'] = [];
+            this.handlers['_rowupdated'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onRowUpdated: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onEditorPreparing = function (h) {
+            this.handlers['_editorpreparing'] = [];
+            this.handlers['_editorpreparing'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditorPreparing: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onEditorPrepared = function (h) {
+            this.handlers['_editorprepared'] = [];
+            this.handlers['_editorprepared'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditorPrepared: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onEditingStart = function (h) {
+            this.handlers['_editingstart'] = [];
+            this.handlers['_editingstart'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onEditingStart: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onCellClick = function (h) {
+            this.handlers['_cellclick'] = [];
+            this.handlers['_cellclick'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onCellClick: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onScroll = function (handler) {
+            this.handlers['_scroll'] = [];
+            this.handlers['_scroll'].push(handler);
+            if (this.mounted) {
+                var dxtl = this.root.dxTreeList('instance');
+                if (dxtl)
+                    dxtl.getScrollable().on('scroll', handler);
+            }
+        };
+        WDXTreeList.prototype.onKeyDown = function (h) {
+            this.handlers['_keydown'] = [];
+            this.handlers['_keydown'].push(h);
+            if (this.mounted) {
+                var gopt = {
+                    onKeyDown: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.scrollTo = function (location) {
+            if (!this.mounted)
+                return;
+            this.root.dxTreeList('instance').getScrollable().scrollTo(location);
+        };
+        WDXTreeList.prototype.clearFilter = function () {
+            if (!this.mounted || !this.state)
+                return;
+            this.root.dxTreeList('instance').clearFilter();
+        };
+        WDXTreeList.prototype.off = function (events) {
+            _super.prototype.off.call(this, events);
+            if (!events)
+                return this;
+            var gopt = {};
+            if (events.indexOf('_selectionchanged') >= 0)
+                gopt.onSelectionChanged = null;
+            if (events.indexOf('_rowprepared') >= 0)
+                gopt.onRowPrepared = null;
+            if (events.indexOf('_cellprepared') >= 0)
+                gopt.onCellPrepared = null;
+            if (events.indexOf('_contentready') >= 0)
+                gopt.onContentReady = null;
+            if (events.indexOf('_rowupdated') >= 0)
+                gopt.onRowUpdated = null;
+            if (events.indexOf('_editorprepared') >= 0)
+                gopt.onEditorPrepared = null;
+            if (events.indexOf('_editorpreparing') >= 0)
+                gopt.onEditorPreparing = null;
+            if (events.indexOf('_editingstart') >= 0)
+                gopt.onEditingStart = null;
+            if (events.indexOf('_cellclick') >= 0)
+                gopt.onCellClick = null;
+            if (events.indexOf('_keydown') >= 0)
+                gopt.onKeyDown = null;
+            this.root.dxTreeList(gopt);
+            return this;
+        };
+        WDXTreeList.prototype.clearSelection = function () {
+            if (!this.mounted || !this.state)
+                return this;
+            this.root.dxTreeList('instance').clearSelection();
+            return this;
+        };
+        WDXTreeList.prototype.deselectAll = function () {
+            if (!this.mounted)
+                return this;
+            this.root.dxTreeList('instance').deselectAll();
+            return this;
+        };
+        WDXTreeList.prototype.select = function (idxs) {
+            if (!this.mounted)
+                return this;
+            this.root.dxTreeList('instance').selectRowsByIndexes(idxs);
+            return this;
+        };
+        WDXTreeList.prototype.selectAll = function (toggle) {
+            if (!this.mounted)
+                return this;
+            if (toggle) {
+                var rsize = WUX.WUtil.size(this.getSelectedRows());
+                var ssize = WUX.WUtil.size(this.state);
+                if (rsize && rsize == ssize) {
+                    this.root.dxTreeList('instance').clearSelection();
+                }
+                else {
+                    this.root.dxTreeList('instance').selectAll();
+                }
+            }
+            else {
+                this.root.dxTreeList('instance').selectAll();
+            }
+            return this;
+        };
+        WDXTreeList.prototype.setSelectionMode = function (s) {
+            this.selectionMode = s;
+            if (!this.mounted)
+                return this;
+            var gopt = {};
+            gopt.selection = { mode: this.selectionMode };
+            this.root.dxTreeList(gopt);
+            return this;
+        };
+        WDXTreeList.prototype.setColVisible = function (col, vis) {
+            this.root.dxTreeList('columnOption', col, 'visible', vis);
+            return this;
+        };
+        WDXTreeList.prototype.edit = function (row, col, t) {
+            var _this = this;
+            if (t === void 0) { t = 200; }
+            if (!this.mounted)
+                return this;
+            setTimeout(function () {
+                _this.root.dxTreeList('instance').editCell(row, col);
+            }, t);
+            return this;
+        };
+        WDXTreeList.prototype.getFilter = function (key) {
+            if (!this.mounted)
+                return '';
+            var c = this.root.dxTreeList('instance').getCombinedFilter(true);
+            var s = WUX.WUtil.size(c);
+            for (var i = 0; i < s; i++) {
+                var f = c[i];
+                if (Array.isArray(f)) {
+                    if (f.length > 2) {
+                        if (key != f[0])
+                            continue;
+                        return '' + f[1] + '' + f[2];
+                    }
+                }
+                else if (typeof f == 'string') {
+                    if (key == f && s > 2) {
+                        return '' + c[1] + '' + c[2];
+                    }
+                }
+            }
+            return '';
+        };
+        WDXTreeList.prototype.getInstance = function () {
+            if (!this.mounted)
+                return null;
+            return this.root.dxTreeList('instance');
+        };
+        WDXTreeList.prototype.getSelectedRows = function () {
+            if (!this.mounted)
+                return [];
+            var i = this.root.dxTreeList('instance');
+            var keys = i.getSelectedRowKeys();
+            if (!keys || !keys.length)
+                return [];
+            var rows = [];
+            for (var _i = 0, keys_5 = keys; _i < keys_5.length; _i++) {
+                var key = keys_5[_i];
+                var idx = i.getRowIndexByKey(key);
+                if (idx < 0)
+                    continue;
+                rows.push(idx);
+            }
+            return rows;
+        };
+        WDXTreeList.prototype.getSelectedRowsData = function () {
+            if (!this.mounted)
+                return [];
+            return this.root.dxTreeList('instance').getSelectedRowsData();
+        };
+        WDXTreeList.prototype.getFilteredRowsData = function () {
+            if (!this.root)
+                return this.state;
+            var i = this.root.dxTreeList('instance');
+            var ds = i.getDataSource();
+            if (!ds) {
+                var rs = [];
+                for (var _i = 0, _a = this.state; _i < _a.length; _i++) {
+                    var e = _a[_i];
+                    rs.push({ data: e });
+                }
+                return rs;
+            }
+            var r = ds.items();
+            if (!r || !r.length) {
+                var rs = [];
+                for (var _b = 0, _c = this.state; _b < _c.length; _b++) {
+                    var e = _c[_b];
+                    rs.push({ data: e });
+                }
+                return rs;
+            }
+            return r;
+        };
+        WDXTreeList.prototype.cellValue = function (rowIndex, dataField, value) {
+            if (!this.root)
+                return null;
+            var i = this.root.dxTreeList('instance');
+            if (value === undefined)
+                return i.cellValue(rowIndex, dataField);
+            i.cellValue(rowIndex, dataField, value);
+        };
+        WDXTreeList.prototype.saveEditData = function (r) {
+            var i = this.root.dxTreeList('instance');
+            if (r != null) {
+                i.saveEditData().done([function () { setTimeout(function () { i.repaintRows([r]); }, 0); }]);
+            }
+            else {
+                i.saveEditData();
+            }
+            return this;
+        };
+        WDXTreeList.prototype.count = function () {
+            if (this.state)
+                return this.state.length;
+            return 0;
+        };
+        WDXTreeList.prototype.beforeInit = function (gopt) {
+        };
+        WDXTreeList.prototype.componentDidMount = function () {
+            var _this = this;
+            if (!this.header)
+                this.header = [];
+            var _self = this;
+            var gopt;
+            if (typeof (this.props) == 'object') {
+                gopt = this.props;
+            }
+            else {
+                gopt = {
+                    showColumnLines: true,
+                    showRowLines: true,
+                    showBorders: true,
+                    allowColumnResizing: true,
+                    columnAutoWidth: true,
+                    rowAlternationEnabled: false
+                };
+            }
+            if (this.hideHeader) {
+                gopt.showColumnHeaders = false;
+            }
+            gopt.keyExpr = this.keyExpr;
+            gopt.parentIdExpr = this.parentIdExpr;
+            gopt.autoExpandAll = this.autoExpandAll;
+            if (this._editable) {
+                gopt.editing = { mode: "cell", allowUpdating: true };
+            }
+            this.editmap = {};
+            var cols = [];
+            if (this.groups && this.groups.length) {
+                for (var g = 0; g < this.groups.length; g++) {
+                    var gname = this.groups[g];
+                    var gcols = this.groupsCols[g];
+                    var col = { caption: gname };
+                    var subCols = [];
+                    for (var s = 0; s < gcols.length; s++) {
+                        var i = gcols[s];
+                        var scol = void 0;
+                        if (this.keys && this.keys.length) {
+                            var k = this.keys[i];
+                            if (this.hiddenCols.indexOf(k) >= 0)
+                                continue;
+                            scol = { caption: this.header[i], dataField: k };
+                        }
+                        else {
+                            var k = i.toString();
+                            if (this.hiddenCols.indexOf(k) >= 0)
+                                continue;
+                            scol = { caption: this.header[i], dataField: k };
+                        }
+                        var w = this.widths && this.widths.length > i ? this.widths[i] : 0;
+                        if (w) {
+                            if (w < 0) {
+                                scol.allowSorting = false;
+                            }
+                            else {
+                                scol.width = this.widthsPerc ? w + '%' : w;
+                                if (i == 0)
+                                    scol.fixed = true;
+                            }
+                        }
+                        var x = this.filterOps && this.filterOps.length > i ? this.filterOps[i] : undefined;
+                        if (x) {
+                            if (x == '-') {
+                                scol.allowFiltering = false;
+                            }
+                            else {
+                                scol.selectedFilterOperation = x;
+                            }
+                        }
+                        var f = this.templates && this.templates.length > i ? this.templates[i] : undefined;
+                        if (f)
+                            scol.cellTemplate = f;
+                        scol.allowEditing = this.editables && this.editables.length > i ? this.editables[i] : false;
+                        var t = WUX.WUtil.getItem(this.types, i);
+                        switch (t) {
+                            case 's':
+                                scol.dataType = 'string';
+                                break;
+                            case 'w':
+                                scol.dataType = 'string';
+                                scol.alignment = 'center';
+                                break;
+                            case 'c':
+                                scol.dataType = 'number';
+                                scol.format = { type: 'currency', precision: 2 };
+                                break;
+                            case 'c5':
+                                scol.dataType = 'number';
+                                scol.format = { type: 'currency', precision: 5 };
+                                break;
+                            case 'i':
+                                scol.dataType = 'number';
+                                scol.format = { precision: 0 };
+                                break;
+                            case 'n':
+                                scol.dataType = 'number';
+                                scol.format = { precision: 2 };
+                                break;
+                            case 'd':
+                                scol.dataType = 'date';
+                                scol.format = 'dd/MM/yyyy';
+                                break;
+                            case 't':
+                                scol.dataType = 'date';
+                                scol.format = 'dd/MM/yyyy HH:mm:ss';
+                                break;
+                            case 'b':
+                                scol.dataType = 'boolean';
+                                break;
+                        }
+                        subCols.push(scol);
+                    }
+                    if (gname != '-' && subCols.length) {
+                        col.columns = subCols;
+                        cols.push(col);
+                    }
+                    else {
+                        for (var _i = 0, subCols_2 = subCols; _i < subCols_2.length; _i++) {
+                            var scol = subCols_2[_i];
+                            cols.push(scol);
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < this.header.length; i++) {
+                    var col = void 0;
+                    if (this.keys && this.keys.length) {
+                        var k = this.keys[i];
+                        if (this.hiddenCols.indexOf(k) >= 0)
+                            continue;
+                        col = { caption: this.header[i], dataField: this.keys[i] };
+                    }
+                    else {
+                        var k = i.toString();
+                        if (this.hiddenCols.indexOf(k) >= 0)
+                            continue;
+                        col = { caption: this.header[i], dataField: i.toString() };
+                    }
+                    var w = this.widths && this.widths.length > i ? this.widths[i] : 0;
+                    if (w) {
+                        if (w < 0) {
+                            col.allowSorting = false;
+                        }
+                        else {
+                            col.width = this.widthsPerc ? w + '%' : w;
+                            if (i == 0)
+                                col.fixed = true;
+                        }
+                    }
+                    var x = this.filterOps && this.filterOps.length > i ? this.filterOps[i] : undefined;
+                    if (x) {
+                        if (x == '-') {
+                            col.allowFiltering = false;
+                        }
+                        else {
+                            col.selectedFilterOperation = x;
+                        }
+                    }
+                    var f = this.templates && this.templates.length > i ? this.templates[i] : undefined;
+                    if (f)
+                        col.cellTemplate = f;
+                    col.allowEditing = this.editables && this.editables.length > i ? this.editables[i] : false;
+                    var t = WUX.WUtil.getItem(this.types, i);
+                    switch (t) {
+                        case 's':
+                            col.dataType = 'string';
+                            break;
+                        case 'w':
+                            col.dataType = 'string';
+                            col.alignment = 'center';
+                            break;
+                        case 'c':
+                            col.dataType = 'number';
+                            col.format = { type: 'currency', precision: 2 };
+                            break;
+                        case 'c5':
+                            col.dataType = 'number';
+                            col.format = { type: 'currency', precision: 5 };
+                            break;
+                        case 'i':
+                            col.dataType = 'number';
+                            col.format = { precision: 0 };
+                            break;
+                        case 'n':
+                            col.dataType = 'number';
+                            col.format = { precision: 2 };
+                            break;
+                        case 'd':
+                            col.dataType = 'date';
+                            col.format = 'dd/MM/yyyy';
+                            break;
+                        case 't':
+                            col.dataType = 'date';
+                            col.format = 'dd/MM/yyyy HH:mm:ss';
+                            break;
+                        case 'b':
+                            col.dataType = 'boolean';
+                            break;
+                    }
+                    cols.push(col);
+                }
+            }
+            if (this.actions && this.actions.length) {
+                if (!this.actionsTitle)
+                    this.actionsTitle = '';
+                var aw = this.actionWidth ? this.actionWidth : 'auto';
+                cols.push({
+                    caption: this.actionsTitle,
+                    width: aw,
+                    alignment: 'center',
+                    allowFiltering: false,
+                    allowReordering: false,
+                    allowResizing: false,
+                    allowSorting: false,
+                    allowEditing: false,
+                    cellTemplate: function (container, options) {
+                        if (_self.actionsStyle) {
+                            WUX.setCss(container, _self.actionsStyle);
+                        }
+                        else {
+                            container.addClass('actions');
+                        }
+                        var actions = _self.actions;
+                        var lev = options.row.level;
+                        if (_self.keyLev1 && options.data && options.data[_self.keyLev1])
+                            lev = 1;
+                        if (_self.keyLev2 && options.data && options.data[_self.keyLev2])
+                            lev = 2;
+                        if (lev == 1) {
+                            if (_self.actions_1)
+                                actions = _self.actions_1;
+                        }
+                        else if (lev == 2) {
+                            if (_self.actions_2)
+                                actions = _self.actions_2;
+                        }
+                        for (var i = 0; i < actions.length; i++) {
+                            var f = actions[i];
+                            if (f.build) {
+                                f.build(container, options.data);
+                                continue;
+                            }
+                            var cid = void 0;
+                            if (f.key)
+                                cid = WUX.WUtil.getValue(options.row.key, f.key);
+                            if (!cid)
+                                cid = '_' + options.row.rowIndex;
+                            var s = WUX.style(f.labelCss);
+                            s = s ? ' style="' + s + '"' : '';
+                            var $a = $('<a id="' + f.id + '-' + cid + '" class="' + f.classStyle + '"' + s + '>' + WUX.buildIcon(f.icon, '', '', 0, WUX.cls(f.style), f.label) + '</a>');
+                            container.append($a);
+                            $a.on('click', function (e) {
+                                if (!_self.handlers['_clickaction'])
+                                    return;
+                                for (var _i = 0, _a = _self.handlers['_clickaction']; _i < _a.length; _i++) {
+                                    var h = _a[_i];
+                                    h(e);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            gopt.columns = cols;
+            if (this.dataSource) {
+                gopt.dataSource = this.dataSource;
+            }
+            else {
+                gopt.dataSource = this.state;
+            }
+            gopt.scrolling = { mode: this.scrolling };
+            gopt.filterRow = { visible: this.filter };
+            gopt.onRowClick = function (e) {
+                var lastClick = e.component['lastClick'];
+                var currClick = e.component['lastClick'] = new Date();
+                if (lastClick && (currClick.getTime() - lastClick.getTime() < 300)) {
+                    if (!_this.handlers['_doubleclick'])
+                        return;
+                    for (var _i = 0, _a = _this.handlers['_doubleclick']; _i < _a.length; _i++) {
+                        var handler = _a[_i];
+                        handler({ element: _this.root, data: e.data });
+                    }
+                }
+            };
+            if (this.selectionMode && this.selectionMode != 'none') {
+                gopt.selection = { mode: this.selectionMode };
+            }
+            if (this.handlers['_selectionchanged'] && this.handlers['_selectionchanged'].length) {
+                gopt.onSelectionChanged = this.handlers['_selectionchanged'][0];
+            }
+            if (this.handlers['_rowprepared'] && this.handlers['_rowprepared'].length) {
+                gopt.onRowPrepared = this.handlers['_rowprepared'][0];
+            }
+            if (this.handlers['_cellprepared'] && this.handlers['_cellprepared'].length) {
+                gopt.onCellPrepared = this.handlers['_cellprepared'][0];
+            }
+            if (this.handlers['_contentready'] && this.handlers['_contentready'].length) {
+                gopt.onContentReady = this.handlers['_contentready'][0];
+            }
+            if (this.handlers['_rowupdated'] && this.handlers['_rowupdated'].length) {
+                gopt.onRowUpdated = this.handlers['_rowupdated'][0];
+            }
+            if (this.handlers['_cellclick'] && this.handlers['_cellclick'].length) {
+                gopt.onCellClick = this.handlers['_cellclick'][0];
+            }
+            if (this.handlers['_editorprepared'] && this.handlers['_editorprepared'].length) {
+                gopt.onEditorPrepared = this.handlers['_editorprepared'][0];
+            }
+            if (this.handlers['_editorpreparing'] && this.handlers['_editorpreparing'].length) {
+                gopt.onEditorPreparing = this.handlers['_editorpreparing'][0];
+            }
+            if (this.handlers['_editingstart'] && this.handlers['_editingstart'].length) {
+                gopt.onEditingStart = this.handlers['_editingstart'][0];
+            }
+            if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
+                gopt.onKeyDown = this.handlers['_keydown'][0];
+            }
+            this.beforeInit(gopt);
+            this.root.dxTreeList(gopt);
+            if (this.handlers['_scroll'] && this.handlers['_scroll'].length) {
+                this.root.dxTreeList('instance').getScrollable().on('scroll', this.handlers['_scroll'][0]);
+            }
+        };
+        WDXTreeList.prototype.componentWillUpdate = function (nextProps, nextState) {
+            if (!nextState)
+                nextState = [];
+            this.editmap = {};
+            var gopt = { dataSource: nextState, autoExpandAll: this.autoExpandAll };
+            if (!this.keepSorting) {
+                this.root.dxTreeList('instance').clearSorting();
+            }
+            this.root.dxTreeList('instance').clearSelection();
+            this.root.dxTreeList(gopt);
+            this.root.find('.dx-loadpanel-content').hide();
+        };
+        return WDXTreeList;
+    }(WUX.WComponent));
+    WUX.WDXTreeList = WDXTreeList;
+    var WDXFileUploader = (function (_super) {
+        __extends(WDXFileUploader, _super);
+        function WDXFileUploader(id, classStyle, style, attributes, uploadURL) {
+            return _super.call(this, id, 'WDXFileUploader', uploadURL, classStyle, style, attributes) || this;
+        }
+        WDXFileUploader.prototype.onUploaded = function (handler) {
+            if (!this.handlers['_onuploaded'])
+                this.handlers['_onuploaded'] = [];
+            this.handlers['_onuploaded'].push(handler);
+        };
+        ;
+        WDXFileUploader.prototype.clear = function () {
+            if (!this.mounted)
+                return this;
+            var options = { value: [] };
+            this.fileUploader.dxFileUploader(options);
+            return this;
+        };
+        WDXFileUploader.prototype.componentDidMount = function () {
+            var _this = this;
+            this.widgetContainer = $('<div class="widget-container"></div>');
+            this.root.append(this.widgetContainer);
+            this.fileUploader = $('<div id="' + this.subId('fu') + '"></div>');
+            this.widgetContainer.append(this.fileUploader);
+            this.selectedFiles = $('<div class="content" id="' + this.subId('sf') + '"></div>');
+            this.widgetContainer.append(this.selectedFiles);
+            if (this.showSelFiles)
+                this.selectedFiles.append('<hr>');
+            if (!this.uploadURL)
+                this.uploadURL = 'upload';
+            var options = {
+                multiple: true,
+                accept: '*',
+                value: [],
+                uploadMode: 'useButtons',
+                uploadUrl: this.uploadURL,
+                onUploaded: function (e) {
+                    if (!_this.handlers['_onuploaded'])
+                        return;
+                    for (var _i = 0, _a = _this.handlers['_onuploaded']; _i < _a.length; _i++) {
+                        var h = _a[_i];
+                        h(e);
+                    }
+                },
+                onValueChanged: function (e) {
+                    if (!_this.showSelFiles)
+                        return;
+                    _this.selectedFiles.find('.selected-item').remove();
+                    for (var _i = 0, _a = e.value; _i < _a.length; _i++) {
+                        var f = _a[_i];
+                        var lmd = f['lastModifiedDate'];
+                        if (!lmd)
+                            lmd = new Date(f['lastModified']);
+                        var si = '<div class="selected-item">';
+                        si += '<span>' + WUX.buildIcon(WUX.WIcon.FILE_O) + ' &nbsp;<strong>Name:</strong>: ' + f.name + ' &nbsp;';
+                        si += '<strong>Size:</strong>: ' + f.size + ' byte &nbsp;';
+                        si += '<strong>Type:</strong>: ' + f.type + ' &nbsp;';
+                        si += '<strong>Last Mod.:</strong>: ' + WUX.formatDateTime(lmd, true) + '</span>';
+                        si += '</div>';
+                        _this.selectedFiles.append(si);
+                    }
+                }
+            };
+            this.fileUploader.dxFileUploader(options);
+        };
+        return WDXFileUploader;
+    }(WUX.WComponent));
+    WUX.WDXFileUploader = WDXFileUploader;
+    var WDXMenu = (function (_super) {
+        __extends(WDXMenu, _super);
+        function WDXMenu(id, classStyle, title) {
+            var _this = _super.call(this, id ? id : '*', 'WDXMenu', '', classStyle) || this;
+            _this.items = [];
+            _this.title = title ? title : 'Seleziona';
+            _this.mapOfId = {};
+            _this.caret = '<span class="caret"></span>';
+            return _this;
+        }
+        WDXMenu.prototype.addItem = function (id, icon, text, bdef) {
+            if (typeof id == 'string') {
+                this.items.push({ id: id, icon: icon, text: text, marked: bdef });
+            }
+            else {
+                this.items.push(id);
+            }
+            return this;
+        };
+        WDXMenu.prototype.addSep = function () {
+            this.items.push({ id: '', type: 'b' });
+            return this;
+        };
+        WDXMenu.prototype.addSection = function (name) {
+            this.items.push({ id: '', type: 's', text: name });
+            return this;
+        };
+        WDXMenu.prototype.onClick = function (handler) {
+            this.handler = handler;
+        };
+        WDXMenu.prototype.componentDidMount = function () {
+            var _this = this;
+            if (this.title == null)
+                this.title = '';
+            this.mapOfId = {};
+            var dxitems = [];
+            var i = -1;
+            var beginGroup = false;
+            for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
+                var item = _a[_i];
+                if (item.type == 'b' || item.type == 's') {
+                    beginGroup = true;
+                    continue;
+                }
+                var dxitem = void 0;
+                if (item.icon) {
+                    if (item.marked) {
+                        dxitem = { text: '<strong><i class="fa ' + item.icon + '"></i> ' + item.text + '</strong>' };
+                    }
+                    else {
+                        dxitem = { text: '<i class="fa ' + item.icon + '"></i> ' + item.text };
+                    }
+                }
+                else {
+                    if (item.marked) {
+                        dxitem = { text: '<strong>' + item.text + '</strong>' };
+                    }
+                    else {
+                        dxitem = { text: item.text };
+                    }
+                }
+                if (beginGroup) {
+                    dxitem.beginGroup = true;
+                    beginGroup = false;
+                }
+                dxitems.push(dxitem);
+                i++;
+                this.mapOfId[i] = item.id;
+            }
+            if (this.caret) {
+                this.mtitle = this.title + ' ' + this.caret;
+            }
+            else {
+                this.mtitle = this.title;
+            }
+            this.root.dxMenu({
+                items: [{
+                        text: this.mtitle,
+                        items: dxitems
+                    }],
+                animation: null,
+                itemTemplate: function (item) {
+                    return item.text;
+                },
+                showFirstSubmenuMode: 'onClick',
+                onItemClick: function (e) {
+                    var txt = WUX.WUtil.getString(e.itemData, 'text');
+                    if (txt == _this.mtitle)
+                        return;
+                    if (_this.handler) {
+                        var jqe = { key: _this.mapOfId[e.itemIndex], data: _this.data };
+                        _this.handler(jqe);
+                    }
+                },
+            });
+        };
+        return WDXMenu;
+    }(WUX.WComponent));
+    WUX.WDXMenu = WDXMenu;
+    var WDXCalendar = (function (_super) {
+        __extends(WDXCalendar, _super);
+        function WDXCalendar(id, props, classStyle, style) {
+            if (props === void 0) { props = 'month'; }
+            var _this = _super.call(this, id ? id : '*', 'WDXCalendar', props, classStyle, style) || this;
+            _this.rootTag = 'div';
+            return _this;
+        }
+        Object.defineProperty(WDXCalendar.prototype, "min", {
+            get: function () {
+                return this._min;
+            },
+            set: function (d) {
+                this._min = d;
+                if (this.root && this.root.length) {
+                    var opt = {
+                        min: this._min
+                    };
+                    this.root.dxCalendar(opt);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(WDXCalendar.prototype, "max", {
+            get: function () {
+                return this._max;
+            },
+            set: function (d) {
+                this._max = d;
+                if (this.root && this.root.length) {
+                    var opt = {
+                        max: this._max
+                    };
+                    this.root.dxCalendar(opt);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WDXCalendar.prototype.onDoubleClick = function (h) {
+            if (!this.handlers['_doubleclick'])
+                this.handlers['_doubleclick'] = [];
+            this.handlers['_doubleclick'].push(h);
+        };
+        WDXCalendar.prototype.cellTemplate = function (f) {
+            this._template = f;
+            if (this.root && this.root.length) {
+                var opt = {
+                    cellTemplate: this._template
+                };
+                this.root.dxCalendar(opt);
+            }
+        };
+        WDXCalendar.prototype.refresh = function () {
+            if (!this.mounted)
+                return this;
+            if (this.root && this.root.length) {
+                this.root.dxCalendar({ cellTemplate: 'cell' });
+                var opt = {};
+                if (this._template) {
+                    opt.cellTemplate = this._template;
+                    this.root.dxCalendar(opt);
+                }
+            }
+            return this;
+        };
+        WDXCalendar.prototype.repaint = function () {
+            if (!this.mounted)
+                return this;
+            if (this.root && this.root.length) {
+                this.root.dxCalendar('instance').repaint();
+            }
+            return this;
+        };
+        WDXCalendar.prototype.updateProps = function (nextProps) {
+            _super.prototype.updateProps.call(this, nextProps);
+            if (!this.props)
+                this.props = 'month';
+            if (this.root && this.root.length) {
+                var opt = {
+                    zoomLevel: this.props
+                };
+                this.root.dxCalendar(opt);
+            }
+        };
+        WDXCalendar.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            if (this.root && this.root.length) {
+                var opt = {
+                    value: this.state
+                };
+                this.dontTrigger = true;
+                this.root.dxCalendar(opt);
+            }
+        };
+        WDXCalendar.prototype.beforeInit = function (opt) {
+        };
+        WDXCalendar.prototype.componentDidMount = function () {
+            var _this = this;
+            if (!this.props)
+                this.props = 'month';
+            var opt = {
+                value: new Date(),
+                disabled: false,
+                firstDayOfWeek: 1,
+                zoomLevel: this.props,
+                minZoomLevel: this.props,
+                maxZoomLevel: this.props,
+                onValueChanged: function (e) {
+                    _this.trigger('statechange', WUX.WUtil.toDate(e.value));
+                },
+                onOptionChanged: function (e) {
+                    _this.trigger('propschange', WUX.WUtil.toString(e.value));
+                },
+                min: this._min,
+                max: this._max,
+                cellTemplate: this._template,
+            };
+            if (this._template) {
+                opt.cellTemplate = this._template;
+            }
+            else {
+                opt.cellTemplate = 'cell';
+            }
+            this.beforeInit(opt);
+            this.root.dxCalendar(opt);
+            var _self = this;
+            this.root.on('dblclick', 'tbody td', function (e) {
+                if (!_self.handlers['_doubleclick'])
+                    return;
+                for (var _i = 0, _a = _self.handlers['_doubleclick']; _i < _a.length; _i++) {
+                    var handler = _a[_i];
+                    handler({ element: _self.root });
+                }
+            });
+        };
+        return WDXCalendar;
+    }(WUX.WComponent));
+    WUX.WDXCalendar = WDXCalendar;
+    var WDxCircularGauge = (function (_super) {
+        __extends(WDxCircularGauge, _super);
+        function WDxCircularGauge(id) {
+            var _this = _super.call(this, id ? id : '*', 'WDxCircularGauge') || this;
+            _this.height = 175;
+            _this.ranges = [
+                { startValue: -100, endValue: -80, color: 'red' },
+                { startValue: -80, endValue: -60, color: 'rgb(255, 51, 0)' },
+                { startValue: -60, endValue: -40, color: 'rgb(255, 102, 0)' },
+                { startValue: -40, endValue: -20, color: 'rgb(255, 153, 0)' },
+                { startValue: -20, endValue: 0, color: 'rgb(255, 204, 0)' },
+                { startValue: 0, endValue: 20, color: 'rgb(255, 255, 0)' },
+                { startValue: 20, endValue: 40, color: 'rgb(204, 255, 0)' },
+                { startValue: 40, endValue: 60, color: 'rgb(153, 255, 0)' },
+                { startValue: 60, endValue: 80, color: 'rgb(102, 255, 0)' },
+                { startValue: 80, endValue: 100, color: 'rgb(51, 255, 0)' }
+            ];
+            _this.scale = {
+                startValue: -100,
+                endValue: 100,
+                tick: {
+                    color: "#536878"
+                },
+                tickInterval: 20,
+                label: {
+                    indentFromTick: 3
+                }
+            };
+            _this.geometry = {
+                startAngle: 180,
+                endAngle: 360
+            };
+            return _this;
+        }
+        WDxCircularGauge.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            if (this.root && this.root.length) {
+                var opt = {
+                    value: this.state
+                };
+                this.root.dxCircularGauge(opt);
+            }
+        };
+        WDxCircularGauge.prototype.beforeInit = function (opt) {
+        };
+        WDxCircularGauge.prototype.componentDidMount = function () {
+            if (!this.height)
+                this.height = 175;
+            var rangeContainer = {
+                offset: 0,
+                ranges: this.ranges
+            };
+            var size = {
+                height: this.height
+            };
+            var opt = {
+                scale: this.scale,
+                size: size,
+                geometry: this.geometry,
+                rangeContainer: rangeContainer,
+                value: this.state
+            };
+            this.beforeInit(opt);
+            this.root.dxCircularGauge(opt);
+        };
+        return WDxCircularGauge;
+    }(WUX.WComponent));
+    WUX.WDxCircularGauge = WDxCircularGauge;
+})(WUX || (WUX = {}));
+var WUX;
+(function (WUX) {
+    var WSelect2 = (function (_super) {
+        __extends(WSelect2, _super);
+        function WSelect2(id, options, multiple, classStyle, style, attributes, props) {
+            var _this = _super.call(this, id ? id : '*', 'WSelect2', props, classStyle, style, attributes) || this;
+            _this.rootTag = 'select';
+            _this.options = options;
+            _this.multiple = multiple;
+            _this.openOnFocus = true;
+            _this.dontOpen = false;
+            _this.lastChange = 0;
+            _this.count = options ? options.length : 0;
+            _this._init = false;
+            return _this;
+        }
+        Object.defineProperty(WSelect2.prototype, "visible", {
+            set: function (b) {
+                this._visible = b;
+                if (this.internal)
+                    this.internal.visible = b;
+                if (this.root && this.root.length) {
+                    if (!this.$cb)
+                        this.$cb = this.root.parent().find('span[role="combobox"]').first();
+                    if (this._visible) {
+                        if (this.$cb && this.$cb.length) {
+                            this.$cb.show();
+                        }
+                        else {
+                            this.root.show();
+                        }
+                    }
+                    else {
+                        if (this.$cb && this.$cb.length) {
+                            this.$cb.hide();
+                        }
+                        else {
+                            this.root.hide();
+                        }
+                    }
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WSelect2.prototype.focus = function () {
+            if (!this.mounted)
+                return this;
+            if (!this._enabled)
+                return this;
+            this.root.focus();
+            if (!this.$cb)
+                this.$cb = this.root.parent().find('span[role="combobox"]').first();
+            if (this.$cb && this.$cb.length)
+                this.$cb.focus();
+            return this;
+        };
+        WSelect2.prototype.getProps = function () {
+            var _this = this;
+            if (!this.root)
+                return this.props;
+            this.props = [];
+            this.root.find('option:selected').each(function (i, e) {
+                var t = $(e).text();
+                if (_this.prefix)
+                    t = _this.prefix + ' ' + t;
+                if (_this.suffix)
+                    t = t + ' ' + _this.suffix;
+                _this.props.push(t);
+            });
+            return this.props;
+        };
+        WSelect2.prototype.getState = function () {
+            if (!this.root)
+                return this.state;
+            return this.state = this.root.val();
+        };
+        WSelect2.prototype.getValue = function () {
+            var id = this.getState();
+            if (id == null)
+                return null;
+            var text = WUX.WUtil.toString(this.getProps());
+            if (!text)
+                text = '' + id;
+            return { id: id, text: text };
+        };
+        WSelect2.prototype.select = function (i) {
+            if (!this.root)
+                return this;
+            var val = this.root.find('option:eq(' + i + ')').val();
+            if (val == null)
+                return this;
+            this.root.select2('val', val);
+            return this;
+        };
+        WSelect2.prototype.selectVal = function (av, ad, r) {
+            if (!av || !av.length) {
+                this.root.val([]).trigger('change');
+                return;
+            }
+            if (r) {
+                this.root.empty();
+                for (var i = 0; i < av.length; i++) {
+                    var d = ad ? ad[i] : '' + av[i];
+                    this.root.append('<option value="' + av[i] + '">' + d + '</option>');
+                }
+            }
+            this.root.select2('val', av);
+        };
+        WSelect2.prototype.setOptions = function (items) {
+            this.options = items;
+            if (!this.root)
+                return this;
+            this.root.empty();
+            var data = [];
+            if (this.options) {
+                for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
+                    var opt = _a[_i];
+                    if (typeof opt == 'string') {
+                        data.push({ id: opt, text: opt });
+                    }
+                    else {
+                        data.push(opt);
+                    }
+                }
+            }
+            var options = { data: data, placeholder: "", allowClear: true };
+            this.init(options);
+            return this;
+        };
+        WSelect2.prototype.reload = function (clear) {
+            if (clear)
+                this.setState(null);
+            if (!this.mounted)
+                return this;
+            this.root.empty();
+            this.componentDidMount();
+            return this;
+        };
+        WSelect2.prototype.render = function () {
+            if (this.multiple)
+                return this.buildRoot(this.rootTag, '', 'multiple="multiple"', 'form-control');
+            return this.buildRoot(this.rootTag, '', '', 'form-control');
+        };
+        WSelect2.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            if (!this.root)
+                return;
+            if (Array.isArray(this.state) && this.state.length > 1) {
+                this.root.append('<option value="' + this.state[0] + '">' + this.state[this.state.length - 1] + '</option>');
+                this.root.val(this.state[0]).trigger('change');
+            }
+            else if (this.state) {
+                if (typeof this.state == 'object') {
+                    this.root.append('<option value="' + this.state.id + '">' + this.state.text + '</option>');
+                    this.root.val(this.state.id).trigger('change');
+                }
+                else {
+                    this.root.val(this.state).trigger('change');
+                }
+            }
+            else {
+                this.root.val([]).trigger('change');
+            }
+            this.dontTrigger = true;
+            this.lastChange = new Date().getTime();
+        };
+        WSelect2.prototype.componentDidMount = function () {
+            if (this._tooltip)
+                this.root.attr('title', this._tooltip);
+            if (this.options) {
+                for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
+                    var opt = _a[_i];
+                    if (typeof opt == 'string') {
+                        this.root.append('<option>' + WUX.WUtil.toText(opt) + '</option>');
+                    }
+                    else {
+                        this.root.append('<option value="' + opt.id + '">' + WUX.WUtil.toText(opt.text) + '</option>');
+                    }
+                }
+            }
+            var options = { placeholder: "", allowClear: true };
+            this.init(options);
+        };
+        WSelect2.prototype.init = function (options) {
+            var _this = this;
+            this.root.select2(options);
+            this.updateState(this.state);
+            if (options) {
+                if (options.data) {
+                    this.count = WUX.WUtil.size(options.data);
+                }
+            }
+            else {
+                this.count = 0;
+            }
+            if (this._init)
+                return;
+            this.$cb = this.root.parent().find('span[role="combobox"]').first();
+            if (this.$cb.length) {
+                this.$cb.on('focus', function (e) {
+                    if (e.relatedTarget == null)
+                        return;
+                    if (_this.dontOpen) {
+                        _this.dontOpen = false;
+                        return;
+                    }
+                    if (_this.openOnFocus)
+                        setTimeout(function () {
+                            if (_this.multiple) {
+                                if (_this.$cb && _this.$cb.length) {
+                                    var $sf = _this.$cb.find('input.select2-search__field').first();
+                                    if ($sf && $sf.length && !$sf.is(':focus'))
+                                        $sf.focus();
+                                }
+                            }
+                            else {
+                                var d = new Date().getTime() - _this.lastChange;
+                                if (d > 900)
+                                    _this.root.select2('open');
+                                _this.dontOpen = true;
+                            }
+                        }, 50);
+                });
+            }
+            else {
+                this.root.on('focus', function (e) {
+                    if (_this.dontOpen) {
+                        _this.dontOpen = false;
+                        return;
+                    }
+                    if (_this.openOnFocus)
+                        setTimeout(function () {
+                            var d = new Date().getTime() - _this.lastChange;
+                            if (d > 900)
+                                _this.root.select2('open');
+                            _this.dontOpen = true;
+                        }, 50);
+                });
+            }
+            if (this.multiple) {
+                this.root.on('select2:select', function (e) {
+                    _this.lastChange = new Date().getTime();
+                    _this.trigger('statechange');
+                });
+                this.root.on('select2:unselect', function (e) {
+                    setTimeout(function () {
+                        _this.lastChange = new Date().getTime();
+                        _this.trigger('statechange');
+                    }, 0);
+                });
+            }
+            else {
+                this.root.on('change', function (e) {
+                    _this.lastChange = new Date().getTime();
+                    _this.trigger('statechange');
+                });
+            }
+            this._init = true;
+        };
+        WSelect2.prototype.transferTo = function (dest, force, callback) {
+            if (dest instanceof WSelect2) {
+                dest.setState(this.getValue(), force, callback);
+                return true;
+            }
+            return _super.prototype.transferTo.call(this, dest, force, callback);
+        };
+        return WSelect2;
+    }(WUX.WComponent));
+    WUX.WSelect2 = WSelect2;
+    var WTags = (function (_super) {
+        __extends(WTags, _super);
+        function WTags(id, comp, classStyle, style, attributes, type) {
+            var _this = _super.call(this, id, 'WTags', comp, classStyle, style, attributes) || this;
+            if (!_this._classStyle)
+                _this._classStyle = 'label-default';
+            _this.hideZeroValues = false;
+            return _this;
+        }
+        WTags.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            this.buildView();
+        };
+        WTags.prototype.componentDidMount = function () {
+            this.buildView();
+        };
+        WTags.prototype.buildView = function () {
+            if (!this.root)
+                return;
+            this.root.html('');
+            if (!this.state)
+                return;
+            if (typeof this.state != 'object') {
+                this.state = WUX.WUtil.toArray(this.state);
+            }
+            for (var k in this.state) {
+                var v = this.state[k];
+                var t = WUX.format(v);
+                if (!t)
+                    continue;
+                if (this.hideZeroValues && (t == '0' || t == 'null'))
+                    continue;
+                if (t.length > 100)
+                    t = t.substring(0, 97) + '...';
+                if (typeof this.state[k] == 'boolean') {
+                    if (this.props instanceof WUX.WFormPanel) {
+                        var f = this.props.getField(k);
+                        if (f && f.label) {
+                            t = f.label + '=' + t;
+                        }
+                    }
+                }
+                this.root.append('<span class="label ' + this._classStyle + '">' + t + '</span>');
+            }
+        };
+        return WTags;
+    }(WUX.WComponent));
+    WUX.WTags = WTags;
+    var WLinkOptions = (function (_super) {
+        __extends(WLinkOptions, _super);
+        function WLinkOptions(id, options, classStyle, style, attributes, props) {
+            var _this = _super.call(this, id ? id : '*', 'WLinkOptions', props, classStyle, style, attributes) || this;
+            _this.rootTag = 'span';
+            _this._style = WUX.css(style, _this._baseStyle = 'display:inline-block;');
+            _this.options = options;
+            return _this;
+        }
+        Object.defineProperty(WLinkOptions.prototype, "tooltip", {
+            set: function (s) {
+                this._tooltip = s;
+                if (this.internal)
+                    this.internal.tooltip = s;
+                if (!this.options || !this.options.length)
+                    return;
+                for (var i = 0; i < this.options.length; i++) {
+                    var $item = $('#' + this.id + '-' + i);
+                    if (!$item.length)
+                        continue;
+                    if (this._tooltip)
+                        $item.attr('title', this._tooltip);
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WLinkOptions.prototype.select = function (i) {
+            return this;
+        };
+        WLinkOptions.prototype.componentDidMount = function () {
+            var _this = this;
+            if (!this.options || !this.options.length)
+                return;
+            var r = '';
+            for (var i = 0; i < this.options.length; i++) {
+                var opt = this.options[i];
+                if (typeof opt == "string") {
+                    r += ' <a id="' + this.id + '-' + i + '"> ' + opt + ' </a>';
+                }
+                else {
+                    r += ' <a id="' + this.id + '-' + i + '"> ' + opt.text + ' </a>';
+                }
+                if (i < this.options.length - 1)
+                    r += ' | ';
+            }
+            this.root.html(r);
+            var _loop_3 = function (i) {
+                var $item = $('#' + this_3.id + '-' + i);
+                if (!$item.length)
+                    return "continue";
+                if (this_3._tooltip)
+                    $item.attr('title', this_3._tooltip);
+                var opt = this_3.options[i];
+                $item.click(function () {
+                    _this.setState(opt);
+                });
+            };
+            var this_3 = this;
+            for (var i = 0; i < this.options.length; i++) {
+                _loop_3(i);
+            }
+        };
+        return WLinkOptions;
+    }(WUX.WComponent));
+    WUX.WLinkOptions = WLinkOptions;
+    var WButtonSelect = (function (_super) {
+        __extends(WButtonSelect, _super);
+        function WButtonSelect(id, text, options, classStyle, style, attributes) {
+            if (classStyle === void 0) { classStyle = 'btn-group'; }
+            var _this = _super.call(this, id, 'WButtonDropDown', null, classStyle, style, attributes) || this;
+            _this.updateState(text);
+            _this.options = options;
+            return _this;
+        }
+        WButtonSelect.prototype.componentDidMount = function () {
+            var _this = this;
+            if (this._tooltip)
+                this.root.attr('title', this._tooltip);
+            if (!this.btnClass)
+                this.btnClass = 'btn btn-gray';
+            var btn = WUX.build('button', this.state + ' <span class="caret"></span>', this.btnClass + ' dropdown-toggle', 'data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"');
+            this.root.append(btn);
+            var $opt = $('<ul class="dropdown-menu"></ul>');
+            this.root.append($opt);
+            if (this.options) {
+                for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
+                    var o = _a[_i];
+                    var ot = typeof o == 'string' ? o : o.text;
+                    var oi = typeof o == 'string' ? o : o.id;
+                    var $li = $('<li></li>');
+                    $opt.append($li);
+                    var $a = $('<a href="#" data-id="' + oi + '">' + ot + '</a>');
+                    $li.append($a);
+                    $a.on('click', function (e) {
+                        var id = $(e.currentTarget).attr('data-id');
+                        _this.trigger('propschange', WUX.WUtil.toString(id));
+                    });
+                }
+            }
+        };
+        WButtonSelect.prototype.componentWillUpdate = function (nextProps, nextState) {
+            if (!nextState)
+                nextState = '';
+            this.root.children('button:first').html(nextState + ' <span class="caret"></span>');
+        };
+        return WButtonSelect;
+    }(WUX.WComponent));
+    WUX.WButtonSelect = WButtonSelect;
+    var WGridCol = (function () {
+        function WGridCol(grid, row, index, width, height, classStyle, style) {
+            var components = [];
+            for (var _i = 7; _i < arguments.length; _i++) {
+                components[_i - 7] = arguments[_i];
+            }
+            this.grid = grid;
+            this.row = row;
+            this.index = index;
+            this.width = width ? width : 0;
+            this.height = height ? height : 0;
+            this.classStyle = classStyle;
+            this.style = style;
+            this.titles = [];
+            this.components = components ? components : [];
+            for (var _a = 0, components_1 = components; _a < components_1.length; _a++) {
+                var component = components_1[_a];
+                if (component instanceof WUX.WComponent && !component.parent)
+                    component.parent = this.grid;
+            }
+        }
+        WGridCol.prototype.css = function (s) {
+            if (!s)
+                return this;
+            if (typeof s == 'string') {
+                if (s.indexOf(':') > 0) {
+                    this.style = WUX.style(s);
+                }
+                else {
+                    this.classStyle = s;
+                }
+            }
+            else {
+                if (s.n)
+                    this.classStyle = s.n;
+                this.style = s;
+            }
+            if (this.grid.mounted)
+                WUX.setCss($('#' + this.grid.id + '-' + this.row.index + '-' + this.index), s);
+            return this;
+        };
+        WGridCol.prototype.removeClass = function (className) {
+            if (!className)
+                return this;
+            if (this.classStyle)
+                this.classStyle = WUX.removeClass(this.classStyle, className);
+            if (this.grid.mounted)
+                $('#' + this.grid.id + '-' + this.row.index + '-' + this.index).removeClass(className);
+            return this;
+        };
+        WGridCol.prototype.addCol = function (width, height) {
+            var _a;
+            var components = [];
+            for (var _i = 2; _i < arguments.length; _i++) {
+                components[_i - 2] = arguments[_i];
+            }
+            return (_a = this.row).addCol.apply(_a, __spreadArrays([width, height], components));
+        };
+        WGridCol.prototype.addRow = function (width, height, classStyle, style) {
+            return this.grid.addRow(width, height, classStyle, style);
+        };
+        WGridCol.prototype.add = function (component) {
+            if (component)
+                this.components.push(component);
+            if (component instanceof WUX.WComponent && !component.parent)
+                component.parent = this.grid;
+            return this;
+        };
+        WGridCol.prototype.cell = function () {
+            var components = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                components[_i] = arguments[_i];
+            }
+            this.components = components ? components : [];
+            for (var _a = 0, components_2 = components; _a < components_2.length; _a++) {
+                var component = components_2[_a];
+                if (component instanceof WUX.WComponent && !component.parent)
+                    component.parent = this.grid;
+            }
+            return this;
+        };
+        WGridCol.prototype.y = function () {
+            this.ylayout = true;
+            return this;
+        };
+        WGridCol.prototype.tip = function () {
+            var titles = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                titles[_i] = arguments[_i];
+            }
+            this.titles = titles ? titles : [];
+            return this;
+        };
+        WGridCol.prototype.title = function (k) {
+            if (!this.titles || !this.titles.length)
+                return '';
+            if (!k)
+                return this.titles[0];
+            if (this.titles.length > k)
+                return this.titles[k];
+            return '';
+        };
+        return WGridCol;
+    }());
+    WUX.WGridCol = WGridCol;
+    var WGridRow = (function () {
+        function WGridRow(grid, index, width, height, classStyle, style, attributes) {
+            this.grid = grid;
+            this.index = index;
+            this.width = width ? width : 0;
+            this.height = height ? height : 0;
+            this.classStyle = classStyle;
+            this.style = style;
+            this.cols = [];
+            this.attributes = WUX.attributes(attributes);
+        }
+        WGridRow.prototype.css = function (s) {
+            if (!s)
+                return this;
+            if (typeof s == 'string') {
+                if (s.indexOf(':') > 0) {
+                    this.style = WUX.style(s);
+                }
+                else {
+                    this.classStyle = s;
+                }
+            }
+            else {
+                if (s.n)
+                    this.classStyle = s.n;
+                this.style = s;
+            }
+            if (this.grid.mounted)
+                WUX.setCss($('#' + this.grid.id + '-' + this.index), s);
+            return this;
+        };
+        WGridRow.prototype.removeClass = function (className) {
+            if (!className)
+                return this;
+            if (this.classStyle)
+                this.classStyle = WUX.removeClass(this.classStyle, className);
+            if (this.grid.mounted)
+                $('#' + this.grid.id + '-' + this.index).removeClass(className);
+            return this;
+        };
+        WGridRow.prototype.addCol = function (width, height) {
+            var components = [];
+            for (var _i = 2; _i < arguments.length; _i++) {
+                components[_i - 2] = arguments[_i];
+            }
+            if (!width && this.grid.rows.length > 1) {
+                if (this.grid.rows[0].cols.length > this.cols.length) {
+                    width = this.grid.rows[0].cols[this.cols.length].width;
+                }
+            }
+            var col = new (WGridCol.bind.apply(WGridCol, __spreadArrays([void 0, this.grid, this, this.cols.length, width, height, '', ''], components)))();
+            this.cols.push(col);
+            return col;
+        };
+        WGridRow.prototype.addRow = function (width, height, classStyle, style) {
+            return this.grid.addRow(width, height, classStyle, style);
+        };
+        return WGridRow;
+    }());
+    WUX.WGridRow = WGridRow;
+    var WGrid = (function (_super) {
+        __extends(WGrid, _super);
+        function WGrid(id, classStyle, style, attributes, props) {
+            var _this = _super.call(this, id ? id : '*', 'WGrid', props, classStyle, style, attributes) || this;
+            _this.rows = [];
+            _this.overflow = 'auto';
+            return _this;
+        }
+        WGrid.prototype.getWidth = function () {
+            var maxw = 0;
+            for (var i = 0; i < this.rows.length; i++) {
+                var row = this.rows[i];
+                var wro = 0;
+                for (var j = 0; j < row.cols.length; j++) {
+                    var w = row.cols[j].width;
+                    wro += w ? w : 50;
+                }
+                if (wro > maxw)
+                    maxw = wro;
+            }
+            return maxw;
+        };
+        WGrid.prototype.getHeight = function () {
+            var r = 0;
+            for (var i = 0; i < this.rows.length; i++) {
+                var row = this.rows[i];
+                if (row.height) {
+                    r += row.height;
+                    continue;
+                }
+                var maxh = 0;
+                for (var j = 0; j < row.cols.length; j++) {
+                    if (row.cols[j].height > maxh)
+                        maxh = row.cols[j].height;
+                }
+                if (maxh == 0)
+                    maxh = 25;
+                r += maxh;
+            }
+            return r;
+        };
+        WGrid.prototype.getRowIndex = function (ref) {
+            if (!this.rows || !this.rows.length)
+                return -1;
+            for (var i = 0; i < this.rows.length; i++) {
+                if (this.rows[i].ref == ref)
+                    return i;
+            }
+            return -1;
+        };
+        WGrid.prototype.removeAll = function () {
+            this.rows = [];
+            return this;
+        };
+        WGrid.prototype.addRow = function (width, height, classStyle, style, attributes) {
+            var row = new WGridRow(this, this.rows.length, width, height, classStyle, style, attributes);
+            this.rows.push(row);
+            return row;
+        };
+        WGrid.prototype.addCol = function (width, height) {
+            var _a;
+            var components = [];
+            for (var _i = 2; _i < arguments.length; _i++) {
+                components[_i - 2] = arguments[_i];
+            }
+            return (_a = this.row()).addCol.apply(_a, __spreadArrays([width, height], components));
+        };
+        WGrid.prototype.add = function (component) {
+            if (!component)
+                return this.col();
+            return this.col().add(component);
+        };
+        WGrid.prototype.y = function () {
+            return this.col().y();
+        };
+        WGrid.prototype.tip = function () {
+            var _a;
+            var titles = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                titles[_i] = arguments[_i];
+            }
+            return (_a = this.col()).tip.apply(_a, titles);
+        };
+        WGrid.prototype.row = function (r) {
+            if (!r && this.rows.length <= r)
+                return undefined;
+            if (!this.rows.length)
+                this.addRow();
+            if (r === undefined || r === null)
+                r = this.rows.length - 1;
+            return this.rows[r];
+        };
+        WGrid.prototype.col = function (r, c) {
+            var rrow = this.row(r);
+            if (!rrow)
+                return undefined;
+            if (!c && rrow.cols.length <= c)
+                return undefined;
+            if (!rrow.cols.length)
+                rrow.addCol();
+            if (c === undefined || c === null)
+                c = rrow.cols.length - 1;
+            return rrow.cols[c];
+        };
+        WGrid.prototype.find = function (component) {
+            for (var i = 0; i < this.rows.length; i++) {
+                var row = this.rows[i];
+                for (var j = 0; j < row.cols.length; j++) {
+                    var col = row.cols[j];
+                    for (var k = 0; k < col.components.length; k++) {
+                        if (WUX.same(col.components[k], component))
+                            return [i, j, k];
+                    }
+                }
+            }
+            return [-1, -1, -1];
+        };
+        WGrid.prototype.element = function (row, col, idx) {
+            if (col === undefined || col === null)
+                return $('#' + this.id + '-' + row);
+            if (idx === undefined || idx === null)
+                return $('#' + this.id + '-' + row + '-' + col);
+            var gcol = this.col(row, col);
+            if (!gcol)
+                return undefined;
+            if (gcol.components.length > idx)
+                return gcol.components[idx];
+            return undefined;
+        };
+        WGrid.prototype.html = function (row, col, k, h) {
+            if (!this.mounted)
+                return false;
+            if (row >= 0 && this.rows.length <= row)
+                return false;
+            if (col >= 0 && this.rows[row].cols.length <= col)
+                return false;
+            var gcol = this.rows[row].cols[col];
+            var cid = this.id + '-' + row + '-' + col;
+            if (gcol.ylayout) {
+                $('#' + cid + '-' + k).html(h);
+            }
+            else {
+                $('#' + cid).html(h);
+            }
+            return true;
+        };
+        WGrid.prototype.cell = function (row, col) {
+            var ac = [];
+            for (var _i = 2; _i < arguments.length; _i++) {
+                ac[_i - 2] = arguments[_i];
+            }
+            if (row >= 0 && this.rows.length <= row)
+                return false;
+            if (col >= 0 && this.rows[row].cols.length <= col)
+                return false;
+            var gcol = this.rows[row].cols[col];
+            if (this.mounted) {
+                if (ac && ac.length == 1)
+                    gcol.ylayout = false;
+                var cid = this.id + '-' + row + '-' + col;
+                if (gcol.ylayout) {
+                    for (var k = 0; k < gcol.components.length; k++) {
+                        $('#' + cid + '-' + k).html('');
+                    }
+                }
+                else {
+                    $('#' + cid).html('');
+                }
+                if (ac) {
+                    for (var k = 0; k < ac.length; k++) {
+                        if (gcol.ylayout)
+                            cid = this.id + '-' + row + '-' + col + '-' + k;
+                        var c = ac[k];
+                        if (c instanceof WUX.WComponent) {
+                            c.mount($('#' + cid));
+                            if (!c.parent)
+                                c.parent = this;
+                        }
+                        else {
+                            $('#' + cid).append(c);
+                        }
+                    }
+                }
+            }
+            gcol.cell.apply(gcol, ac);
+            return true;
+        };
+        WGrid.prototype.make = function () {
+            if (!this.overflow)
+                this.overflow = 'auto';
+            var r = '';
+            for (var i = 0; i < this.rows.length; i++) {
+                var row = this.rows[i];
+                var firstRow = i == 0;
+                var lastRow = i == this.rows.length - 1;
+                if (row.attributes) {
+                    r += '<div id="' + this.id + '-' + i + '"' + this.buildRowStyle(row, firstRow, lastRow) + this.buildClass(row) + ' ' + row.attributes + '>';
+                }
+                else {
+                    r += '<div id="' + this.id + '-' + i + '"' + this.buildRowStyle(row, firstRow, lastRow) + this.buildClass(row) + '>';
+                }
+                for (var j = 0; j < row.cols.length; j++) {
+                    var col = row.cols[j];
+                    var cid = this.id + '-' + i + '-' + j;
+                    if (col.ylayout) {
+                        r += '<span' + this.buildColStyle(col, firstRow, lastRow, false, row.height) + this.buildClass(col) + ' id="' + cid + '">';
+                        var dh = Math.round(100 / col.components.length);
+                        for (var k = 0; k < col.components.length; k++) {
+                            var divs = WUX.css(this.ydivStyle, this.isText(col.components[k]) ? this.textStyle : '');
+                            var ct = col.title(k);
+                            var dt = ct ? ' title="' + ct + '"' : '';
+                            r += '<div id="' + this.id + '-' + i + '-' + j + '-' + k + '" + style="width:100%;height:' + dh + '%;' + divs + '"' + dt + '></div>';
+                        }
+                        r += '</span>';
+                    }
+                    else {
+                        var ct = col.title();
+                        var st = ct ? ' title="' + ct + '"' : '';
+                        if (col.width == 0 && j == row.cols.length - 1) {
+                            r += '<div' + this.buildColStyle(col, firstRow, lastRow, true, row.height) + this.buildClass(col) + ' id="' + cid + '"' + st + '></div>';
+                        }
+                        else {
+                            r += '<span' + this.buildColStyle(col, firstRow, lastRow, false, row.height) + this.buildClass(col) + ' id="' + cid + '"' + st + '></span>';
+                        }
+                    }
+                }
+                r += '</div>';
+            }
+            return r;
+        };
+        WGrid.prototype.componentDidMount = function () {
+            for (var i = 0; i < this.rows.length; i++) {
+                var row = this.rows[i];
+                for (var j = 0; j < row.cols.length; j++) {
+                    var col = row.cols[j];
+                    for (var k = 0; k < col.components.length; k++) {
+                        var c = col.components[k];
+                        var cid = this.id + '-' + i + '-' + j;
+                        if (col.ylayout)
+                            cid += '-' + k;
+                        if (c instanceof WUX.WComponent) {
+                            c.mount($('#' + cid));
+                        }
+                        else {
+                            $('#' + cid).append(c);
+                        }
+                    }
+                }
+            }
+        };
+        WGrid.prototype.componentWillUnmount = function () {
+            for (var _i = 0, _a = this.rows; _i < _a.length; _i++) {
+                var row = _a[_i];
+                for (var _b = 0, _c = row.cols; _b < _c.length; _b++) {
+                    var col = _c[_b];
+                    for (var _d = 0, _e = col.components; _d < _e.length; _d++) {
+                        var c = _e[_d];
+                        if (c instanceof WUX.WComponent)
+                            c.unmount();
+                    }
+                }
+            }
+        };
+        WGrid.prototype.buildRowStyle = function (e, fistRow, lastRow) {
+            var s = '';
+            if (e.width < 0) {
+                s = WUX.css(this.rowsStyle, { d: 'table', h: e.height }, e.style);
+            }
+            else {
+                s = WUX.css(this.rowsStyle, { w: e.width, h: e.height }, e.style);
+            }
+            if (s.indexOf('overflow') > 0)
+                return ' style="' + s + '"';
+            if (e.width || e.height)
+                return ' style="' + s + 'overflow:' + this.overflow + ';"';
+            return ' style="' + s + 'overflow:hidden;"';
+        };
+        WGrid.prototype.buildColStyle = function (e, fistRow, lastRow, fill, h) {
+            var styles = [];
+            if (!this.ydivStyle || !e.ylayout) {
+                styles.push(this.colsStyle);
+            }
+            if (fistRow && this.headStyle) {
+                styles.push(this.headStyle);
+            }
+            else if (lastRow && this.footStyle) {
+                styles.push(this.footStyle);
+            }
+            if (!e.ylayout && this.isAllText(e.components)) {
+                styles.push(this.textStyle);
+            }
+            styles.push(e.style);
+            styles.push({ w: e.width, h: e.height ? e.height : h });
+            var s = WUX.css.apply(void 0, styles);
+            if (fill) {
+                if (s.indexOf('overflow') > 0)
+                    return ' style="' + s + '"';
+                return ' style="' + s + 'overflow:' + this.overflow + ';"';
+            }
+            else {
+                if (s.indexOf('overflow') > 0)
+                    return ' style="' + s + 'float:left;"';
+                return ' style="' + s + 'float:left;overflow:hidden;"';
+            }
+        };
+        WGrid.prototype.buildClass = function (e) {
+            return e.classStyle ? ' class="' + e.classStyle + '"' : '';
+        };
+        WGrid.prototype.isAllText = function (ae) {
+            if (!ae)
+                return false;
+            for (var _i = 0, ae_1 = ae; _i < ae_1.length; _i++) {
+                var e = ae_1[_i];
+                if (!this.isText(e))
+                    return false;
+            }
+            return true;
+        };
+        WGrid.prototype.isText = function (e) {
+            if (typeof e == 'string') {
+                if (!e)
+                    return false;
+                if (e.indexOf('<') < 0)
+                    return true;
+                if (e.indexOf('<di') >= 0)
+                    return false;
+                if (e.indexOf('<in') >= 0)
+                    return false;
+                if (e.indexOf('<se') >= 0)
+                    return false;
+                if (e.indexOf('<bu') >= 0)
+                    return false;
+                if (e.indexOf('<im') >= 0)
+                    return false;
+                if (e.indexOf('<ta') >= 0)
+                    return false;
+                if (e.indexOf('<if') >= 0)
+                    return false;
+                if (e.indexOf('<a') >= 0)
+                    return false;
+                return true;
+            }
+            return false;
+        };
+        return WGrid;
+    }(WUX.WComponent));
+    WUX.WGrid = WGrid;
+    var WFullDialog = (function (_super) {
+        __extends(WFullDialog, _super);
+        function WFullDialog(id, name, btnOk, btnClose, classStyle, style, attributes) {
+            if (name === void 0) { name = 'WFullDialog'; }
+            if (btnOk === void 0) { btnOk = true; }
+            if (btnClose === void 0) { btnClose = true; }
+            var _this = _super.call(this, id, name, undefined, classStyle, style, attributes) || this;
+            _this.buttons = [];
+            _this.tagTitle = 'h3';
+            if (btnClose) {
+                if (!btnOk)
+                    _this.txtCancel = WUX.RES.CLOSE;
+                _this.buttonCancel();
+            }
+            if (btnOk)
+                _this.buttonOk();
+            _this.ok = false;
+            _this.cancel = false;
+            _this.isShown = false;
+            if (_this.id && _this.id != '*') {
+                if ($('#' + _this.id).length)
+                    $('#' + _this.id).remove();
+            }
+            WuxDOM.onRender(function (e) {
+                if (_this.mounted)
+                    return;
+                _this.mount(e.element);
+            });
+            return _this;
+        }
+        WFullDialog.prototype.onShownModal = function (handler) {
+            if (!this.handlers['_pageshown'])
+                this.handlers['_pageshown'] = [];
+            this.handlers['_pageshown'].push(handler);
+        };
+        WFullDialog.prototype.onHiddenModal = function (handler) {
+            if (!this.handlers['_pagehidden'])
+                this.handlers['_pagehidden'] = [];
+            this.handlers['_pagehidden'].push(handler);
+        };
+        Object.defineProperty(WFullDialog.prototype, "header", {
+            get: function () {
+                var _this = this;
+                if (this.cntHeader)
+                    return this.cntHeader;
+                this.cntHeader = new WUX.WContainer('', 'modal-header');
+                this.btnCloseHeader = new WUX.WButton(this.subId('bhc'), '<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>', undefined, 'close');
+                this.btnCloseHeader.on('click', function (e) {
+                    _this.close();
+                });
+                this.cntHeader.add(this.btnCloseHeader);
+                return this.cntHeader;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(WFullDialog.prototype, "body", {
+            get: function () {
+                if (this.cntBody)
+                    return this.cntBody;
+                this.cntBody = new WUX.WContainer('', WUX.cls('modal-body', this._classStyle), '', this._attributes);
+                return this.cntBody;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(WFullDialog.prototype, "footer", {
+            get: function () {
+                if (this.cntFooter)
+                    return this.cntFooter;
+                this.cntFooter = new WUX.WContainer('', 'modal-footer');
+                return this.cntFooter;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(WFullDialog.prototype, "title", {
+            get: function () {
+                return this._title;
+            },
+            set: function (s) {
+                if (this._title && this.cntHeader) {
+                    this._title = s;
+                    this.cntHeader.getRoot().children(this.tagTitle + ':first').text(s);
+                }
+                else {
+                    this._title = s;
+                    this.header.add(this.buildTitle(s));
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
+        WFullDialog.prototype.onClickOk = function () {
+            return true;
+        };
+        WFullDialog.prototype.onClickCancel = function () {
+            return true;
+        };
+        WFullDialog.prototype.buildBtnOK = function () {
+            return new WUX.WButton(this.subId('bfo'), WUX.RES.OK, '', WUX.BTN.INFO + ' button-sm', '', '');
+        };
+        WFullDialog.prototype.buildBtnCancel = function () {
+            if (this.txtCancel) {
+                return new WUX.WButton(this.subId('bfc'), this.txtCancel, '', WUX.BTN.SECONDARY + ' button-sm', '', '');
+            }
+            return new WUX.WButton(this.subId('bfc'), WUX.RES.CANCEL, '', WUX.BTN.SECONDARY + ' button-sm', '', '');
+        };
+        WFullDialog.prototype.buttonOk = function () {
+            var _this = this;
+            if (this.btnOK)
+                return this.btnOK;
+            this.btnOK = this.buildBtnOK();
+            this.btnOK.on('click', function (e) {
+                if (_this.onClickOk()) {
+                    _this.ok = true;
+                    _this.cancel = false;
+                    _this.hide();
+                }
+            });
+            this.buttons.push(this.btnOK);
+        };
+        WFullDialog.prototype.buttonCancel = function () {
+            var _this = this;
+            if (this.btnCancel)
+                return this.btnCancel;
+            this.btnCancel = this.buildBtnCancel();
+            this.btnCancel.on('click', function (e) {
+                if (_this.onClickCancel()) {
+                    _this.ok = false;
+                    _this.cancel = true;
+                    _this.hide();
+                }
+            });
+            this.buttons.push(this.btnCancel);
+        };
+        WFullDialog.prototype.show = function (parent, handler) {
+            if (!this.beforeShow())
+                return;
+            this.ok = false;
+            this.cancel = false;
+            this.parent = parent;
+            this.parentHandler = handler;
+            if (!this.mounted)
+                WuxDOM.mount(this);
+            if (this.root && this.root.length) {
+                if (WFullDialog.fullDialogsShown.length) {
+                    WFullDialog.fullDialogsShown[WFullDialog.fullDialogsShown.length - 1].visible = false;
+                }
+                else {
+                    this.hideView();
+                }
+                this.cntRoot.visible = true;
+                this.isShown = true;
+                this.onShown();
+                WFullDialog.fullDialogsShown.push(this);
+                if (!this.handlers['_pageshown'])
+                    return;
+                for (var _i = 0, _a = this.handlers['_pageshown']; _i < _a.length; _i++) {
+                    var h = _a[_i];
+                    h(this.createEvent('_pageshown'));
+                }
+            }
+        };
+        WFullDialog.prototype.hide = function (e) {
+            if (this.root && this.root.length) {
+                this.cntRoot.visible = false;
+                this.isShown = false;
+                this.onHidden();
+                WFullDialog.fullDialogsShown.pop();
+                if (WFullDialog.fullDialogsShown.length) {
+                    WFullDialog.fullDialogsShown[WFullDialog.fullDialogsShown.length - 1].visible = true;
+                }
+                else {
+                    this.showView();
+                }
+                if (this.parentHandler) {
+                    this.parentHandler(e);
+                    this.parentHandler = null;
+                }
+                if (!this.handlers['_pagehidden'])
+                    return;
+                for (var _i = 0, _a = this.handlers['_pagehidden']; _i < _a.length; _i++) {
+                    var h = _a[_i];
+                    h(this.createEvent('_pagehidden'));
+                }
+            }
+        };
+        WFullDialog.prototype.showView = function () {
+            if (this.parent) {
+                var rc = WUX.getRootComponent(this.parent);
+                if (rc)
+                    rc.visible = true;
+            }
+            if (this.phHidden) {
+                var $ph = WUX.getPageHeader();
+                if ($ph && $ph.length)
+                    $ph.show();
+                this.phHidden = false;
+            }
+        };
+        WFullDialog.prototype.hideView = function () {
+            this.phHidden = false;
+            if (this.parent) {
+                var rc = WUX.getRootComponent(this.parent);
+                if (rc)
+                    rc.visible = false;
+            }
+            var $ph = WUX.getPageHeader();
+            if ($ph && $ph.length && $ph.is(':visible')) {
+                $ph.hide();
+                this.phHidden = true;
+            }
+        };
+        WFullDialog.prototype.close = function () {
+            this.ok = false;
+            this.cancel = false;
+            this.hide();
+        };
+        WFullDialog.prototype.selection = function (table, warn) {
+            if (!table)
+                return false;
+            var sr = table.getSelectedRows();
+            if (!sr || !sr.length) {
+                if (warn)
+                    WUX.showWarning(warn);
+                return false;
+            }
+            var sd = table.getSelectedRowsData();
+            if (!sd || !sd.length) {
+                if (warn)
+                    WUX.showWarning(warn);
+                return false;
+            }
+            if (this.props == null || typeof this.props == 'number') {
+                var idx = sr[0];
+                this.setProps(idx);
+            }
+            this.setState(sd[0]);
+            return true;
+        };
+        WFullDialog.prototype.beforeShow = function () {
+            return true;
+        };
+        WFullDialog.prototype.onShown = function () {
+        };
+        WFullDialog.prototype.onHidden = function () {
+        };
+        WFullDialog.prototype.render = function () {
+            this.isShown = false;
+            this.cntRoot = new WUX.WContainer(this.id, 'inmodal');
+            this.cntRoot.visible = false;
+            this.cntMain = this.cntRoot.addContainer('', 'modal-dialog', WUX.css(this._style, { w: '100%', m: 0, z: 'auto' }));
+            this.cntContent = this.cntMain.addContainer('', 'modal-content');
+            if (this.cntHeader)
+                this.cntContent.addContainer(this.cntHeader);
+            if (this.cntBody)
+                this.cntContent.addContainer(this.cntBody);
+            for (var _i = 0, _a = this.buttons; _i < _a.length; _i++) {
+                var btn = _a[_i];
+                this.footer.add(btn);
+            }
+            if (this.cntFooter)
+                this.cntContent.addContainer(this.cntFooter);
+            return this.cntRoot;
+        };
+        WFullDialog.prototype.componentWillUnmount = function () {
+            this.isShown = false;
+            if (this.btnCloseHeader)
+                this.btnCloseHeader.unmount();
+            if (this.btnCancel)
+                this.btnCancel.unmount();
+            if (this.cntFooter)
+                this.cntFooter.unmount();
+            if (this.cntBody)
+                this.cntBody.unmount();
+            if (this.cntHeader)
+                this.cntHeader.unmount();
+            if (this.cntContent)
+                this.cntContent.unmount();
+            if (this.cntMain)
+                this.cntMain.unmount();
+            if (this.cntRoot)
+                this.cntRoot.unmount();
+        };
+        WFullDialog.prototype.buildTitle = function (title) {
+            if (!this.tagTitle)
+                this.tagTitle = 'h3';
+            return '<' + this.tagTitle + '>' + WUX.WUtil.toText(title) + '</' + this.tagTitle + '>';
+        };
+        WFullDialog.fullDialogsShown = [];
+        return WFullDialog;
+    }(WUX.WComponent));
+    WUX.WFullDialog = WFullDialog;
+    var WLookupDialog = (function (_super) {
+        __extends(WLookupDialog, _super);
+        function WLookupDialog(id, title, keys, tbl, onlyTable) {
+            var _this = _super.call(this, id, 'WLookupDialog') || this;
+            _this.lc = 'Codice';
+            _this.ld = 'Descrizione';
+            _this.title = title;
+            if (!onlyTable) {
+                _this.fp = new WUX.WFormPanel(_this.subId('fp'));
+                _this.fp.addRow();
+                _this.fp.addTextField('c', _this.lc);
+                _this.fp.addRow();
+                _this.fp.addTextField('d', _this.ld);
+                _this.fp.on('statechange', function (e) {
+                    if (_this.lookup) {
+                        _this.lookup(_this.getFilter(), function (result) {
+                            _this.table.setState(result);
+                        });
+                    }
+                });
+            }
+            if (tbl) {
+                if (!tbl.id)
+                    tbl.id = _this.subId('tbl');
+                if (!tbl.header || !tbl.header.length)
+                    tbl.header = [_this.lc, _this.ld];
+                _this.table = tbl;
+                _this.table.keys = keys;
+            }
+            else {
+                _this.table = new WUX.WTable(_this.subId('tbl'), [_this.lc, _this.ld], keys);
+            }
+            _this.table.widths[0] = 200;
+            if (onlyTable) {
+                _this.table.filter = true;
+            }
+            _this.table.css({ h: 360 });
+            _this.table.onDoubleClick(function (e) {
+                var rd = _this.table.getSelectedRowsData();
+                _this.selected = rd && rd.length ? rd[0] : undefined;
+                if (_this.selected) {
+                    _this.hide();
+                    _this.trigger('_selected', _this.selected);
+                }
+            });
+            if (onlyTable) {
+                _this.body
+                    .addRow()
+                    .addCol('12', { pt: 8, pb: 8 })
+                    .add(_this.table);
+            }
+            else {
+                _this.body
+                    .addRow()
+                    .addCol('12')
+                    .add(_this.fp)
+                    .addRow()
+                    .addCol('12', { pt: 8, pb: 8 })
+                    .add(_this.table);
+            }
+            return _this;
+        }
+        WLookupDialog.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            if (this.table) {
+                this.table.setState(this.state);
+            }
+        };
+        WLookupDialog.prototype.setFilter = function (params) {
+            if (!this.fp)
+                return;
+            this.fp.setValue('c', WUX.WUtil.getItem(params, 0));
+            this.fp.setValue('d', WUX.WUtil.getItem(params, 1));
+        };
+        WLookupDialog.prototype.getFilter = function () {
+            var r = [];
+            if (!this.fp) {
+                r.push('');
+                r.push('');
+                return r;
+            }
+            r.push(this.fp.getValue('c'));
+            r.push(this.fp.getValue('d'));
+            return r;
+        };
+        WLookupDialog.prototype.onSelected = function (handler) {
+            if (!this.handlers['_selected'])
+                this.handlers['_selected'] = [];
+            this.handlers['_selected'].push(handler);
+        };
+        WLookupDialog.prototype.onShown = function () {
+            this.startup = true;
+            this.table.refresh();
+            if (this.fp) {
+                var d = this.fp.getValue('d');
+                if (d) {
+                    this.fp.focusOn('d');
+                }
+                else {
+                    this.fp.focusOn('c');
+                }
+            }
+        };
+        WLookupDialog.prototype.onClickOk = function () {
+            var _this = this;
+            var rd = this.table.getSelectedRowsData();
+            this.selected = rd && rd.length ? rd[0] : undefined;
+            if (!this.selected) {
+                WUX.showWarning('Selezionare un elemento.');
+                return;
+            }
+            setTimeout(function () {
+                _this.trigger('_selected', _this.selected);
+            }, 100);
+            return true;
+        };
+        return WLookupDialog;
+    }(WUX.WDialog));
+    WUX.WLookupDialog = WLookupDialog;
+    var WMenu = (function (_super) {
+        __extends(WMenu, _super);
+        function WMenu(id, classStyle) {
+            if (classStyle === void 0) { classStyle = 'btn-group'; }
+            var _this = _super.call(this, id ? id : '*', 'WMenu', '', classStyle) || this;
+            _this.items = [];
+            _this.title = 'Seleziona';
+            return _this;
+        }
+        WMenu.prototype.addItem = function (id, icon, text, bdef) {
+            if (typeof id == 'string') {
+                this.items.push({ id: id, icon: icon, text: text, marked: bdef });
+            }
+            else {
+                this.items.push(id);
+            }
+            return this;
+        };
+        WMenu.prototype.addSep = function () {
+            this.items.push({ id: '', type: 'b' });
+            return this;
+        };
+        WMenu.prototype.addSection = function (name) {
+            this.items.push({ id: '', type: 's', text: name });
+            return this;
+        };
+        WMenu.prototype.onClick = function (handler) {
+            this.handler = handler;
+        };
+        WMenu.prototype.buildItem = function (node, code, icon, text, bdef) {
+            var _this = this;
+            var $li = $('<li></li>');
+            $li.appendTo(node);
+            var $a;
+            if (bdef) {
+                $a = $('<a href="#"><i class="fa ' + icon + '"></i> &nbsp;<strong>' + text + '</strong></a>');
+            }
+            else {
+                $a = $('<a href="#"><i class="fa ' + icon + '"></i> &nbsp;' + text + '</a>');
+            }
+            $a.appendTo($li);
+            $a.on('click', function (e) {
+                e.data = _this.data;
+                e.key = code;
+                _this.handler(e);
+            });
+        };
+        WMenu.prototype.componentDidMount = function () {
+            if (this.title == null)
+                this.title = 'Seleziona';
+            var dt = $('<a class="btn btn-link btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' + this.title + ' <span class="caret"></span></a>');
+            dt.appendTo(this.root);
+            var dm = $('<ul class="dropdown-menu dropdown-menu-right"></ul>');
+            dm.appendTo(this.root);
+            if (!this.items)
+                this.items = [];
+            for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
+                var item = _a[_i];
+                if (!item.type || item.type == 'i') {
+                    this.buildItem(dm, item.id, item.icon, item.text, item.marked);
+                }
+                else if (item.type == 'b') {
+                    dm.append($('<li role="separator" class="divider"></li>'));
+                }
+                else if (item.type == 's') {
+                    dm.append($('<li class="dropdown-header">' + item.text + '</li>'));
+                }
+            }
+        };
+        return WMenu;
+    }(WUX.WComponent));
+    WUX.WMenu = WMenu;
 })(WUX || (WUX = {}));
 //# sourceMappingURL=wux.js.map
