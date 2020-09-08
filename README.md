@@ -51,7 +51,7 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 }
 ```
 
-The *hello* page has URL page/**hello** and the related jsp page is src/main/webapp/layouts/**default**.jsp.
+The *hello* page has URL page/**hello** and the related jsp page is src/main/webapp/layouts/**default**.jsp (from *layout*).
 
 ## Contributors
 
