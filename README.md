@@ -29,11 +29,11 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 
 ```json
 {
-	"id": "hello",         // -> page/hello 
+	"id": "hello",
 	"title": "Hello page",
 	"description": "This is an example of Wrapp page",
-	"layout": "default",   // -> src/main/webapp/layouts/default.jsp
-	"modifier": "public",  // private: check user logger
+	"layout": "default",
+	"modifier": "public",
 	"header": "",
 	"content": "",
 	"footer": "",
@@ -50,6 +50,8 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 	}
 }
 ```
+
+The *hello* page has URL page/**hello** and the related jsp page is src/main/webapp/layouts/**default**.jsp.
 
 ## Contributors
 
