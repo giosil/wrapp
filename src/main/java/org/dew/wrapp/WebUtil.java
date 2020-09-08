@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -159,6 +160,19 @@ class WebUtil
   }
   
   public static 
+  Locale getLocale(HttpServletRequest request) 
+  {
+    User user = getUser(request);
+    if(user != null) {
+      String locale = user.getLocale();
+      if(locale != null && locale.length() > 1) {
+        return App.toLocale(locale);
+      }
+    }
+    return App.getLocale();
+  }
+  
+  public static 
   String getBodyClass(HttpServletRequest request)
       throws ServletException, IOException 
   {
@@ -242,18 +256,20 @@ class WebUtil
     if(!contextPath.startsWith("/")) contextPath = "/" + contextPath;
     if(!contextPath.endsWith("/"))   contextPath =  contextPath + "/";
     
+    Locale locale = App.getLocale(user);
+    
     out.write("<div class=\"row border-bottom\" id=\"ptop\">");
     out.write("<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"margin-bottom: 0\">");
     out.write("<div class=\"navbar-header\">");
     out.write("<a class=\"navbar-minimalize minimalize-styl-2 btn btn-primary\" href=\"#\"><i class=\"fa fa-bars\"></i> </a>");
     out.write("<form role=\"search\" class=\"navbar-form-custom\" action=\"" + contextPath + "search.jsp\">");
-    out.write("<div class=\"form-group\"><input type=\"text\" placeholder=\""  + App.getMessage("search") + "...\" class=\"form-control\" name=\"qs\" id=\"qs\"></div>");
+    out.write("<div class=\"form-group\"><input type=\"text\" placeholder=\""  + App.getMessage(locale, "search") + "...\" class=\"form-control\" name=\"qs\" id=\"qs\"></div>");
     out.write("</form>");
     out.write("</div>");
     out.write("<ul class=\"nav navbar-top-links navbar-right\" style=\"margin-top: 10px;\">");
-    out.write("<li><a href=\"" + contextPath + "home.jsp\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> " + App.getMessage("home") + "</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "help.jsp\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> " + App.getMessage("help") + "</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "logout.jsp\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i>" + App.getMessage("logout") + "</a></li>");
+    out.write("<li><a href=\"" + contextPath + "home.jsp\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> " + App.getMessage(locale, "home") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + "help.jsp\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> " + App.getMessage(locale, "help") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + "logout.jsp\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i>" + App.getMessage(locale, "logout") + "</a></li>");
     out.write("</ul>");
     out.write("</nav></div>");
   }
@@ -265,7 +281,8 @@ class WebUtil
     writeTitleH(request, out, sTitle, null, false);
   }
   
-  public static void writeTitleH(HttpServletRequest request, Writer out, String sTitle, String sSubTitle)
+  public static 
+  void writeTitleH(HttpServletRequest request, Writer out, String sTitle, String sSubTitle)
       throws ServletException, IOException 
   {
     writeTitleH(request, out, sTitle, sSubTitle, false);
@@ -318,11 +335,13 @@ class WebUtil
           }
           User user = menuManger.getUser();
           
+          Locale locale = App.getLocale(user);
+          
           if(user == null) {
-            out.write("Home");
+            out.write(App.getMessage(locale, "home"));
           }
           else {
-            out.write("<a href=\"" + contextPath + "home.jsp\">" + App.getMessage("home") + "</a>");
+            out.write("<a href=\"" + contextPath + "home.jsp\">" + App.getMessage(locale, "home") + "</a>");
           }
           
           MenuItem menuItem0 = listOfMenuItem.get(0);
@@ -434,7 +453,7 @@ class WebUtil
   }
   
   public static 
-  void writeSearchResult(HttpServletRequest request, Writer out, String sText)
+  void writeSearchResult(HttpServletRequest request, Writer out, Locale locale, String sText)
       throws ServletException, IOException 
   {
     if (request == null || out == null) return;
@@ -464,13 +483,13 @@ class WebUtil
           if (menuItemPar != null) {
             out.write("<div class=\"search-result\">");
             out.write("<h3><a href=\"" + sLink + "\">" + menuItem.getText() + "</a></h3>");
-            out.write("<p>Pagina Home / " + menuItemPar.getText() + " / " + menuItem.getText() + "</p>");
+            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + menuItemPar.getText() + " / " + menuItem.getText() + "</p>");
             out.write("</div><div class=\"hr-line-dashed\"></div>");
           }
           else {
             out.write("<div class=\"search-result\">");
             out.write("<h3><a href=\"" + sLink + "\">" + menuItem.getText() + "</a></h3>");
-            out.write("<p>Pagina Home / " + menuItem.getText() + "</p>");
+            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + menuItem.getText() + "</p>");
             out.write("</div><div class=\"hr-line-dashed\"></div>");
           }
           boAtLeastOne = true;
@@ -478,7 +497,7 @@ class WebUtil
       }
     }
     if (!boAtLeastOne) {
-      out.write("<p>No result.</p>");
+      out.write("<p>" + App.getMessage(locale, "error.nores") + "</p>");
     }
     return;
   }
@@ -597,12 +616,13 @@ class WebUtil
     String js = "<script>";
     js += "window._userLogged={";
     js += "id:" + user.getId() + ",";
-    js += "userName:" + jsString(user.getUserName()) + ",";
-    js += "currLogin: " + jsDate(user.getCurrLogin()) + ",";
-    js += "role:" + jsString(user.getRole()) + ",";
-    js += "group:" + user.getGroup() + ",";
-    js += "email:" + jsString(user.getEmail()) + ",";
-    js += "mobile:" + jsString(user.getMobile());
+    js += "userName:"   + jsString(user.getUserName()) + ",";
+    js += "currLogin: " + jsDate(user.getCurrLogin())  + ",";
+    js += "tokenId: "   + jsString(user.getTokenId())  + ",";
+    js += "role:"       + jsString(user.getRole())     + ",";
+    js += "email:"      + jsString(user.getEmail())    + ",";
+    js += "mobile:"     + jsString(user.getMobile())   + ",";
+    js += "locale:"     + jsString(user.getLocale());
     js += "};";
     js += "</script>";
     out.write(js);
@@ -612,13 +632,12 @@ class WebUtil
   void writeConfig(Writer out) 
       throws ServletException, IOException 
   {
-    if(App.config == null || App.config.isEmpty()) {
-      out.write("<script>window._appConfig={};</script>");
+    Map<String,Object> config = App.getConfig();
+    if(config == null || config.isEmpty()) {
+      out.write("<script>window._config={};</script>");
       return;
     }
-    String js = "<script>";
-    js += "window._appConfig=" + JSON.stringify(App.config) + ";";
-    js += "</script>";
+    String js = "<script>window._config=" + JSON.stringify(config) + ";</script>";
     out.write(js);
   }
   
@@ -627,17 +646,15 @@ class WebUtil
       throws ServletException, IOException 
   {
     if(page == null) {
-      out.write("<script>window._pageAttributes={};</script>");
+      out.write("<script>window._page={};</script>");
       return;
     }
     Map<String, Object> attributes = page.getAttributes();
     if(attributes == null || attributes.isEmpty()) {
-      out.write("<script>window._pageAttributes={};</script>");
+      out.write("<script>window._page={};</script>");
       return;
     }
-    String js = "<script>";
-    js += "window._pageAttributes=" + JSON.stringify(attributes) + ";";
-    js += "</script>";
+    String js = "<script>window._page=" + JSON.stringify(attributes) + ";</script>";
     out.write(js);
   }
   

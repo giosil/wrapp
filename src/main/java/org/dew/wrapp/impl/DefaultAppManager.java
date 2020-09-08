@@ -11,10 +11,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.Page;
 import org.dew.wrapp.json.JSON;
-import org.dew.wrapp.mgr.ConfigManager;
 import org.dew.wrapp.mgr.IAppManager;
 import org.dew.wrapp.util.WUtil;
 
@@ -24,7 +24,7 @@ class DefaultAppManager implements IAppManager
   @Override
   public 
   Map<String, Page> loadPages() 
-    throws Exception 
+      throws Exception 
   {
     String json = loadFile("wrapp_pages.json");
     if(json == null || json.length() < 3) {
@@ -57,7 +57,7 @@ class DefaultAppManager implements IAppManager
   @Override
   public 
   Map<String, List<MenuItem>> loadMenus() 
-    throws Exception 
+      throws Exception 
   {
     String json = loadFile("wrapp_menus.json");
     if(json == null || json.length() < 3) {
@@ -107,10 +107,10 @@ class DefaultAppManager implements IAppManager
   
   protected static
   String loadFile(String sFile)
-    throws Exception
+      throws Exception
   {
     String sUserHome = System.getProperty("user.home");
-    String sFilePath = sUserHome + File.separator + ConfigManager.CONFIG_FOLDER_NAME + File.separator + sFile;
+    String sFilePath = sUserHome + File.separator + App.CONFIG_FOLDER_NAME + File.separator + sFile;
     
     byte[] content = null;
     
@@ -131,7 +131,7 @@ class DefaultAppManager implements IAppManager
   
   protected static
   byte[] readFile(String sFile)
-    throws Exception
+      throws Exception
   {
     int iFileSep = sFile.indexOf('/');
     if(iFileSep < 0) iFileSep = sFile.indexOf('\\');

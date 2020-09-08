@@ -10,26 +10,24 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.dew.wrapp.App;
 import org.dew.wrapp.json.JSON;
 
 public 
 class ConfigManager 
 {
-  public static final String CONFIG_FILE_NAME   = "wrapp_config.json";
-  public static final String CONFIG_FOLDER_NAME = "cfg";
-  
   public static
   Map<String, Object> loadConfig() 
   {
     String sUserHome  = System.getProperty("user.home");
-    File folder = new File(sUserHome + File.separator + ConfigManager.CONFIG_FOLDER_NAME);
+    File folder = new File(sUserHome + File.separator + App.CONFIG_FOLDER_NAME);
     if(!folder.exists()) {
       return new HashMap<String, Object>();
     }
     
     String json = null;
     try {
-      json = loadFile(CONFIG_FILE_NAME);
+      json = loadFile(App.CONFIG_FILE_NAME);
     }
     catch(Exception ex) {
       ex.printStackTrace();
@@ -49,10 +47,10 @@ class ConfigManager
   
   private static
   String loadFile(String sFile)
-    throws Exception
+      throws Exception
   {
     String sUserHome = System.getProperty("user.home");
-    String sFilePath = sUserHome + File.separator + CONFIG_FOLDER_NAME + File.separator + sFile;
+    String sFilePath = sUserHome + File.separator + App.CONFIG_FOLDER_NAME + File.separator + sFile;
     
     byte[] content = null;
     
@@ -73,7 +71,7 @@ class ConfigManager
   
   private static
   byte[] readFile(String sFile)
-    throws Exception
+      throws Exception
   {
     int iFileSep = sFile.indexOf('/');
     if(iFileSep < 0) iFileSep = sFile.indexOf('\\');

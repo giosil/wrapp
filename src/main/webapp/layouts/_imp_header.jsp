@@ -23,3 +23,4 @@
 <% WebUtil.writeCSSImport(out, "../css/custom.css"); %>
 
 <% WebUtil.writeUserInfo(request, out); %>
+<% WebUtil.writeConfig(out); %>

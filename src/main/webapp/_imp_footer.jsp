@@ -1,21 +1,24 @@
-<%@ page import="org.dew.wrapp.*" %>
+<%@ page import="java.util.Locale, org.dew.wrapp.*" %>
+<%
+	Locale flocale = WebUtil.getLocale(request);
+%>
 <div class="modal inmodal" id="dlg-cp" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
 	<div class="modal-content animated fadeIn">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><%= App.getMessage("close") %></span></button>
-			<h3><%= App.getMessage("modpwd") %></h3>
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><%= App.getMessage(flocale, "close") %></span></button>
+			<h3><%= App.getMessage(flocale, "modpwd") %></h3>
 		</div>
 		<div class="modal-body">
 			<form class="m-t" id="dlg-cp-form" action="">
-				<div class="form-group"><input name="cpop" id="cpop" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage("oldpwd") %>"></div>
-				<div class="form-group"><input name="cpnp" id="cpnp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage("newpwd") %>"></div>
-				<div class="form-group"><input name="cpcp" id="cpcp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage("conpwd") %>"></div>
+				<div class="form-group"><input name="cpop" id="cpop" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "oldpwd") %>"></div>
+				<div class="form-group"><input name="cpnp" id="cpnp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "newpwd") %>"></div>
+				<div class="form-group"><input name="cpcp" id="cpcp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "conpwd") %>"></div>
 			</form>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary button-sm" data-dismiss="modal"><%= App.getMessage("cancel") %></button>
-			<button type="button" class="btn btn-info button-sm" onclick="updatePassword()"><%= App.getMessage("ok") %></button>
+			<button type="button" class="btn btn-secondary button-sm" data-dismiss="modal"><%= App.getMessage(flocale, "cancel") %></button>
+			<button type="button" class="btn btn-info button-sm" onclick="updatePassword()"><%= App.getMessage(flocale, "ok") %></button>
 		</div>
 	</div>
 </div>
@@ -71,6 +74,3 @@
 
 <% WebUtil.writeScriptImport(out, "js/jrpc.js"); %>
 <% WebUtil.writeScriptImport(out, "js/main.js"); %>
-
-<% WebUtil.writeScriptImport(out, "js/b2x.js"); %>
-<% WebUtil.writeScriptImport(out, "js/b2x-sticky/b2x-sticky.js"); %>

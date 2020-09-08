@@ -23,24 +23,35 @@ import org.dew.wrapp.util.WUtil;
 public 
 class App 
 {
-  public static long STARTUP_TIME = System.currentTimeMillis();
+  public static long   STARTUP_TIME       = System.currentTimeMillis();
+  public static String CONFIG_FILE_NAME   = "wrapp_config.json";
+  public static String CONFIG_FOLDER_NAME = "cfg";
+  public static String DEFAULT_LOCALE     = "en-US";
   
-  public static Map<String, Object> config = ConfigManager.loadConfig();
-  
-  public static Map<String, ResourceBundle> resourceBundles = new HashMap<String, ResourceBundle>();
-  
-  public static Map<String, Page> pages = new HashMap<String, Page>();
-  
-  public static Map<String, List<MenuItem>> menus = new HashMap<String, List<MenuItem>>();
+  protected static Map<String, Object>         _config  = new HashMap<String, Object>();
+  protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
+  protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
+  protected static Map<String, List<MenuItem>> _menus   = new HashMap<String, List<MenuItem>>();
   
   protected static ILogger       _logger;
-  
   protected static ILoginManager _loginManager;
-  
   protected static IAppManager   _appManager;
+  protected static Locale        _locale;
   
   static {
+    init(true);
+  }
+  
+  protected static void init(boolean reloadConfig) {
+    if(reloadConfig) {
+      _config = ConfigManager.loadConfig();
+    }
+    else if(_config == null || _config.isEmpty()) {
+      _config = ConfigManager.loadConfig();
+    }
     getLoggerInstance();
+    _loginManager = null;
+    _appManager   = null;
   }
   
   public static void startup() {
@@ -51,104 +62,81 @@ class App
     IAppManager appLoader = getAppManagerInstance();
     
     try {
-      pages = appLoader.loadPages();
+      Map<String, Page> pages = appLoader.loadPages();
+      if(pages != null && !pages.isEmpty()) {
+        _pages = pages;
+      }
     }
     catch(Exception ex) {
       System.err.println("App.startup() Exception in appLoader.loadPages(): " + ex);
     }
-    if(pages == null) {
-      pages = new HashMap<String, Page>();
-    }
     
     try {
-      menus = appLoader.loadMenus();
+      Map<String, List<MenuItem>> menus = appLoader.loadMenus();
+      if(menus != null && !menus.isEmpty()) {
+        _menus = menus;
+      }
     }
     catch(Exception ex) {
       System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
     }
-    if(menus == null) {
-      menus = new HashMap<String, List<MenuItem>>();
-    }
     
-    _logger.debug("pages [" + pages.size()  + "]");
-    _logger.debug("menus [" + menus.size()  + "]");
+    _logger.debug("pages [" + _pages.size()  + "]");
+    _logger.debug("menus [" + _menus.size()  + "]");
   }
   
   public static void destroy() {
     _logger.debug("App.destroy()...");
-    
-    clear();
   }
   
   public static void reload() {
     _logger.debug("App.reload()...");
     
-    try {
-      config = ConfigManager.loadConfig();
-    }
-    catch(Exception ex) {
-      System.err.println("App.reload() Exception in ConfigManager.loadConfig(): " + ex);
-    }
-    if(config == null) {
-      config = new HashMap<String, Object>();
-    }
-    
-    getLoggerInstance();
-    _loginManager = null;
-    _appManager   = null;
+    init(true);
     
     IAppManager appLoader = getAppManagerInstance();
     
     try {
-      pages = appLoader.loadPages();
+      Map<String, Page> pages = appLoader.loadPages();
+      if(pages != null && !pages.isEmpty()) {
+        _pages = pages;
+      }
     }
     catch(Exception ex) {
-      System.err.println("App.reload() Exception in appLoader.loadPages(): " + ex);
-    }
-    if(pages == null) {
-      pages = new HashMap<String, Page>();
+      System.err.println("App.startup() Exception in appLoader.loadPages(): " + ex);
     }
     
     try {
-      menus = appLoader.loadMenus();
+      Map<String, List<MenuItem>> menus = appLoader.loadMenus();
+      if(menus != null && !menus.isEmpty()) {
+        _menus = menus;
+      }
     }
     catch(Exception ex) {
-      System.err.println("App.reload() Exception in appLoader.loadMenus(): " + ex);
-    }
-    if(menus == null) {
-      menus = new HashMap<String, List<MenuItem>>();
+      System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
     }
     
-    _logger.debug("pages [" + pages.size()  + "]");
-    _logger.debug("menus [" + menus.size()  + "]");
-  }
-  
-  public static void clear() {
-    _logger.debug("App.clear()...");
-    
-    pages.clear();
-    menus.clear();
+    _logger.debug("pages [" + _pages.size()  + "]");
+    _logger.debug("menus [" + _menus.size()  + "]");
   }
   
   public static void addPage(Page page) {
     _logger.debug("App.addPage(" + page + ")...");
-    
     if(page == null || page.getId() == null) {
       return;
     }
-    pages.put(page.getId(), page);
+    _pages.put(page.getId(), page);
   }
   
   public static void addMenu(String idMenu, List<MenuItem> menuItems) {
     _logger.debug("App.addMenu(" + idMenu + "," + menuItems + ")...");
-    
     if(idMenu == null || idMenu.length() == 0) {
       idMenu = "main";
     }
     if(menuItems == null) {
       menuItems = new ArrayList<MenuItem>();
     }
-    menus.put(idMenu, menuItems);
+    _menus.put(idMenu, menuItems);
   }
   
   public static void update(String module) {
@@ -159,8 +147,7 @@ class App
     }
     
     String newMarker = String.valueOf(System.currentTimeMillis());
-    
-    for(Page page : pages.values()) {
+    for(Page page : _pages.values()) {
       String[] asCss = page.getCss();
       if(asCss != null && asCss.length > 0) {
         for(int i = 0; i < asCss.length; i++) {
@@ -200,64 +187,66 @@ class App
   
   public static Page getPage(String id) {
     _logger.debug("App.getPage(" + id + ")...");
-    
-    return pages.get(id);
+    return _pages.get(id);
   }
   
   public static List<MenuItem> getMenu(String id) {
     _logger.debug("App.getMenu(" + id + ")...");
-    
-    return menus.get(id);
+    return _menus.get(id);
+  }
+  
+  public static Map<String,Object> getConfig() {
+    return _config;
   }
   
   public static Object getConfig(String key) {
-    return config.get(key);
+    return _config.get(key);
   }
   
   public static Object getConfig(String key, Object defaultValue) {
-    Object result = config.get(key);
+    Object result = _config.get(key);
     if(result == null) return defaultValue;
     return result;
   }
   
   public static String getConfigStr(String key) {
-    return WUtil.toString(config.get(key), null);
+    return WUtil.toString(_config.get(key), null);
   }
   
   public static String getConfigStr(String key, String defaultValue) {
-    return WUtil.toString(config.get(key), defaultValue);
+    return WUtil.toString(_config.get(key), defaultValue);
   }
   
   public static int getConfigInt(String key) {
-    return WUtil.toInt(config.get(key), 0);
+    return WUtil.toInt(_config.get(key), 0);
   }
   
   public static int getConfigInt(String key, int defaultValue) {
-    return WUtil.toInt(config.get(key), defaultValue);
+    return WUtil.toInt(_config.get(key), defaultValue);
   }
   
   public static double getConfigDouble(String key) {
-    return WUtil.toDouble(config.get(key), 0);
+    return WUtil.toDouble(_config.get(key), 0);
   }
   
   public static double getConfigDouble(String key, int defaultValue) {
-    return WUtil.toDouble(config.get(key), defaultValue);
+    return WUtil.toDouble(_config.get(key), defaultValue);
   }
   
   public static boolean getConfigBool(String key) {
-    return WUtil.toBoolean(config.get(key), false);
+    return WUtil.toBoolean(_config.get(key), false);
   }
   
   public static boolean getConfigBool(String key, boolean defaultValue) {
-    return WUtil.toBoolean(config.get(key), defaultValue);
+    return WUtil.toBoolean(_config.get(key), defaultValue);
   }
   
   public static Calendar getConfigCal(String key) {
-    return WUtil.toCalendar(config.get(key), false);
+    return WUtil.toCalendar(_config.get(key), false);
   }
   
   public static Calendar getConfigCal(String key, Object defaultValue) {
-    return WUtil.toCalendar(config.get(key), defaultValue);
+    return WUtil.toCalendar(_config.get(key), defaultValue);
   }
   
   public static String getAppName() {
@@ -269,9 +258,28 @@ class App
   }
   
   public static Locale getLocale() {
+    if(_locale != null) return _locale;
     String locale = getConfigStr("locale", "en-US");
+    if(locale == null || locale.length() < 2) {
+      _locale = Locale.getDefault();
+      return _locale;
+    }
+    _locale = toLocale(locale);
+    return _locale;
+  }
+  
+  public static Locale getLocale(User user) {
+    if(user == null) return getLocale();
+    String locale = user.getLocale();
+    if(locale == null || locale.length() < 2) {
+      return getLocale();
+    }
+    return toLocale(locale);
+  }
+  
+  public static Locale toLocale(String locale) {
     if(locale == null || locale.length() == 0) {
-      return Locale.getDefault();
+      return null;
     }
     int sep = locale.indexOf('-');
     if(sep < 0) {
@@ -279,32 +287,37 @@ class App
     }
     String language = locale.substring(0,sep);
     String country  = locale.substring(sep+1);
-    return new Locale(language, country);
+    sep = country.indexOf('-');
+    if(sep < 0) {
+      return new Locale(language, country);
+    }
+    String variant  = country.substring(sep+1);
+    country = country.substring(0,sep);
+    return new Locale(language, country, variant);
   }
   
   public static ResourceBundle getBoundle(Locale locale) {
-    if(locale == null) {
-      locale = getLocale();
-    }
-    ResourceBundle bundle = resourceBundles.get(locale.toString());
+    if(locale == null) locale = getLocale();
+    ResourceBundle bundle = _bundles.get(locale.toString());
     if(bundle == null) {
       bundle = ResourceBundle.getBundle("content/Language", locale);
-      resourceBundles.put(locale.toString(), bundle);
+      _bundles.put(locale.toString(), bundle);
     }
     return bundle;
   }
   
-  public static String getMessage(String sKey, Object... aoParams) {
+  public static String getMessage(String key, Object... params) {
     Locale locale = getLocale();
     ResourceBundle bundle = getBoundle(locale);
-    String sMessage = bundle.getString(sKey);
-    return MessageFormat.format(sMessage, aoParams);
+    String sMessage = bundle.getString(key);
+    return MessageFormat.format(sMessage, params);
   }
   
-  public static String getMessage(Locale locale, String sKey, Object... aoParams) {
+  public static String getMessage(Locale locale, String key, Object... params) {
+    if(locale == null) locale = getLocale();
     ResourceBundle bundle = getBoundle(locale);
-    String sMessage = bundle.getString(sKey);
-    return MessageFormat.format(sMessage, aoParams);
+    String sMessage = bundle.getString(key);
+    return MessageFormat.format(sMessage, params);
   }
   
   public static ILogger getLoggerInstance() {
@@ -326,7 +339,7 @@ class App
       }
     }
     catch(Exception ex) {
-      System.err.println("App.getLoginManagerInstance() Exception: " + ex);
+      System.err.println("App.getLoggerInstance() Exception: " + ex);
     }
     
     _logger = new DefaultLogger(logLevel);

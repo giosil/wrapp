@@ -24,7 +24,20 @@ class DefaultLoginManager implements ILoginManager
   User login(String username, String password) 
     throws Exception 
   {
-    return new User(username);
+    if(username == null || username.length() == 0) {
+      return null;
+    }
+    if(password == null || password.length() == 0) {
+      return null;
+    }
+    
+    User user = new User(username);
+    
+    if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
+      user.setLocale("it");
+    }
+    
+    return user;
   }
   
   @Override
@@ -47,7 +60,7 @@ class DefaultLoginManager implements ILoginManager
     String menuManagerClassName = "";
     
     // Example...
-    if("top".equals(username)) {
+    if(username != null && (username.equalsIgnoreCase("top") || username.startsWith("top-"))) {
       menuManagerClassName = TopMenuManager.class.getName();
     }
     

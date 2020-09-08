@@ -1,7 +1,7 @@
-<%@ page import="org.dew.wrapp.*" %>
+<%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
-	User user  = WebUtil.getUser(request);
-	Object msg = request.getAttribute("message");
+	Locale locale  = WebUtil.getLocale(request);
+	Object message = request.getAttribute("message");
 %>
 <!DOCTYPE html>
 <html lang="it">
@@ -19,7 +19,7 @@
 				<h1 class="logo-name"><%= App.getAppName() %></h1>
 			</div>
 			<br>
-			<h3><%= App.getMessage("welcome") %></h3>
+			<h3><%= App.getMessage(locale, "welcome") %></h3>
 			<form class="m-t" role="form" action="login" method="POST" id="loginForm">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Username" id="j_username" name="j_username" required autofocus>
@@ -27,11 +27,11 @@
 				<div class="form-group">
 					<input type="password" class="form-control" placeholder="Password" name="j_password" id="j_password" required>
 				</div>
-				<% if(msg != null) { %>
-					<p style="text-align: center; color: #cc0000; font-weight: bold;"><%= msg %></p>
+				<% if(message != null) { %>
+					<p style="text-align: center; color: #cc0000; font-weight: bold;"><%= message %></p>
 				<% } %>
 				<br>
-				<button type="submit" class="btn btn-primary block full-width m-b"><i class="fa fa-sign-in"></i> <%= App.getMessage("login") %></button>
+				<button type="submit" class="btn btn-primary block full-width m-b"><i class="fa fa-sign-in"></i> <%= App.getMessage(locale, "login") %></button>
 			</form>
 		</div>
 	</div>

@@ -84,11 +84,11 @@ class DefaultLogger implements ILogger
       return DEBUG;
     }
     char c0 = value.charAt(0);
-    if(c0 == 'D' || c0 == 'd') return DEBUG;
-    if(c0 == 'I' || c0 == 'i') return INFO;
-    if(c0 == 'W' || c0 == 'w') return WARN;
-    if(c0 == 'E' || c0 == 'e') return ERROR;
-    if(c0 == 'F' || c0 == 'f') return FATAL;
+    if(c0 == 'D' || c0 == 'd' || c0 == '0') return DEBUG;
+    if(c0 == 'I' || c0 == 'i' || c0 == '1') return INFO;
+    if(c0 == 'W' || c0 == 'w' || c0 == '2') return WARN;
+    if(c0 == 'E' || c0 == 'e' || c0 == '3') return ERROR;
+    if(c0 == 'F' || c0 == 'f' || c0 == '4') return FATAL;
     return DEBUG;
   }
 }

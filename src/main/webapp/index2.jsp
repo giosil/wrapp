@@ -1,7 +1,8 @@
-<%@ page import="org.dew.wrapp.*" %>
+<%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
-	User user  = WebUtil.getUser(request);
-	Object msg = request.getAttribute("message");
+	User   user    = WebUtil.getUser(request);
+	Locale locale  = WebUtil.getLocale(request);
+	Object message = request.getAttribute("message");
 %>
 <!DOCTYPE html>
 <html lang="it">
@@ -21,14 +22,14 @@
 						<span class="sr-only">Navigation</span> <span class="icon-bar"></span>
 						<span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Wrapp</a>
+					<a class="navbar-brand" href="#"><%= App.getAppName() %></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a class="page-scroll" href="#contact">Contacts</a></li>
+						<li><a class="page-scroll" href="#contact"><%= App.getMessage(locale, "contacts") %></a></li>
 <% if (user != null) { %>
 							<li><a data-target="#cn-pwd" data-toggle="modal" href="#cn-pwd"><i class="fa fa-user"></i><%=user.getUserName()%></a></li>
-							<li><a href="logout.jsp"> <i class="fa fa-sign-out"></i>Logout</a></li>
+							<li><a href="logout.jsp"> <i class="fa fa-sign-out"></i><%= App.getMessage(locale, "logout") %></a></li>
 <% } %>
 					</ul>
 				</div>
@@ -67,10 +68,10 @@
 			</div>
 		</div>
 		<a class="left carousel-control" href="#inSlider" role="button" data-slide="prev"> 
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Prev</span>
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only"><%= App.getMessage(locale, "prev") %></span>
 		</a> 
 		<a class="right carousel-control" href="#inSlider" role="button" data-slide="next"> 
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only"><%= App.getMessage(locale, "next") %></span>
 		</a>
 	</div>
 	<section id="features" class="container services">
@@ -95,15 +96,15 @@
 					<div class="form-group">
 						<input type="password" class="form-control" placeholder="Password" name="j_password" id="j_password" required>
 					</div>
-					<% if(msg != null) { %>
-						<p style="text-align: center; color: #cc0000; font-weight: bold;"><%= msg %></p>
+					<% if(message != null) { %>
+						<p style="text-align: center; color: #cc0000; font-weight: bold;"><%= message %></p>
 					<% } %>
 					<p><a href="#">Forgot password</a></p>
-					<button type="submit" class="btn btn-primary block full-width m-b"><i class="fa fa-sign-in"></i> Login</button>
+					<button type="submit" class="btn btn-primary block full-width m-b"><i class="fa fa-sign-in"></i> <%= App.getMessage(locale, "login") %></button>
 				</form>
 <% } else { %>
-				<h3>Welcome,</h3>
-				<p>now, you can <a href="home.jsp">login</a>.</p>
+				<h3><%= App.getMessage(locale, "welcome") %>,</h3>
+				<p>now, you can <a href="home.jsp">access</a>.</p>
 <% } %>
 			</div>
 		</div>

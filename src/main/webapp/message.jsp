@@ -1,9 +1,7 @@
-<%@ page import="org.dew.wrapp.*" %>
+<%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
-	User user = WebUtil.checkUser(request, response);
-	if (user == null) return;
-	Object oMessage = request.getAttribute("message");
-	String sMessage = oMessage != null ? oMessage.toString() : "";
+	Locale locale  = WebUtil.getLocale(request);
+	Object message = request.getAttribute("message");
 %>
 <!DOCTYPE html>
 <html>
@@ -12,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title><%= App.getAppName() %> | Message</title>
+<title><%= App.getAppName() %> | <%= App.getMessage(locale, "message") %></title>
 
 <%@ include file="_imp_header.jsp" %>
 
@@ -20,10 +18,12 @@
 <body <%=WebUtil.getBodyClass(request)%>>
 	<div id="wrapper">
 		<%
-			WebUtil.writePageHeader(request, out, "Message", "");
+			WebUtil.writePageHeader(request, out, App.getMessage(locale, "message"), "");
 		%>
 		<div id="view-root">
-			<strong><%= sMessage %></strong>
+		<% if(message != null) { %>
+			<strong><%= message %></strong>
+		<%  } %>
 		</div>
 		<%
 			WebUtil.writePageFooter(request, out);

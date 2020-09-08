@@ -16,24 +16,21 @@ class User implements Principal, Serializable
   private int id;
   private String userName;
   
-  private Date currLogin;
-  
+  private Date   currLogin;
   private String lastName;
   private String firstName;
   private String email;
   private String mobile;
   private String taxCode;
   private String role;
+  private String locale;
   
   private List<String> groups;
   private List<String> grants;
   private List<String> structures;
   
   private String tokenId;
-  
-  private int group;
-  
-  private Date dateLastAccess;
+  private Date   dateLastAccess;
   private String message;
   
   private Map<String, Object> resources;
@@ -127,6 +124,14 @@ class User implements Principal, Serializable
     this.role = role;
   }
 
+  public String getLocale() {
+    return locale;
+  }
+
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
+
   public List<String> getGroups() {
     return groups;
   }
@@ -157,14 +162,6 @@ class User implements Principal, Serializable
 
   public void setTokenId(String tokenId) {
     this.tokenId = tokenId;
-  }
-
-  public int getGroup() {
-    return group;
-  }
-
-  public void setGroup(int group) {
-    this.group = group;
   }
 
   public Date getDateLastAccess() {
