@@ -1,6 +1,7 @@
 package org.dew.wrapp.web;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dew.wrapp.App;
 import org.dew.wrapp.User;
 import org.dew.wrapp.WebUtil;
+import org.dew.wrapp.log.LoggerFactory;
 
 @WebServlet(name = "WebWrapp", loadOnStartup = 1, urlPatterns = { "/wrapp/*" })
 public 
@@ -40,6 +42,8 @@ class WebWrapp extends HttpServlet
   void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
   {
+    Logger logger = LoggerFactory.getLogger(WebWrapp.class);
+    
     String command = request.getPathInfo();
     if(command != null && command.length() > 0) {
       if(command.startsWith("/")) command = command.substring(1);
@@ -47,6 +51,8 @@ class WebWrapp extends HttpServlet
     if(command == null || command.length() == 0) {
       command = "reload";
     }
+    
+    logger.fine("WebWrapp command=" + command);
     
     try {
       
@@ -61,13 +67,19 @@ class WebWrapp extends HttpServlet
         String oldPassword = request.getParameter("op");
         
         if(module != null && module.length() > 0) {
-          App.update(request.getParameter("module"));
+          int pages = App.update(request.getParameter("module"));
+          
+          logger.fine("WebWrapp update " + module + " has affected " + pages + " pages");
         }
         else if(oldPassword != null && oldPassword.length() > 0) {
           String newPassword = request.getParameter("np");
           User user = WebUtil.getUser(request);
           if(user != null) {
-            App.updatePassword(user.getUserName(), oldPassword, newPassword);
+            String username = user.getUserName();
+            
+            boolean result = App.updatePassword(username, oldPassword, newPassword);
+            
+            logger.fine("WebWrapp update password for " + username + " returned " + result);
           }
         }
         
@@ -75,6 +87,7 @@ class WebWrapp extends HttpServlet
       
     }
     catch(Exception ex) {
+      logger.severe("Exception in WebWrapp.doGet: " + ex);
       ex.printStackTrace();
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;

@@ -20,7 +20,6 @@ In that you can configure:
 * "locale": language-country-variant;
 * "app": implementation of *org.dew.wrapp.mgr.IAppManager*;
 * "login": implementation of *org.dew.wrapp.mgr.ILoginManager*;
-* "log": implementation of *org.dew.wrapp.mgr.ILogger*;
 * "menu": implementation of *org.dew.wrapp.mgr.AMenuManager*.
 
 In **Wrapp** each page is mapped by the *Page* object and can be called up from the URL page/{id}.
@@ -52,6 +51,10 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 ```
 
 The *hello* page has URL page/**hello** and the related jsp page is src/main/webapp/layouts/**default**.jsp (from *layout*).
+
+When a module is deployed it should call the GET method {context_of_wrapp}/wrapp/update?module={name} of Wrapp REST API.
+
+This call allows to append the correct timestamp to the css and imported scripts provided by that module.
 
 ## Contributors
 

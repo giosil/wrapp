@@ -1,6 +1,7 @@
 package org.dew.wrapp;
 
 import java.text.MessageFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -9,15 +10,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.dew.wrapp.impl.DefaultLogger;
+import java.util.logging.Logger;
+
 import org.dew.wrapp.impl.DefaultLoginManager;
 import org.dew.wrapp.impl.DefaultMenuManager;
+import org.dew.wrapp.log.LoggerFactory;
 import org.dew.wrapp.impl.DefaultAppManager;
+
 import org.dew.wrapp.mgr.AMenuManager;
 import org.dew.wrapp.mgr.ConfigManager;
 import org.dew.wrapp.mgr.IAppManager;
-import org.dew.wrapp.mgr.ILogger;
 import org.dew.wrapp.mgr.ILoginManager;
+
 import org.dew.wrapp.util.WUtil;
 
 public 
@@ -33,10 +37,11 @@ class App
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
   protected static Map<String, List<MenuItem>> _menus   = new HashMap<String, List<MenuItem>>();
   
-  protected static ILogger       _logger;
   protected static ILoginManager _loginManager;
   protected static IAppManager   _appManager;
   protected static Locale        _locale;
+  
+  protected static Logger _logger = LoggerFactory.getLogger(App.class);
   
   static {
     init(true);
@@ -49,13 +54,12 @@ class App
     else if(_config == null || _config.isEmpty()) {
       _config = ConfigManager.loadConfig();
     }
-    getLoggerInstance();
     _loginManager = null;
     _appManager   = null;
   }
   
   public static void startup() {
-    _logger.debug("App.startup()...");
+     _logger.fine("App.startup()...");
     
     STARTUP_TIME = System.currentTimeMillis();
     
@@ -81,16 +85,16 @@ class App
       System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
     }
     
-    _logger.debug("pages [" + _pages.size()  + "]");
-    _logger.debug("menus [" + _menus.size()  + "]");
+     _logger.fine("pages [" + _pages.size()  + "]");
+     _logger.fine("menus [" + _menus.size()  + "]");
   }
   
   public static void destroy() {
-    _logger.debug("App.destroy()...");
+     _logger.fine("App.destroy()...");
   }
   
   public static void reload() {
-    _logger.debug("App.reload()...");
+     _logger.fine("App.reload()...");
     
     init(true);
     
@@ -116,12 +120,12 @@ class App
       System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
     }
     
-    _logger.debug("pages [" + _pages.size()  + "]");
-    _logger.debug("menus [" + _menus.size()  + "]");
+     _logger.fine("pages [" + _pages.size()  + "]");
+     _logger.fine("menus [" + _menus.size()  + "]");
   }
   
   public static void addPage(Page page) {
-    _logger.debug("App.addPage(" + page + ")...");
+     _logger.fine("App.addPage(" + page + ")...");
     if(page == null || page.getId() == null) {
       return;
     }
@@ -129,7 +133,7 @@ class App
   }
   
   public static void addMenu(String idMenu, List<MenuItem> menuItems) {
-    _logger.debug("App.addMenu(" + idMenu + "," + menuItems + ")...");
+     _logger.fine("App.addMenu(" + idMenu + "," + menuItems + ")...");
     if(idMenu == null || idMenu.length() == 0) {
       idMenu = "main";
     }
@@ -139,15 +143,19 @@ class App
     _menus.put(idMenu, menuItems);
   }
   
-  public static void update(String module) {
-    _logger.debug("App.update(" + module + ")...");
+  public static int update(String module) {
+     _logger.fine("App.update(" + module + ")...");
     
     if(module == null || module.length() == 0) {
-      return;
+      return 0;
     }
+    
+    int result = 0;
     
     String newMarker = String.valueOf(System.currentTimeMillis());
     for(Page page : _pages.values()) {
+      boolean found = false;
+      
       String[] asCss = page.getCss();
       if(asCss != null && asCss.length > 0) {
         for(int i = 0; i < asCss.length; i++) {
@@ -155,6 +163,7 @@ class App
             continue;
           }
           asCss[i] = WebUtil.replaceMarker(asCss[i], newMarker);
+          found = true;
         }
       }
       
@@ -165,13 +174,18 @@ class App
             continue;
           }
           asScripts[i] = WebUtil.replaceMarker(asScripts[i], newMarker);
+          found = true;
         }
       }
+      
+      if(found) result++;
     }
+    
+    return result;
   }
   
   public static boolean updatePassword(String username, String currentPassword, String newPassword) {
-    _logger.debug("App.updatePassword(" + username + ",*,*)...");
+     _logger.fine("App.updatePassword(" + username + ",*,*)...");
     
     ILoginManager loginManager = getLoginManagerInstance();
     
@@ -179,19 +193,19 @@ class App
       return loginManager.updatePassword(username, currentPassword, newPassword);
     }
     catch(Exception ex) {
-      _logger.error("Exception in loginManager.updatePassword(" + username + ",*,*)", ex);
+       _logger.severe("Exception in loginManager.updatePassword(" + username + ",*,*)" +  ex);
     }
     
     return false;
   }
   
   public static Page getPage(String id) {
-    _logger.debug("App.getPage(" + id + ")...");
+     _logger.fine("App.getPage(" + id + ")...");
     return _pages.get(id);
   }
   
   public static List<MenuItem> getMenu(String id) {
-    _logger.debug("App.getMenu(" + id + ")...");
+     _logger.fine("App.getMenu(" + id + ")...");
     return _menus.get(id);
   }
   
@@ -318,32 +332,6 @@ class App
     ResourceBundle bundle = getBoundle(locale);
     String sMessage = bundle.getString(key);
     return MessageFormat.format(sMessage, params);
-  }
-  
-  public static ILogger getLoggerInstance() {
-    if(_logger != null) return _logger;
-    
-    String logLevel  = getConfigStr("loglevel");
-    String className = getConfigStr("log");
-    if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
-      _logger = new DefaultLogger(logLevel);
-      return _logger;
-    }
-    
-    try {
-      Object object = Class.forName(className).getDeclaredConstructor().newInstance();
-      if(object instanceof ILogger) {
-        ((ILogger) object).setLevel(DefaultLogger.toLogLevel(logLevel));
-        _logger = ((ILogger) object);
-        return _logger;
-      }
-    }
-    catch(Exception ex) {
-      System.err.println("App.getLoggerInstance() Exception: " + ex);
-    }
-    
-    _logger = new DefaultLogger(logLevel);
-    return _logger;
   }
   
   public static ILoginManager getLoginManagerInstance() {

@@ -85,7 +85,8 @@ class WebUtil
             user = new User(userPrincipal.getName());
           }
         }
-      } catch (Exception ex) {
+      }
+      catch (Exception ex) {
         ex.printStackTrace();
       }
     }
