@@ -50,9 +50,7 @@ class WebPage extends HttpServlet
     if(pageId == null || pageId.length() == 0) {
       logger.warning("Invalid page id = " + pageId);
       
-      request.setAttribute("message", "Invalid page id.");
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("message.jsp");
-      requestDispatcher.forward(request, response);
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       return;
     }
     
@@ -61,9 +59,7 @@ class WebPage extends HttpServlet
     if(page == null) {
       logger.warning("Page " + pageId + " not found");
       
-      request.setAttribute("message", "Page not found.");
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("../layouts/message.jsp");
-      requestDispatcher.forward(request, response);
+      response.setStatus(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
     
@@ -77,9 +73,13 @@ class WebPage extends HttpServlet
     // Check modifier (is the page private?)
     String modifier = page.getModifier();
     if(modifier != null && modifier.equalsIgnoreCase("private")) {
-      User user = WebUtil.checkUser(request, response);
+      User user = WebUtil.getUser(request);
+      
       if(user == null) {
         logger.warning("Page " + pageId + " is private.");
+        // response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("../logout.jsp");
+        requestDispatcher.forward(request, response);
         return;
       }
     }

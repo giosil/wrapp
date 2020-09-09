@@ -1,7 +1,5 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
-	User user = WebUtil.checkUser(request, response);
-	if (user == null) return;
 	Locale locale = WebUtil.getLocale(request);
 %>
 <!DOCTYPE html>

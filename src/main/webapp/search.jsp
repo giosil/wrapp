@@ -1,7 +1,5 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*, org.dew.wrapp.util.*" %>
 <%
-	User user = WebUtil.checkUser(request, response);
-	if(user == null) return;
 	Locale locale = WebUtil.getLocale(request);
 	String sQO = null;
 	String sQS = request.getParameter("qs");
@@ -13,7 +11,7 @@
 		sQO = WUtil.toHTMLText(sQS, "");
 		sQS = sQS.toLowerCase();
 		if(sQS.length() > 3) {
-			// singolare / plurale
+			// singular / plural
 			sQS = sQS.substring(0, sQS.length()-2);
 		}
 		sQS = sQS.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;");

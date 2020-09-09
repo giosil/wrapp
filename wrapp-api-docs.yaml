@@ -1,0 +1,55 @@
+swagger: '2.0'
+info:
+  description: A web application configurable through RESTful web services.
+  version: 1.0.0
+  title: Wrapp
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: /wrapp
+schemes:
+  - https
+  - http
+paths:
+  /api/refresh:
+    get:
+      operationId: refresh
+      parameters:
+        - name: module
+          in: query
+          required: false
+          type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid module
+  /api/reload:
+    get:
+      operationId: reload
+      parameters: []
+      responses:
+        '204':
+          description: Success
+  /api/update:
+    post:
+      operationId: update
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: op
+          in: query
+          required: false
+          type: string
+        - name: np
+          in: query
+          required: false
+          type: string
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid parameters
+        '403':
+          description: Forbidden

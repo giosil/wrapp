@@ -16,8 +16,7 @@
 
 <% 
 	WebUtil.writePageAttributes(out, wpage);
-%>
-<% 
+	
 	WebUtil.writeCSSImport(out, wpage);
 %>
 </head>

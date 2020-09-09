@@ -3,7 +3,7 @@
 		"title": "Hello page",
 		"description": "This is an example of Wrapp page",
 		"layout": "default",
-		"modifier": "public",
+		"modifier": "private",
 		"header": "",
 		"content": "",
 		"footer": "",

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import java.lang.reflect.Method;
+
 import java.security.Principal;
 
 import java.util.Calendar;
@@ -12,11 +13,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
@@ -104,40 +103,6 @@ class WebUtil
       if (username != null && username.length() > 0 && password != null && password.length() > 0) {
         return login(request);
       }
-    }
-    return user;
-  }
-  
-  public static 
-  User checkUser(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException 
-  {
-    if (request == null) return null;
-    User user = null;
-    HttpSession httpSession = request.getSession();
-    if (httpSession != null) {
-      Object oUser = httpSession.getAttribute("user");
-      if (oUser instanceof User) {
-        user = (User) oUser;
-      }
-    }
-    if (user == null) {
-      try {
-        Principal userPrincipal = request.getUserPrincipal();
-        if(userPrincipal instanceof User) {
-          user = (User) userPrincipal;
-        }
-        else if (userPrincipal != null) {
-          user = new User(userPrincipal.getName());
-        }
-      } 
-      catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    }
-    if (user == null) {
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/logout.jsp");
-      requestDispatcher.forward(request, response);
     }
     return user;
   }
