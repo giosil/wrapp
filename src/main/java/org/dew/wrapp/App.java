@@ -93,10 +93,12 @@ class App
      _logger.fine("App.destroy()...");
   }
   
-  public static void reload() {
+  public static int reload() {
      _logger.fine("App.reload()...");
     
     init(true);
+    
+    int result = 0;
     
     IAppManager appLoader = getAppManagerInstance();
     
@@ -122,6 +124,9 @@ class App
     
      _logger.fine("pages [" + _pages.size()  + "]");
      _logger.fine("menus [" + _menus.size()  + "]");
+     
+     result = _pages.size();
+     return result;
   }
   
   public static void addPage(Page page) {
@@ -143,8 +148,8 @@ class App
     _menus.put(idMenu, menuItems);
   }
   
-  public static int update(String module) {
-     _logger.fine("App.update(" + module + ")...");
+  public static int refresh(String module) {
+     _logger.fine("App.refresh(" + module + ")...");
     
     if(module == null || module.length() == 0) {
       return 0;

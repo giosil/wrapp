@@ -52,9 +52,43 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 
 The *hello* page has URL page/**hello** and the related jsp page is src/main/webapp/layouts/**default**.jsp (from *layout*).
 
-When a module is deployed it should call the GET method {context_of_wrapp}/wrapp/update?module={name} of Wrapp REST API.
+When a module is deployed it should call the GET method *wrapp/api/update?module={moduleName}* of Wrapp REST API.
 
 This call allows to append the correct timestamp to the css and imported scripts provided by that module.
+
+## REST API 
+
+### Reload
+Reload Web App configuration, pages and menus.
+
+Request:<br />
+**GET** `http://localhost:8080/wrapp/api/reload`
+
+Response:<br />
+HTTP 204 No Content<br />
+
+### Refresh
+Update reference of a module appending timestamp in css and script imports.
+
+Request:<br />
+**GET** `http://localhost:8080/wrapp/api/refresh?module={moduleName}`
+
+Response:<br />
+HTTP 204 No Content<br />
+
+### Update
+Update password of legged user.
+
+Request:<br />
+**POST** `http://localhost:8080/wrapp/api/update`
+
+`op=oldPassowrd&np=newPasswrd`
+
+Response:<br />
+HTTP 204 No Content<br />
+
+Response: (if old password is incorrect, new password is invalid or user is not logged)<br />
+HTTP 403 Forbidden<br />
 
 ## Contributors
 

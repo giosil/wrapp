@@ -131,9 +131,10 @@ function updatePassword(){
 	if(!f.valid())return;
 	var op=$('#cpop').val();
 	var np=$('#cpnp').val();
-	var uu=window.location.href.indexOf('/page/')>=0?"../wrapp/update":"wrapp/update";
+	var x = location.pathname.indexOf('/', 1);
+	let b = x <= 0 ? "api/" : location.pathname.substring(0, x) + "/api/"
 	$.ajax({
-		url: uu,
+		url: b + "update",
 		type: "post",
 		data: { 
 			"op": op, 

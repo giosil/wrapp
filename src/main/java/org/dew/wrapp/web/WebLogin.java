@@ -17,7 +17,7 @@ import javax.servlet.annotation.WebServlet;
 public 
 class WebLogin extends HttpServlet 
 {
-  private static final long serialVersionUID = 2981713432753542045L;
+  private static final long serialVersionUID = -5974493225737900330L;
   
   public 
   void doGet(HttpServletRequest request, HttpServletResponse response) 

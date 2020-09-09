@@ -19,9 +19,9 @@ class WebModule extends HttpServlet
 {
   private static final long serialVersionUID = -4191338398759264803L;
   
-  private static final String URL_WRAPP_UPDATE = "http://localhost:8080/wrapp/wrapp/update?module=hello";
+  private static final String URL_WRAPP_REFRESH = "http://localhost:8080/wrapp/api/refresh?module=hello";
   
-  protected String updateResult;
+  protected String refreshResult;
   
   public
   void init()
@@ -30,17 +30,17 @@ class WebModule extends HttpServlet
     System.out.println("WebModule.init()...");
     
     try {
-      HttpURLConnection connection = (HttpURLConnection) new URL(URL_WRAPP_UPDATE).openConnection();
+      HttpURLConnection connection = (HttpURLConnection) new URL(URL_WRAPP_REFRESH).openConnection();
       connection.setConnectTimeout(30000);
       connection.setReadTimeout(30000);
       
-      updateResult = "HTTP " + connection.getResponseCode();
+      refreshResult = "HTTP " + connection.getResponseCode();
     }
     catch(Exception ex) {
-      updateResult = ex.toString();
+      refreshResult = ex.toString();
     }
     
-    System.out.println("WebModule.init() " + updateResult);
+    System.out.println("WebModule.init() " + refreshResult);
   }
   
   @Override
@@ -48,7 +48,7 @@ class WebModule extends HttpServlet
   void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException
   {
-    request.setAttribute("message", updateResult);
+    request.setAttribute("message", refreshResult);
     
     RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
     requestDispatcher.forward(request, response);

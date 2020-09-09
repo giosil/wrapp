@@ -23,7 +23,7 @@ import org.dew.wrapp.log.LoggerFactory;
 public 
 class WebPage extends HttpServlet
 {
-  private static final long serialVersionUID = 5627616166928662309L;
+  private static final long serialVersionUID = -6452766828817687812L;
   
   @Override
   protected 
