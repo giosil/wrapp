@@ -28,25 +28,25 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 
 ```json
 {
-	"id": "hello",
-	"title": "Hello page",
-	"description": "This is an example of Wrapp page",
-	"layout": "default",
-	"modifier": "public",
-	"header": "",
-	"content": "",
-	"footer": "",
-	"script": "WuxDOM.render(new HelloWorld(), 'view-root');",
-	"css": [
-		"/hello/css/main.css"
-	],
-	"scripts": [
-		"/hello/js/wux.min.js",
-		"/hello/js/hello.js"
-	],
-	"attributes": {
-		"align": "center"
-	}
+  "id": "hello",
+  "title": "Hello page",
+  "description": "This is an example of Wrapp page",
+  "layout": "default",
+  "modifier": "private",
+  "header": "",
+  "content": "",
+  "footer": "",
+  "script": "WuxDOM.render(new HelloWorld(), 'view-root');",
+  "css": [
+    "/hello/css/main.css"
+  ],
+  "scripts": [
+    "/hello/js/wux.min.js",
+    "/hello/js/hello.js"
+  ],
+  "attributes": {
+    "align": "center"
+  }
 }
 ```
 
@@ -55,6 +55,23 @@ The *hello* page has URL page/**hello** and the related jsp page is src/main/web
 When a module is deployed it should call the GET method *wrapp/api/update?module={moduleName}* of Wrapp REST API.
 
 This call allows to append the correct timestamp to the css and imported scripts provided by that module.
+
+As far as the menus are concerned, it is possible to define several hierarchical menus and make the items visible with respect to user authorizations.
+
+Each menu is identified by an id and is made up of a list of MenuItem object.
+
+Here is a sample menu.
+
+```json
+{
+  "main": [
+    { "id": "app",       "text": "Application", "icon": "fa-edit" },
+    { "id": "app.hello", "text": "Hello",       "icon": null,     "link": "page/hello"}
+  ]
+}
+```
+
+You can implement your own org.dew.wrapp.mgr.IAppManager by loading menus and pages for example from a database or from a nosql.
 
 ## REST API 
 

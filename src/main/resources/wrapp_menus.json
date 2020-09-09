@@ -1,6 +1,6 @@
 {
 	"main": [
-		{ "id": "application",       "text": "Application", "icon": "fa-edit" },
-		{ "id": "application.hello", "text": "Hello",       "icon": null,     "link": "page/hello"}
+		{ "id": "app",       "text": "Application", "icon": "fa-edit" },
+		{ "id": "app.hello", "text": "Hello",       "icon": null,     "link": "page/hello"}
 	]
 }
