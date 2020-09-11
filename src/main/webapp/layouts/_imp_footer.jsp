@@ -56,10 +56,10 @@
 <script src="../js/plugins/filesaver/FileSaver.min.js" type="text/javascript"></script>
 <script src="../js/plugins/ba-throttle-debounce/jquery.ba-throttle-debounce.min.js"></script>
 
-<script type="text/javascript" src="../cldr/cldr.js"></script>
-<script type="text/javascript" src="../cldr/cldr/event.js"></script>
-<script type="text/javascript" src="../cldr/cldr/supplemental.js"></script>
-<script type="text/javascript" src="../cldr/cldr/unresolved.js"></script>
+<script type="text/javascript" src="../cldr/cldr.min.js"></script>
+<script type="text/javascript" src="../cldr/cldr/event.min.js"></script>
+<script type="text/javascript" src="../cldr/cldr/supplemental.min.js"></script>
+<script type="text/javascript" src="../cldr/cldr/unresolved.min.js"></script>
 
 <script type="text/javascript" src="../globalize/globalize.min.js"></script>
 <script type="text/javascript" src="../globalize/globalize/message.min.js"></script>
