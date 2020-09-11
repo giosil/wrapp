@@ -1,5 +1,5 @@
 /**
- * Globalize v1.2.3
+ * Globalize v1.5.0
  *
  * http://github.com/jquery/globalize
  *
@@ -7,10 +7,10 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2017-03-17T01:41Z
+ * Date: 2020-03-25T12:19Z
  */
 /*!
- * Globalize v1.2.3 2017-03-17T01:41Z Released under the MIT license
+ * Globalize v1.5.0 2020-03-25T12:19Z Released under the MIT license
  * http://git.io/TrdQbw
  */
 (function( root, factory ) {
@@ -113,6 +113,89 @@ var createError = function( code, message, attributes ) {
 
 
 
+/**
+ * Pushes part to parts array, concat two consecutive parts of the same type.
+ */
+var partsPush = function( parts, type, value ) {
+
+		// Concat two consecutive parts of same type
+		if ( parts.length && parts[ parts.length - 1 ].type === type ) {
+			parts[ parts.length - 1 ].value += value;
+			return;
+		}
+
+		parts.push( { type: type, value: value } );
+};
+
+
+
+
+/**
+ * formatMessage( message, data )
+ *
+ * @message [String] A message with optional {vars} to be replaced.
+ *
+ * @data [Array or JSON] Object with replacing-variables content.
+ *
+ * Return the formatted message. For example:
+ *
+ * - formatMessage( "{0} second", [ 1 ] );
+ * > [{type: "variable", value: "1", name: "0"}, {type: "literal", value: " second"}]
+ *
+ * - formatMessage( "{0}/{1}", ["m", "s"] );
+ * > [
+ *     { type: "variable", value: "m", name: "0" },
+ *     { type: "literal", value: " /" },
+ *     { type: "variable", value: "s", name: "1" }
+ *   ]
+ */
+var formatMessageToParts = function( message, data ) {
+
+	var lastOffset = 0,
+		parts = [];
+
+	// Create parts.
+	message.replace( /{[0-9a-zA-Z-_. ]+}/g, function( nameIncludingBrackets, offset ) {
+		var name = nameIncludingBrackets.slice( 1, -1 );
+		partsPush( parts, "literal", message.slice( lastOffset, offset ));
+		partsPush( parts, "variable", data[ name ] );
+		parts[ parts.length - 1 ].name = name;
+		lastOffset += offset + nameIncludingBrackets.length;
+	});
+
+	// Skip empty ones such as `{ type: 'literal', value: '' }`.
+	return parts.filter(function( part ) {
+		return part.value !== "";
+	});
+};
+
+
+
+
+/**
+ * Returns joined parts values.
+ */
+var partsJoin = function( parts ) {
+	return parts.map( function( part ) {
+		return part.value;
+	}).join( "" );
+};
+
+
+
+
+var runtimeStringify = function( args ) {
+	return JSON.stringify( args, function( key, value ) {
+		if ( value && value.runtimeKey ) {
+			return value.runtimeKey;
+		}
+		return value;
+	} );
+};
+
+
+
+
 // Based on http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
 var stringHash = function( str ) {
 	return [].reduce.call( str, function( hash, i ) {
@@ -127,7 +210,7 @@ var stringHash = function( str ) {
 
 var runtimeKey = function( fnName, locale, args, argsStr ) {
 	var hash;
-	argsStr = argsStr || JSON.stringify( args );
+	argsStr = argsStr || runtimeStringify( args );
 	hash = stringHash( fnName + locale + argsStr );
 	return hash > 0 ? "a" + hash : "b" + Math.abs( hash );
 };
@@ -153,11 +236,11 @@ var functionName = function( fn ) {
 
 var runtimeBind = function( args, cldr, fn, runtimeArgs ) {
 
-	var argsStr = JSON.stringify( args ),
+	var argsStr = runtimeStringify( args ),
 		fnName = functionName( fn ),
 		locale = cldr.locale;
 
-	// If name of the function is not available, this is most likely due uglification,
+	// If name of the function is not available, this is most likely due to uglification,
 	// which most likely means we are in production, and runtimeBind here is not necessary.
 	if ( !fnName ) {
 		return fn;
@@ -400,8 +483,11 @@ Globalize.locale = function( locale ) {
 Globalize._alwaysArray = alwaysArray;
 Globalize._createError = createError;
 Globalize._formatMessage = formatMessage;
+Globalize._formatMessageToParts = formatMessageToParts;
 Globalize._isPlainObject = isPlainObject;
 Globalize._objectExtend = objectExtend;
+Globalize._partsJoin = partsJoin;
+Globalize._partsPush = partsPush;
 Globalize._regexpEscape = regexpEscape;
 Globalize._runtimeBind = runtimeBind;
 Globalize._stringPad = stringPad;

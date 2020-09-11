@@ -24,7 +24,7 @@
 </div>
 </div>
 
-<script src="../inspinia/js/jquery-3.4.1.js" type="text/javascript"></script>
+<script src="../inspinia/js/jquery-3.5.1.min.js" type="text/javascript"></script>
 <script src="../inspinia/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="../inspinia/js/inspinia.js" type="text/javascript"></script>
 
@@ -61,12 +61,11 @@
 <script type="text/javascript" src="../cldr/cldr/supplemental.js"></script>
 <script type="text/javascript" src="../cldr/cldr/unresolved.js"></script>
 
-<script type="text/javascript" src="../globalize/globalize.js"></script>
-<script type="text/javascript" src="../globalize/globalize/message.js"></script>
-<script type="text/javascript" src="../globalize/globalize/number.js"></script>
-<script type="text/javascript" src="../globalize/globalize/date.js"></script>
-<script type="text/javascript" src="../globalize/globalize/currency.js"></script>
-<script type="text/javascript" src="../globalize/globalize/plural.js"></script>
+<script type="text/javascript" src="../globalize/globalize.min.js"></script>
+<script type="text/javascript" src="../globalize/globalize/message.min.js"></script>
+<script type="text/javascript" src="../globalize/globalize/number.min.js"></script>
+<script type="text/javascript" src="../globalize/globalize/date.min.js"></script>
+<script type="text/javascript" src="../globalize/globalize/currency.min.js"></script>
 
 <% WebUtil.writeScriptImport(out, "../devextreme/js/jszip.min.js"); %>
 <% WebUtil.writeScriptImport(out, "../devextreme/js/dx.web.js"); %>
