@@ -478,6 +478,35 @@ class WebUtil
   }
   
   public static 
+  void writeScriptImport(Writer out, String scriptFile, String debugScriptFile, Object debugParam) 
+    throws ServletException, IOException 
+  {
+    boolean debug = WUtil.toBoolean(debugParam, false);
+    
+    String html = null;
+    if(debug) {
+      if(debugScriptFile != null && debugScriptFile.length() > 0) {
+        html = "<script src=\"" + debugScriptFile + "?" + App.STARTUP_TIME + "\" type=\"text/javascript\"></script>";
+      }
+      else if (scriptFile != null && scriptFile.length() > 0) {
+        html = "<script src=\"" + scriptFile + "?" + App.STARTUP_TIME + "\" type=\"text/javascript\"></script>";
+      }
+      else {
+        return;
+      }
+    }
+    else {
+      if (scriptFile != null && scriptFile.length() > 0) {
+        html = "<script src=\"" + scriptFile + "?" + App.STARTUP_TIME + "\" type=\"text/javascript\"></script>";
+      }
+      else {
+        return;
+      }
+    }
+    out.write(html);
+  }
+  
+  public static 
   void writeScriptImport(Writer out, Page page) 
       throws ServletException, IOException 
   {
@@ -496,6 +525,114 @@ class WebUtil
       if(scriptFile == null || scriptFile.length() == 0) {
         continue;
       }
+      sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
+    }
+    
+    out.write(sb.toString());
+  }
+  
+  public static 
+  void writeScriptImport(Writer out, Page page, Object debugParam) 
+      throws ServletException, IOException 
+  {
+    boolean debug = WUtil.toBoolean(debugParam, false);
+    
+    if(debug) {
+      writeScriptImport(out, page, "*", ".min.js", ".js");
+    }
+    else {
+      writeScriptImport(out, page);
+    }
+  }
+  
+  public static 
+  void writeScriptImport(Writer out, Page page, String filter, String target, String replacement) 
+      throws ServletException, IOException 
+  {
+    if (page == null) return;
+    
+    String[] asScripts = page.getScripts();
+    if(asScripts == null || asScripts.length == 0) {
+      return;
+    }
+    
+    // Parse filter...
+    boolean starts  = false;
+    boolean ends    = false;
+    boolean include = false;
+    boolean equals  = false;
+    boolean not     = false;
+    boolean replace = target != null && target.length() > 0 && replacement != null;
+    if(filter != null && filter.length() > 0) {
+      if(filter.startsWith("!")) {
+        not    = true;
+        filter = filter.substring(1);
+      }
+      if(filter.startsWith("*") && filter.endsWith("*")) {
+        include = true;
+        if(filter.equals("*")) {
+          filter = "";
+        }
+        else {
+          filter = filter.substring(1, filter.length()-1);
+        }
+      }
+      else if(filter.startsWith("*")) {
+        ends   = true;
+        filter = filter.substring(1);
+      }
+      else if(filter.endsWith("*")) {
+        starts = true;
+        filter = filter.substring(0, filter.length()-1);
+      }
+      else {
+        equals = true;
+      }
+    }
+    
+    String marker = String.valueOf(App.STARTUP_TIME);
+    
+    StringBuilder sb = new StringBuilder(70 * asScripts.length);
+    for(int i = 0; i < asScripts.length; i++) {
+      String scriptFile = asScripts[i];
+      if(scriptFile == null || scriptFile.length() == 0) {
+        continue;
+      }
+      
+      // Check filter to replace...
+      if(starts && replace) {
+        if(!not && scriptFile.startsWith(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+        else if(not && !scriptFile.startsWith(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+      }
+      else if(ends && replace) {
+        if(!not && scriptFile.endsWith(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+        else if(not && !scriptFile.endsWith(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+      }
+      else if(include && replace) {
+        if(!not && (filter.length() == 0 || scriptFile.indexOf(filter) >= 0)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+        else if(not && !(filter.length() == 0 || scriptFile.indexOf(filter) >= 0)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+      }
+      else if(equals && replace) {
+        if(!not && scriptFile.equals(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+        else if(not && !scriptFile.equals(filter)) {
+          scriptFile = scriptFile.replace(target, replacement);
+        }
+      }
+      
       sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
     }
     

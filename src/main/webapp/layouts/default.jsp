@@ -2,6 +2,7 @@
 <%
 	Page   wpage  = WebUtil.getPage(request);
 	Locale locale = WebUtil.getLocale(request);
+	String debug  = request.getParameter("debug");
 %>
 <!DOCTYPE html>
 <html>
@@ -37,7 +38,7 @@
 	<%@ include  file="_imp_footer.jsp" %>
 	
 	<% 
-		WebUtil.writeScriptImport(out, wpage);
+		WebUtil.writeScriptImport(out, wpage, debug);
 	%>
 	<script>
 		<%= wpage.getScript() %>

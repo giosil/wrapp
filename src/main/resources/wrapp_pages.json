@@ -13,7 +13,7 @@
 		],
 		"scripts": [
 			"/hello/js/wux.min.js",
-			"/hello/js/hello.js"
+			"/hello/js/hello.min.js"
 		],
 		"attributes": {
 			"align": "center"

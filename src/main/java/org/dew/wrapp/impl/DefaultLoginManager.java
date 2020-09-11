@@ -1,5 +1,6 @@
 package org.dew.wrapp.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ class DefaultLoginManager implements ILoginManager
     }
     
     User user = new User(username);
+    user.setRole("user");
+    user.setCurrLogin(new Date());
     
     if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
       user.setLocale("it");

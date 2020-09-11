@@ -38,7 +38,7 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <packagingExcludes>.vs/*.*,bin/*.*,obj/*.*,Properties/*.*,ts/**,*.cmd,Web.config,Web.Debug.config,Web.Release.config,*.csproj,*.csproj.user,*.sln</packagingExcludes>
+          <packagingExcludes>.vs,.vs/*.*,.vscode,.vscode/*.*,bin,bin/*.*,obj,obj/*.*,Properties/*.*,*.cmd,Web.config,Web.Debug.config,Web.Release.config,*.csproj,*.csproj.user,*.sln</packagingExcludes>
         </configuration>
       </plugin>
     </plugins>    
