@@ -69,8 +69,8 @@ class DefaultLoginManager implements ILoginManager
     
     AMenuManager menuManager = App.getMenuManagerInstance(user, menuManagerClassName);
     
-    // Retrieve menu from user...
-    String menu = "main";
+    // Retrieve menu from user (null or "" for default)...
+    String menu = null;
     
     List<MenuItem> menuItems = App.getMenu(menu);
     

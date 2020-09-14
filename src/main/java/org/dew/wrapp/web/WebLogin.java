@@ -40,7 +40,7 @@ class WebLogin extends HttpServlet
       
       String homePage = user.getHome();
       if(homePage == null || homePage.length() == 0) {
-        homePage = App.DEF_HOME_PAGE;
+        homePage = App.DEFAULT_HOME_PAGE;
       }
       if(homePage.lastIndexOf('.') < 0) homePage += ".jsp";
       

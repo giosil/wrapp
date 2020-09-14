@@ -29,13 +29,14 @@ class App
   public static String CONFIG_FILE_NAME   = "wrapp_config.json";
   public static String CONFIG_FOLDER_NAME = "cfg";
   public static String DEFAULT_LOCALE     = "en";
+  public static String DEFAULT_MENU       = "main";
   
   public static String INDEX_PAGE         = "index.jsp";
   public static String HOME_PAGE          = "home"; // see WebHome
   public static String LOGOUT_PAGE        = "logout.jsp";
   public static String HELP_PAGE          = "help.jsp";
   public static String SEARCH_PAGE        = "search.jsp";
-  public static String DEF_HOME_PAGE      = "home.jsp";
+  public static String DEFAULT_HOME_PAGE  = "home.jsp";
   
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
@@ -63,7 +64,7 @@ class App
   }
   
   public static void startup() {
-     _logger.fine("App.startup()...");
+    _logger.fine("App.startup()...");
     
     STARTUP_TIME = System.currentTimeMillis();
     
@@ -89,16 +90,16 @@ class App
       System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
     }
     
-     _logger.fine("pages [" + _pages.size()  + "]");
-     _logger.fine("menus [" + _menus.size()  + "]");
+    _logger.fine("pages [" + _pages.size()  + "]");
+    _logger.fine("menus [" + _menus.size()  + "]");
   }
   
   public static void destroy() {
-     _logger.fine("App.destroy()...");
+    _logger.fine("App.destroy()...");
   }
   
   public static int reload() {
-     _logger.fine("App.reload()...");
+    _logger.fine("App.reload()...");
     
     init(true);
     
@@ -126,15 +127,15 @@ class App
       System.err.println("App.reload() Exception in appLoader.loadMenus(): " + ex);
     }
     
-     _logger.fine("pages [" + _pages.size()  + "]");
-     _logger.fine("menus [" + _menus.size()  + "]");
+    _logger.fine("pages [" + _pages.size()  + "]");
+    _logger.fine("menus [" + _menus.size()  + "]");
      
-     result = _pages.size();
-     return result;
+    result = _pages.size();
+    return result;
   }
   
   public static void addPage(Page page) {
-     _logger.fine("App.addPage(" + page + ")...");
+    _logger.fine("App.addPage(" + page + ")...");
     if(page == null || page.getId() == null) {
       return;
     }
@@ -142,7 +143,7 @@ class App
   }
   
   public static void addMenu(String idMenu, List<MenuItem> menuItems) {
-     _logger.fine("App.addMenu(" + idMenu + "," + menuItems + ")...");
+    _logger.fine("App.addMenu(" + idMenu + "," + menuItems + ")...");
     if(idMenu == null || idMenu.length() == 0) {
       idMenu = "main";
     }
@@ -153,7 +154,7 @@ class App
   }
   
   public static int refresh(String module) {
-     _logger.fine("App.refresh(" + module + ")...");
+    _logger.fine("App.refresh(" + module + ")...");
     
     if(module == null || module.length() == 0) {
       return 0;
@@ -194,7 +195,7 @@ class App
   }
   
   public static boolean updatePassword(String username, String currentPassword, String newPassword) {
-     _logger.fine("App.updatePassword(" + username + ",*,*)...");
+    _logger.fine("App.updatePassword(" + username + ",*,*)...");
     
     ILoginManager loginManager = getLoginManagerInstance();
     
@@ -209,12 +210,15 @@ class App
   }
   
   public static Page getPage(String id) {
-     _logger.fine("App.getPage(" + id + ")...");
+    _logger.fine("App.getPage(" + id + ")...");
     return _pages.get(id);
   }
   
   public static List<MenuItem> getMenu(String id) {
-     _logger.fine("App.getMenu(" + id + ")...");
+    _logger.fine("App.getMenu(" + id + ")...");
+    if(id == null || id.length() == 0) {
+      id = App.DEFAULT_MENU;
+    }
     return _menus.get(id);
   }
   

@@ -23,7 +23,7 @@ import org.dew.wrapp.log.LoggerFactory;
 public 
 class WebHome extends HttpServlet
 {
-  private static final long serialVersionUID = 3950347932882933158L;
+  private static final long serialVersionUID = 7047915303038143986L;
   
   @Override
   protected 
@@ -54,7 +54,7 @@ class WebHome extends HttpServlet
     
     String homePage = user.getHome();
     if(homePage == null || homePage.length() == 0) {
-      homePage = App.DEF_HOME_PAGE;
+      homePage = App.DEFAULT_HOME_PAGE;
     }
     if(homePage.lastIndexOf('.') < 0) homePage += ".jsp";
     
@@ -62,4 +62,3 @@ class WebHome extends HttpServlet
     requestDispatcher.forward(request, response);
   }
 }
-
