@@ -28,8 +28,8 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><a class="page-scroll" href="#contact"><%= App.getMessage(locale, "contacts") %></a></li>
 <% if (user != null) { %>
-							<li><a data-target="#cn-pwd" data-toggle="modal" href="#cn-pwd"><i class="fa fa-user"></i><%=user.getUserName()%></a></li>
-							<li><a href="logout.jsp"> <i class="fa fa-sign-out"></i><%= App.getMessage(locale, "logout") %></a></li>
+							<li><a data-target="#cn-pwd" data-toggle="modal" href="#cn-pwd"><i class="fa fa-user"></i><%= user.getUserName() %></a></li>
+							<li><a href="<%= App.LOGOUT_PAGE %>"> <i class="fa fa-sign-out"></i><%= App.getMessage(locale, "logout") %></a></li>
 <% } %>
 					</ul>
 				</div>
@@ -104,7 +104,7 @@
 				</form>
 <% } else { %>
 				<h3><%= App.getMessage(locale, "welcome") %>,</h3>
-				<p>now, you can <a href="home.jsp">access</a>.</p>
+				<p>visit <a href="<%= App.HOME_PAGE %>"><%= App.getMessage(locale, "home") %></a>.</p>
 <% } %>
 			</div>
 		</div>
@@ -114,7 +114,7 @@
 			<div class="row m-b-lg">
 				<div class="col-lg-12 text-center">
 					<div class="navy-line"></div>
-					<h1>Contacts</h1>
+					<h1><%= App.getMessage(locale, "contacts") %></h1>
 				</div>
 			</div>
 			<div class="row m-b-lg">

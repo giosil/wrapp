@@ -11,7 +11,7 @@ import java.util.Map;
 public 
 class User implements Principal, Serializable 
 {
-  private static final long serialVersionUID = 5951794887807593688L;
+  private static final long serialVersionUID = 5409640713832432493L;
   
   private int id;
   private String userName;
@@ -24,6 +24,7 @@ class User implements Principal, Serializable
   private String taxCode;
   private String role;
   private String locale;
+  private String home;
   
   private List<String> groups;
   private List<String> grants;
@@ -130,6 +131,14 @@ class User implements Principal, Serializable
 
   public void setLocale(String locale) {
     this.locale = locale;
+  }
+
+  public String getHome() {
+    return home;
+  }
+
+  public void setHome(String home) {
+    this.home = home;
   }
 
   public List<String> getGroups() {

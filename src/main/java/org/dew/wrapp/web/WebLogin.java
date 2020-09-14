@@ -38,7 +38,13 @@ class WebLogin extends HttpServlet
     if(user != null) {
       logger.fine(user.getName() + " logged in.");
       
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + App.HOME_PAGE);
+      String homePage = user.getHome();
+      if(homePage == null || homePage.length() == 0) {
+        homePage = App.DEF_HOME_PAGE;
+      }
+      if(homePage.lastIndexOf('.') < 0) homePage += ".jsp";
+      
+      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + homePage);
       requestDispatcher.forward(request, response);
     }
     else {

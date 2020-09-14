@@ -31,10 +31,11 @@ class App
   public static String DEFAULT_LOCALE     = "en";
   
   public static String INDEX_PAGE         = "index.jsp";
-  public static String HOME_PAGE          = "home.jsp";
+  public static String HOME_PAGE          = "home"; // see WebHome
   public static String LOGOUT_PAGE        = "logout.jsp";
   public static String HELP_PAGE          = "help.jsp";
   public static String SEARCH_PAGE        = "search.jsp";
+  public static String DEF_HOME_PAGE      = "home.jsp";
   
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
