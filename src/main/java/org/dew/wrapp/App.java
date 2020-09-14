@@ -3,7 +3,6 @@ package org.dew.wrapp;
 import java.text.MessageFormat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -14,15 +13,14 @@ import java.util.logging.Logger;
 
 import org.dew.wrapp.impl.DefaultLoginManager;
 import org.dew.wrapp.impl.DefaultMenuManager;
-import org.dew.wrapp.log.LoggerFactory;
 import org.dew.wrapp.impl.DefaultAppManager;
+
+import org.dew.wrapp.log.LoggerFactory;
 
 import org.dew.wrapp.mgr.AMenuManager;
 import org.dew.wrapp.mgr.ConfigManager;
 import org.dew.wrapp.mgr.IAppManager;
 import org.dew.wrapp.mgr.ILoginManager;
-
-import org.dew.wrapp.util.WUtil;
 
 public 
 class App 
@@ -30,9 +28,14 @@ class App
   public static long   STARTUP_TIME       = System.currentTimeMillis();
   public static String CONFIG_FILE_NAME   = "wrapp_config.json";
   public static String CONFIG_FOLDER_NAME = "cfg";
-  public static String DEFAULT_LOCALE     = "en-US";
+  public static String DEFAULT_LOCALE     = "en";
   
-  protected static Map<String, Object>         _config  = new HashMap<String, Object>();
+  public static String INDEX_PAGE         = "index.jsp";
+  public static String HOME_PAGE          = "home.jsp";
+  public static String LOGOUT_PAGE        = "logout.jsp";
+  public static String HELP_PAGE          = "help.jsp";
+  public static String SEARCH_PAGE        = "search.jsp";
+  
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
   protected static Map<String, List<MenuItem>> _menus   = new HashMap<String, List<MenuItem>>();
@@ -49,10 +52,10 @@ class App
   
   protected static void init(boolean reloadConfig) {
     if(reloadConfig) {
-      _config = ConfigManager.loadConfig();
+      ConfigManager.loadConfig();
     }
-    else if(_config == null || _config.isEmpty()) {
-      _config = ConfigManager.loadConfig();
+    else {
+      ConfigManager.checkConfig();
     }
     _loginManager = null;
     _appManager   = null;
@@ -109,7 +112,7 @@ class App
       }
     }
     catch(Exception ex) {
-      System.err.println("App.startup() Exception in appLoader.loadPages(): " + ex);
+      System.err.println("App.reload() Exception in appLoader.loadPages(): " + ex);
     }
     
     try {
@@ -119,7 +122,7 @@ class App
       }
     }
     catch(Exception ex) {
-      System.err.println("App.startup() Exception in appLoader.loadMenus(): " + ex);
+      System.err.println("App.reload() Exception in appLoader.loadMenus(): " + ex);
     }
     
      _logger.fine("pages [" + _pages.size()  + "]");
@@ -215,70 +218,28 @@ class App
   }
   
   public static Map<String,Object> getConfig() {
-    return _config;
+    return ConfigManager.getConfig();
   }
   
-  public static Object getConfig(String key) {
-    return _config.get(key);
+  public static Map<String,Object> getPublicConfig() {
+    return ConfigManager.getPublicConfig();
   }
   
-  public static Object getConfig(String key, Object defaultValue) {
-    Object result = _config.get(key);
-    if(result == null) return defaultValue;
-    return result;
-  }
-  
-  public static String getConfigStr(String key) {
-    return WUtil.toString(_config.get(key), null);
-  }
-  
-  public static String getConfigStr(String key, String defaultValue) {
-    return WUtil.toString(_config.get(key), defaultValue);
-  }
-  
-  public static int getConfigInt(String key) {
-    return WUtil.toInt(_config.get(key), 0);
-  }
-  
-  public static int getConfigInt(String key, int defaultValue) {
-    return WUtil.toInt(_config.get(key), defaultValue);
-  }
-  
-  public static double getConfigDouble(String key) {
-    return WUtil.toDouble(_config.get(key), 0);
-  }
-  
-  public static double getConfigDouble(String key, int defaultValue) {
-    return WUtil.toDouble(_config.get(key), defaultValue);
-  }
-  
-  public static boolean getConfigBool(String key) {
-    return WUtil.toBoolean(_config.get(key), false);
-  }
-  
-  public static boolean getConfigBool(String key, boolean defaultValue) {
-    return WUtil.toBoolean(_config.get(key), defaultValue);
-  }
-  
-  public static Calendar getConfigCal(String key) {
-    return WUtil.toCalendar(_config.get(key), false);
-  }
-  
-  public static Calendar getConfigCal(String key, Object defaultValue) {
-    return WUtil.toCalendar(_config.get(key), defaultValue);
+  public static Map<String,Object> getPrivateConfig() {
+    return ConfigManager.getPrivateConfig();
   }
   
   public static String getAppName() {
-    return getConfigStr("name", "Wrapp");
+    return ConfigManager.getConfigStr("name", "Wrapp");
   }
   
   public static String getAppVersion() {
-    return getConfigStr("versione", "1.0.0");
+    return ConfigManager.getConfigStr("versione", "1.0.0");
   }
   
   public static Locale getLocale() {
     if(_locale != null) return _locale;
-    String locale = getConfigStr("locale", "en-US");
+    String locale = ConfigManager.getConfigStr("locale", DEFAULT_LOCALE);
     if(locale == null || locale.length() < 2) {
       _locale = Locale.getDefault();
       return _locale;
@@ -342,7 +303,7 @@ class App
   public static ILoginManager getLoginManagerInstance() {
     if(_loginManager != null) return _loginManager;
     
-    String className = getConfigStr("login");
+    String className = ConfigManager.getConfigStr("login");
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
       _loginManager = new DefaultLoginManager();
       return _loginManager;
@@ -366,7 +327,7 @@ class App
   public static IAppManager getAppManagerInstance() {
     if(_appManager != null) return _appManager;
     
-    String className = getConfigStr("menu");
+    String className = ConfigManager.getConfigStr("menu");
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
       _appManager = new DefaultAppManager();
       return _appManager;
@@ -387,7 +348,7 @@ class App
   
   public static AMenuManager getMenuManagerInstance(User user, String className) {
     if(className == null || className.length() == 0) {
-      className = getConfigStr("menu");
+      className = ConfigManager.getConfigStr("menu");
     }
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
       return new DefaultMenuManager(user);

@@ -78,7 +78,7 @@ class WebPage extends HttpServlet
       if(user == null) {
         logger.warning("Page " + pageId + " is private.");
         // response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("../logout.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("../" + App.LOGOUT_PAGE);
         requestDispatcher.forward(request, response);
         return;
       }

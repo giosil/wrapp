@@ -63,11 +63,11 @@ class DefaultMenuManager extends AMenuManager
     sb.append("<span class=\"clear\"> <span class=\"block m-t-xs\"> <strong class=\"font-bold\">" + sUserName + "</strong></span> ");
     sb.append("<span class=\"text-muted text-xs block\">" + sUserRole + "<b class=\"caret\"></b></span> </span> </a>");
     sb.append("<ul class=\"dropdown-menu animated fadeInRight m-t-xs\">");
-    sb.append("<li><a href=\"" + contextPath + "home.jsp\">" + App.getMessage(locale, "home") + "</a></li>");
+    sb.append("<li><a href=\"" + contextPath + App.HOME_PAGE + "\">" + App.getMessage(locale, "home") + "</a></li>");
     sb.append("<li class=\"divider\"></li>");
     // See _imp_footer.jsp (dialog #dlg-cp)
     sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage(locale, "modpwd") + "</a></li>");
-    sb.append("<li><a href=\"" + contextPath + "logout.jsp\">" + App.getMessage(locale, "logout") + "</a></li>");
+    sb.append("<li><a href=\"" + contextPath + App.LOGOUT_PAGE + "\">" + App.getMessage(locale, "logout") + "</a></li>");
     sb.append("</ul>");
     sb.append("</div>");
     sb.append("<div class=\"logo-element\">" + App.getAppName() + "</div>");

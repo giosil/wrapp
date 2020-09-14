@@ -2,11 +2,8 @@ package org.dew.wrapp;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import java.lang.reflect.Method;
-
 import java.security.Principal;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -228,14 +225,14 @@ class WebUtil
     out.write("<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"margin-bottom: 0\">");
     out.write("<div class=\"navbar-header\">");
     out.write("<a class=\"navbar-minimalize minimalize-styl-2 btn btn-primary\" href=\"#\"><i class=\"fa fa-bars\"></i> </a>");
-    out.write("<form role=\"search\" class=\"navbar-form-custom\" action=\"" + contextPath + "search.jsp\">");
+    out.write("<form role=\"search\" class=\"navbar-form-custom\" action=\"" + contextPath + App.SEARCH_PAGE + "\">");
     out.write("<div class=\"form-group\"><input type=\"text\" placeholder=\""  + App.getMessage(locale, "search") + "...\" class=\"form-control\" name=\"qs\" id=\"qs\"></div>");
     out.write("</form>");
     out.write("</div>");
     out.write("<ul class=\"nav navbar-top-links navbar-right\" style=\"margin-top: 10px;\">");
-    out.write("<li><a href=\"" + contextPath + "home.jsp\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> " + App.getMessage(locale, "home") + "</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "help.jsp\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> " + App.getMessage(locale, "help") + "</a> | </li>");
-    out.write("<li><a href=\"" + contextPath + "logout.jsp\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i>" + App.getMessage(locale, "logout") + "</a></li>");
+    out.write("<li><a href=\"" + contextPath + App.HOME_PAGE   + "\" style=\"display:inline;\"><i class=\"fa fa-home\"></i> " + App.getMessage(locale, "home") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + App.HELP_PAGE   + "\" target=\"_blank\" style=\"display:inline;\"><i class=\"fa fa-question-circle\"></i> " + App.getMessage(locale, "help") + "</a> | </li>");
+    out.write("<li><a href=\"" + contextPath + App.LOGOUT_PAGE + "\" style=\"display:inline;\"><i class=\"fa fa-sign-out\"></i>" + App.getMessage(locale, "logout") + "</a></li>");
     out.write("</ul>");
     out.write("</nav></div>");
   }
@@ -307,7 +304,7 @@ class WebUtil
             out.write(App.getMessage(locale, "home"));
           }
           else {
-            out.write("<a href=\"" + contextPath + "home.jsp\">" + App.getMessage(locale, "home") + "</a>");
+            out.write("<a href=\"" + contextPath + App.HOME_PAGE + "\">" + App.getMessage(locale, "home") + "</a>");
           }
           
           MenuItem menuItem0 = listOfMenuItem.get(0);
@@ -735,7 +732,7 @@ class WebUtil
   void writeConfig(Writer out) 
       throws ServletException, IOException 
   {
-    Map<String,Object> config = App.getConfig();
+    Map<String,Object> config = App.getPublicConfig();
     if(config == null || config.isEmpty()) {
       out.write("<script>window._config={};</script>");
       return;

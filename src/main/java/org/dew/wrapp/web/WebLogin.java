@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.*;
 
+import org.dew.wrapp.App;
 import org.dew.wrapp.User;
 import org.dew.wrapp.WebUtil;
 
@@ -37,13 +38,13 @@ class WebLogin extends HttpServlet
     if(user != null) {
       logger.fine(user.getName() + " logged in.");
       
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/home.jsp");
+      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + App.HOME_PAGE);
       requestDispatcher.forward(request, response);
     }
     else {
       logger.fine("access rejected");
       
-      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+      RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + App.INDEX_PAGE);
       requestDispatcher.forward(request, response);
     }
   }

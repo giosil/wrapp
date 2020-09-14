@@ -1,8 +1,12 @@
 {
-	"name": "Wrapp",
-	"version": "1.0.0",
-	"locale": "en",
-	"app": "default",
-	"login": "default",
-	"menu": "default"
+	"public": {
+		"name": "Wrapp",
+		"version": "1.0.0",
+		"locale": "en"
+	},
+	"private": {
+		"app": "default",
+		"login": "default",
+		"menu": "default"
+	}
 }
