@@ -2,13 +2,10 @@ package org.dew.wrapp.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.dew.wrapp.App;
-import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.User;
-import org.dew.wrapp.mgr.AMenuManager;
+
 import org.dew.wrapp.mgr.ILoginManager;
 
 public 
@@ -25,21 +22,30 @@ class DefaultLoginManager implements ILoginManager
   User login(String username, String password) 
     throws Exception 
   {
+    System.out.println("DefaultLoginManager.login(" + username + ",*)...");
+    
     if(username == null || username.length() == 0) {
+      System.out.println("DefaultLoginManager.login(" + username + ",*) -> null");
       return null;
     }
     if(password == null || password.length() == 0) {
+      System.out.println("DefaultLoginManager.login(" + username + ",*) -> null");
       return null;
     }
     
     User user = new User(username);
-    user.setRole("user");
+    user.setId(username.hashCode());
+    user.setRole("oper");
     user.setCurrLogin(new Date());
     
     if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
       user.setLocale("it");
     }
+    if(username.equalsIgnoreCase("top") || username.startsWith("top-")) {
+      user.setMenuManager(TopMenuManager.class.getName());
+    }
     
+    System.out.println("DefaultLoginManager.login(" + username + ",*) -> " + user);
     return user;
   }
   
@@ -48,35 +54,7 @@ class DefaultLoginManager implements ILoginManager
   void logout(User user) 
     throws Exception 
   {
-  }
-  
-  @Override
-  public 
-  AMenuManager createMenuManager(User user) 
-    throws Exception 
-  {
-    if(user == null) return null;
-    
-    String username = user.getUserName();
-    
-    // Retrieve menu manager class name from user...
-    String menuManagerClassName = "";
-    
-    // Example...
-    if(username != null && (username.equalsIgnoreCase("top") || username.startsWith("top-"))) {
-      menuManagerClassName = TopMenuManager.class.getName();
-    }
-    
-    AMenuManager menuManager = App.getMenuManagerInstance(user, menuManagerClassName);
-    
-    // Retrieve menu from user (null or "" for default)...
-    String menu = null;
-    
-    List<MenuItem> menuItems = App.getMenu(menu);
-    
-    menuManager.setMenuItems(menuItems);
-    
-    return menuManager;
+    System.out.println("DefaultLoginManager.logout(" + user + ")...");
   }
   
   @Override

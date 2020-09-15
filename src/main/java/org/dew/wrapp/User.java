@@ -11,30 +11,35 @@ import java.util.Map;
 public 
 class User implements Principal, Serializable 
 {
-  private static final long serialVersionUID = 5409640713832432493L;
+  private static final long serialVersionUID = 9624147617711234L;
   
+  // User attributes
   private int id;
   private String userName;
-  
-  private Date   currLogin;
   private String lastName;
   private String firstName;
   private String email;
   private String mobile;
   private String taxCode;
-  private String role;
-  private String locale;
-  private String home;
   
+  // Profile
+  private String role;
   private List<String> groups;
   private List<String> grants;
   private List<String> structures;
+  private Map<String, Object> resources;
   
+  // Configuration
+  private String locale;
+  private String home;
+  private String menu;
+  private String menuManager;
+  
+  // Access attributes
+  private Date   currLogin;
   private String tokenId;
   private Date   dateLastAccess;
   private String message;
-  
-  private Map<String, Object> resources;
   
   public User() {
   }
@@ -47,154 +52,171 @@ class User implements Principal, Serializable
     this.id = id;
     this.userName = userName;
   }
-
+  
+  // java.security.Principal
   @Override
   public String getName() {
     return userName;
   }
-  
+
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getUserName() {
     return userName;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public Date getCurrLogin() {
-    return currLogin;
-  }
-
-  public void setCurrLogin(Date currLogin) {
-    this.currLogin = currLogin;
-  }
-
   public String getLastName() {
     return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
   }
 
   public String getFirstName() {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
   public String getEmail() {
     return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getMobile() {
     return mobile;
   }
 
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
-  }
-
   public String getTaxCode() {
     return taxCode;
-  }
-
-  public void setTaxCode(String taxCode) {
-    this.taxCode = taxCode;
   }
 
   public String getRole() {
     return role;
   }
 
-  public void setRole(String role) {
-    this.role = role;
-  }
-
-  public String getLocale() {
-    return locale;
-  }
-
-  public void setLocale(String locale) {
-    this.locale = locale;
-  }
-
-  public String getHome() {
-    return home;
-  }
-
-  public void setHome(String home) {
-    this.home = home;
-  }
-
   public List<String> getGroups() {
     return groups;
-  }
-
-  public void setGroups(List<String> groups) {
-    this.groups = groups;
   }
 
   public List<String> getGrants() {
     return grants;
   }
 
-  public void setGrants(List<String> grants) {
-    this.grants = grants;
-  }
-
   public List<String> getStructures() {
     return structures;
-  }
-
-  public void setStructures(List<String> structures) {
-    this.structures = structures;
-  }
-
-  public String getTokenId() {
-    return tokenId;
-  }
-
-  public void setTokenId(String tokenId) {
-    this.tokenId = tokenId;
-  }
-
-  public Date getDateLastAccess() {
-    return dateLastAccess;
-  }
-
-  public void setDateLastAccess(Date dateLastAccess) {
-    this.dateLastAccess = dateLastAccess;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(String message) {
-    this.message = message;
   }
 
   public Map<String, Object> getResources() {
     return resources;
   }
 
+  public String getLocale() {
+    return locale;
+  }
+
+  public String getHome() {
+    return home;
+  }
+
+  public String getMenu() {
+    return menu;
+  }
+
+  public String getMenuManager() {
+    return menuManager;
+  }
+
+  public Date getCurrLogin() {
+    return currLogin;
+  }
+
+  public String getTokenId() {
+    return tokenId;
+  }
+
+  public Date getDateLastAccess() {
+    return dateLastAccess;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
+
+  public void setTaxCode(String taxCode) {
+    this.taxCode = taxCode;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  public void setGroups(List<String> groups) {
+    this.groups = groups;
+  }
+
+  public void setGrants(List<String> grants) {
+    this.grants = grants;
+  }
+
+  public void setStructures(List<String> structures) {
+    this.structures = structures;
+  }
+
   public void setResources(Map<String, Object> resources) {
     this.resources = resources;
+  }
+
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
+
+  public void setHome(String home) {
+    this.home = home;
+  }
+
+  public void setMenu(String menu) {
+    this.menu = menu;
+  }
+
+  public void setMenuManager(String menuManager) {
+    this.menuManager = menuManager;
+  }
+
+  public void setCurrLogin(Date currLogin) {
+    this.currLogin = currLogin;
+  }
+
+  public void setTokenId(String tokenId) {
+    this.tokenId = tokenId;
+  }
+
+  public void setDateLastAccess(Date dateLastAccess) {
+    this.dateLastAccess = dateLastAccess;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
   }
 
   @Override

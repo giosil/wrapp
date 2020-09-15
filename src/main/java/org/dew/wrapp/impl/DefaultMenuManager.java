@@ -6,21 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
-import org.dew.wrapp.User;
+
 import org.dew.wrapp.mgr.AMenuManager;
 
 public 
 class DefaultMenuManager extends AMenuManager
 {
-  private static final long serialVersionUID = -58131811631943249L;
+  private static final long serialVersionUID = -2051426599218169825L;
   
   public DefaultMenuManager()
   {
-  }
-  
-  public DefaultMenuManager(User user)
-  {
-    this.user = user;
   }
   
   @Override

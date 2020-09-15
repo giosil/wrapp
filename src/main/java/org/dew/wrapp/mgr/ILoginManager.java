@@ -9,7 +9,5 @@ interface ILoginManager
   
   public void logout(User user) throws Exception;
   
-  public AMenuManager createMenuManager(User user) throws Exception;
-  
   public boolean updatePassword(String username, String currentPassword, String newPassword) throws Exception;
 }

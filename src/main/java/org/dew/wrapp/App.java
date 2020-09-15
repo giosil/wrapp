@@ -351,23 +351,33 @@ class App
     return _appManager;
   }
   
-  public static AMenuManager getMenuManagerInstance(User user, String className) {
+  public static AMenuManager getMenuManagerInstance(User user) {
+    String className = user != null ? user.getMenuManager() : null;
     if(className == null || className.length() == 0) {
       className = ConfigManager.getConfigStr("menu");
     }
+    AMenuManager menuManager = null;
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
-      return new DefaultMenuManager(user);
+      menuManager =  new DefaultMenuManager();
     }
-    try {
-      Object object = Class.forName(className).getDeclaredConstructor().newInstance();
-      if(object instanceof AMenuManager) {
-        ((AMenuManager) object).setUser(user);
-        return ((AMenuManager) object);
+    else {
+      try {
+        Object object = Class.forName(className).getDeclaredConstructor().newInstance();
+        if(object instanceof AMenuManager) {
+          menuManager = ((AMenuManager) object);
+        }
+      }
+      catch(Exception ex) {
+        System.err.println("App.getMenuManagerInstance(" + user + ") Exception: " + ex);
       }
     }
-    catch(Exception ex) {
-      System.err.println("App.getMenuManagerInstance() Exception: " + ex);
+    if(menuManager == null) {
+      menuManager = new DefaultMenuManager();
     }
-    return new DefaultMenuManager(user);
+    if(user != null) {
+      menuManager.setUser(user);
+      menuManager.setMenuItems(App.getMenu(user.getMenu()));
+    }
+    return menuManager;
   }
 }

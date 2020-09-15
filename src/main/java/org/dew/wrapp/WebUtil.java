@@ -151,6 +151,7 @@ class WebUtil
       throws ServletException, IOException 
   {
     if (request == null) return null;
+    
     HttpSession httpSession = request.getSession();
     if (httpSession != null) {
       boolean refresh = WUtil.toBoolean(httpSession.getAttribute("refresh"), false);
@@ -166,11 +167,9 @@ class WebUtil
           user = getUser(request);
         }
         
-        ILoginManager loginManager = App.getLoginManagerInstance();
-        
         AMenuManager menuManager = null;
         try {
-          menuManager = loginManager.createMenuManager(user);
+          menuManager = App.getMenuManagerInstance(user);
           if(menuManager != null) {
             httpSession.setAttribute("menu", menuManager);
             return menuManager;
@@ -811,7 +810,7 @@ class WebUtil
       
       AMenuManager menuManager = null;
       try {
-        menuManager = loginManager.createMenuManager(user);
+        menuManager = App.getMenuManagerInstance(user);
         if(menuManager != null) {
           httpSession.setAttribute("menu", menuManager);
         }
