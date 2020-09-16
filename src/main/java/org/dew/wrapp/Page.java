@@ -127,43 +127,50 @@ class Page implements Serializable
   // Localized fields
   
   public String getTitle(Locale locale) {
-    if(locale == null) return title;
-    if(attributes == null) return title;
-    Object localized = attributes.get("title-" + locale.getLanguage());
-    if(localized == null) return title;
-    return localized.toString();
+    return getLocalized(title, locale);
   }
   
   public String getDescription(Locale locale) {
-    if(locale == null) return description;
-    if(attributes == null) return description;
-    Object localized = attributes.get("description-" + locale.getLanguage());
-    if(localized == null) return description;
-    return localized.toString();
+    return getLocalized(description, locale);
   }
   
   public String getHeader(Locale locale) {
-    if(locale == null) return header;
-    if(attributes == null) return header;
-    Object localized = attributes.get("header-" + locale.getLanguage());
-    if(localized == null) return header;
-    return localized.toString();
+    return getLocalized(header, locale);
   }
   
   public String getContent(Locale locale) {
-    if(locale == null) return content;
-    if(attributes == null) return content;
-    Object localized = attributes.get("content-" + locale.getLanguage());
-    if(localized == null) return content;
-    return localized.toString();
+    return getLocalized(content, locale);
   }
   
   public String getFooter(Locale locale) {
-    if(locale == null) return footer;
-    if(attributes == null) return footer;
-    Object localized = attributes.get("footer-" + locale.getLanguage());
-    if(localized == null) return footer;
-    return localized.toString();
+    return getLocalized(footer, locale);
+  }
+  
+  public static String getLocalized(String text, Locale locale) {
+    if(text == null || text.length() == 0 || text.indexOf('=') < 0) {
+      return text;
+    }
+    
+    String language = WebUtil.getLanguage(locale);
+    
+    int l = -1;
+    if(text.startsWith(language + "=")) {
+      l = language.length() + 1;
+    }
+    else {
+      l = text.indexOf("^" + language + "=");
+      if(l >= 0) l += language.length() + 2;
+    }
+    if(l < 0) {
+      l = text.indexOf('=');
+      if(l >= 0) l++;
+    }
+    if(l < 0) {
+      return text;
+    }
+    int e = text.indexOf('^', l);
+    if(e < 0) e = text.length();
+    return text.substring(l, e);
   }
   
   @Override

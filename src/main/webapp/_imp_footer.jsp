@@ -1,7 +1,7 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
 	Locale flocale = WebUtil.getLocale(request);
-	String flang   = WebUtil.getLanguage(flocale, "en");
+	String flang   = WebUtil.getLanguage(flocale);
 %>
 <div class="modal inmodal" id="dlg-cp" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">

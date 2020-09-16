@@ -29,8 +29,8 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 ```json
 {
   "id": "hello",
-  "title": "Hello page",
-  "description": "This is an example of Wrapp page",
+  "title": "en=Hello page^it=Pagina di saluto^fr=Salutation^es=Página de saludo",
+  "description": "en=Example of Wrapp page^it=Esempio di pagina Wrapp^fr=Exemple de page Wrapp^es=Ejemplo de página Wrapp",
   "layout": "default",
   "modifier": "private",
   "header": "",
