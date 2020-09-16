@@ -136,31 +136,41 @@ class WebUtil
   }
   
   public static 
-  String getLanguage(HttpServletRequest request) {
+  String getLanguage(HttpServletRequest request) 
+  {
     Locale locale = getLocale(request);
     if(locale == null) {
-      return App.DEFAULT_LOCALE;
+      return getLanguage(App.DEFAULT_LOCALE);
     }
-    String result = locale.getLanguage();
-    if(result == null || result.length() == 0) {
-      return App.DEFAULT_LOCALE;
-    }
-    return result.toLowerCase();
+    return locale.getLanguage();
   }
   
   public static 
-  String getLanguage(Locale locale) {
+  String getLanguage(String locale) 
+  {
+    if(locale == null || locale.length() == 0) {
+      locale = App.DEFAULT_LOCALE;
+    }
+    if(locale == null || locale.length() == 0) {
+      return "es";
+    }
+    int sep = locale.indexOf('-');
+    if(sep < 0) {
+      return locale.toLowerCase();
+    }
+    return locale.substring(0, sep).toLowerCase();
+  }
+  
+  public static 
+  String getLanguage(Locale locale) 
+  {
     if(locale == null) {
       locale = App.getLocale();
     }
     if(locale == null) {
-      return App.DEFAULT_LOCALE;
+      return getLanguage(App.DEFAULT_LOCALE);
     }
-    String result = locale.getLanguage();
-    if(result == null || result.length() == 0) {
-      return App.DEFAULT_LOCALE;
-    }
-    return result.toLowerCase();
+    return locale.getLanguage();
   }
   
   public static 
