@@ -1,6 +1,7 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*" %>
 <%
 	Locale flocale = WebUtil.getLocale(request);
+	String flang   = WebUtil.getLanguage(flocale, "en");
 %>
 <div class="modal inmodal" id="dlg-cp" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
@@ -43,7 +44,7 @@
 <script src="../inspinia/js/plugins/nestable/jquery.nestable.js" type="text/javascript"></script>
 
 <script src="../js/plugins/bootstrap-show-password.min.js" type="text/javascript"></script>
-<script src="../js/plugins/datapicker/bootstrap-datepicker.it.js" type="text/javascript"></script>
+<script src="../js/plugins/datapicker/bootstrap-datepicker.<%= flang %>.js" type="text/javascript"></script>
 <script src="../js/plugins/scrollToFixed/jquery-scrolltofixed-min.js" type="text/javascript"></script>
 <script src="../js/plugins/select/bootstrap-select.min.js" type="text/javascript"></script>
 <script src="../js/plugins/select/i18n/defaults-it_IT.min.js" type="text/javascript"></script>
@@ -69,7 +70,7 @@
 
 <% WebUtil.writeScriptImport(out, "../devextreme/js/jszip.min.js"); %>
 <% WebUtil.writeScriptImport(out, "../devextreme/js/dx.web.js"); %>
-<% WebUtil.writeScriptImport(out, "../devextreme/dx.messages.it.js"); %>
+<% WebUtil.writeScriptImport(out, "../devextreme/dx.messages." + flang + ".min.js"); %>
 
 <% WebUtil.writeScriptImport(out, "../js/jrpc.js"); %>
 <% WebUtil.writeScriptImport(out, "../js/main.js"); %>

@@ -262,6 +262,18 @@ class App
     return toLocale(locale);
   }
   
+  public static String getLanguage(User user, String defaultLanguage) {
+    Locale locale = getLocale(user);
+    if(locale == null) {
+      return defaultLanguage;
+    }
+    String result = locale.getLanguage();
+    if(result == null || result.length() == 0) {
+      return defaultLanguage;
+    }
+    return result.toLowerCase();
+  }
+  
   public static Locale toLocale(String locale) {
     if(locale == null || locale.length() == 0) {
       return null;

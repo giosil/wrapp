@@ -136,6 +136,34 @@ class WebUtil
   }
   
   public static 
+  String getLanguage(HttpServletRequest request, String defaultLanguage) {
+    Locale locale = getLocale(request);
+    if(locale == null) {
+      return defaultLanguage;
+    }
+    String result = locale.getLanguage();
+    if(result == null || result.length() == 0) {
+      return defaultLanguage;
+    }
+    return result.toLowerCase();
+  }
+  
+  public static 
+  String getLanguage(Locale locale, String defaultLanguage) {
+    if(locale == null) {
+      locale = App.getLocale();
+    }
+    if(locale == null) {
+      return defaultLanguage;
+    }
+    String result = locale.getLanguage();
+    if(result == null || result.length() == 0) {
+      return defaultLanguage;
+    }
+    return result.toLowerCase();
+  }
+  
+  public static 
   String getBodyClass(HttpServletRequest request)
       throws ServletException, IOException 
   {
