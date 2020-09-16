@@ -154,17 +154,9 @@
     }
 
     export function sticky(c?: WUX.WComponent | JQuery) {
-        // js/b2x-stycky/b2x-sticky.js
-        if (!$.b2xSticky) {
-            console.error('b2xSticky not loaded.');
-            return;
-        }
-        $.b2xSticky();
     }
 
     export function stickyRefresh() {
-        // js/b2x-stycky/b2x-sticky.js
-        $.b2xStickyRefresh();
     }
 
     // Data format utilities
