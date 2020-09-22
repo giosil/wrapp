@@ -31,8 +31,8 @@ class WebModule extends HttpServlet
     
     try {
       HttpURLConnection connection = (HttpURLConnection) new URL(URL_WRAPP_REFRESH).openConnection();
-      connection.setConnectTimeout(30000);
-      connection.setReadTimeout(30000);
+      connection.setConnectTimeout(2000);
+      connection.setReadTimeout(2000);
       
       refreshResult = "HTTP " + connection.getResponseCode();
     }
