@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="wrapp-ts" default="complete" basedir="./src/main/webapp">
+	<property name="out.dir" value="wux/js"  />
+
+	<!-- Alias / Service Tasks -->
+	<target name="complete" depends="compilation" />
+	<target name="normal"   depends="compilation" />
+
+	<target name="compilation">
+		<delete dir="${out.dir}" includeEmptyDirs="true" />
+		<mkdir  dir="${out.dir}" />
+		
+		<antcall target="compile_wux" />
+	</target>
+	
+	<target name="compile_wux">
+		<echo>Compile WUX...</echo>
+		<exec executable="tsc" vmlauncher="false">
+			<arg value="--declaration" />
+			<arg value="--project" />
+			<arg value="./ts/wux/tsconfig.json" />
+		</exec>
+		
+		<echo>Minify WUX...</echo>
+		<exec executable="minify" vmlauncher="false">
+			<arg value="${out.dir}/wux.js" />
+		</exec>
+	</target>
+	
+</project>

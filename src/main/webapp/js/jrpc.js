@@ -1,5 +1,4 @@
-var ajax_loading = false;
-function JRPC(s){this.urlEndPoint=s;this.authUserName=null;this.authPassword=null;this.callId=0;}
+function JRPC(s){this.urlEndPoint=s;this.authUserName=null;this.authPassword=null;this.authToken=null;this.callId=0;}
 JRPC.prototype.setURL=function(s){
 	this.urlEndPoint=s;
 }
@@ -8,6 +7,9 @@ JRPC.prototype.setUserName=function(s){
 }
 JRPC.prototype.setPassword=function(s){
 	this.authPassword=s;
+}
+JRPC.prototype.setToken=function(s){
+	this.authToken=s;
 }
 JRPC.prototype.upgradeValues=function(obj){
 	var m,useHasOwn={}.hasOwnProperty?true:false;
@@ -34,17 +36,15 @@ JRPC.prototype.upgradeValues=function(obj){
 		}
 	}
 }
-JRPC.prototype.beforeExecute = function(m,modal,textModal){
-	ajax_loading = true;
+JRPC.prototype.beforeExecute = function(m){
 	$("#page-wrapper").toggleClass('sk-loading');
-	if(modal)$(modal).toggleClass('sk-loading');else Pace.restart();
+	Pace.restart();
 }
-JRPC.prototype.afterExecute = function(m,modal){
-	ajax_loading = false;
+JRPC.prototype.afterExecute = function(m){
 	$("#page-wrapper").toggleClass('sk-loading');
-	if(modal)$(modal).toggleClass('sk-loading'); else Pace.stop();
+	Pace.stop();
 }
-JRPC.prototype.execute = function(methodName, params, successHandler, exceptionHandler, modal, textModal){
+JRPC.prototype.execute = function(methodName, params, successHandler, exceptionHandler){
 	this.callId++;
 	var request, postData;
 	request = {
@@ -65,18 +65,21 @@ JRPC.prototype.execute = function(methodName, params, successHandler, exceptionH
 			xhr = new ActiveXObject('Microsoft.XMLHTTP');
 		}
 	}
-	if(successHandler && modal != '!') this.beforeExecute(methodName, modal, textModal);
+	if(successHandler && modal != '!') this.beforeExecute(methodName);
 	var _this = this;
 	xhr.open('POST', this.urlEndPoint, true, this.authUserName, this.authPassword);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.setRequestHeader('Accept', 'application/json');
-	if(this.authUserName) {
+	if(this.authToken) {
+		xhr.setRequestHeader('Authorization','Bearer '+this.authToken);
+	}
+	else if(this.authUserName) {
 		xhr.setRequestHeader('Authorization','Basic '+btoa(this.authUserName+":"+this.authPassword));
 	}
 	xhr.send(postData);
 	xhr.onreadystatechange = function(){
 		if (xhr.readyState == 4){
-			if(successHandler && modal != '!') _this.afterExecute(methodName, modal);
+			if(successHandler && modal != '!') _this.afterExecute(methodName);
 			switch(xhr.status){
 				case 200:
 					var response = JSON.parse(xhr.responseText);
@@ -129,7 +132,10 @@ JRPC.prototype.executeSync = function(methodName, params){
 	xhr.open('POST', this.urlEndPoint, false, this.authUserName, this.authPassword);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.setRequestHeader('Accept', 'application/json');
-	if(this.authUserName) {
+	if(this.authToken) {
+		xhr.setRequestHeader('Authorization','Bearer '+this.authToken);
+	}
+	else if(this.authUserName) {
 		xhr.setRequestHeader('Authorization','Basic '+btoa(this.authUserName+":"+this.authPassword));
 	}
 	xhr.send(postData);
@@ -146,7 +152,6 @@ JRPC.prototype.executeSync = function(methodName, params){
 	}
 	return null;
 }
-jrpc = new JRPC("ws");
 
 function _onRpcError(error){
 	console.log(error.message);

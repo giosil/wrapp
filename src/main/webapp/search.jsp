@@ -1,4 +1,4 @@
-<%@ page import="java.util.Locale, org.dew.wrapp.*, org.dew.wrapp.util.*" %>
+<%@ page import="java.util.Locale, org.dew.wrapp.*, org.dew.wrapp.util.*" contentType="text/html; charset=UTF-8" %>
 <%
 	Locale locale = WebUtil.getLocale(request);
 	String sQO = null;
