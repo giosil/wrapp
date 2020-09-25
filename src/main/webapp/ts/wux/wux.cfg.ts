@@ -49,14 +49,10 @@
             if (WUX.debug) console.log('[WUX] global.init...');
             let x = location.pathname.indexOf('/', 1);
             let b = x <= 0 ? "cldr/" : location.pathname.substring(0, x) + "/cldr/"
-            $.when($.getJSON(b + 'ca-gregorian.json'), $.getJSON(b + 'numbers.json'), $.getJSON(b + 'currencies.json'), $.getJSON(b + 'timeZoneNames.json'),
-                $.getJSON(b + 'supplemental/likelySubtags.json'), $.getJSON(b + 'supplemental/timeData.json'), $.getJSON(b + 'supplemental/weekData.json'),
-                $.getJSON(b + 'supplemental/currencyData.json'), $.getJSON(b + 'supplemental/numberingSystems.json'), $.getJSON(b + 'supplemental/plurals.json'),
-                $.getJSON(b + 'supplemental/ordinals.json'))
-                .then(function () {
-                    return [].slice.apply(arguments, [0]).map(function (result) { return result[0]; });
-                })
-                .then(Globalize.load)
+            $.when($.getJSON(b + 'cldr-data-' + global.locale + '.json'))
+                .then(function (data) {
+                    Globalize.load(data);
+                 })
                 .then(function () {
                     Globalize.locale(global.locale);
                     DevExpress.localization.locale(global.locale);

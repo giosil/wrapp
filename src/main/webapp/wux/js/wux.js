@@ -2529,11 +2529,10 @@ var WUX;
                 console.log('[WUX] global.init...');
             var x = location.pathname.indexOf('/', 1);
             var b = x <= 0 ? "cldr/" : location.pathname.substring(0, x) + "/cldr/";
-            $.when($.getJSON(b + 'ca-gregorian.json'), $.getJSON(b + 'numbers.json'), $.getJSON(b + 'currencies.json'), $.getJSON(b + 'timeZoneNames.json'), $.getJSON(b + 'supplemental/likelySubtags.json'), $.getJSON(b + 'supplemental/timeData.json'), $.getJSON(b + 'supplemental/weekData.json'), $.getJSON(b + 'supplemental/currencyData.json'), $.getJSON(b + 'supplemental/numberingSystems.json'), $.getJSON(b + 'supplemental/plurals.json'), $.getJSON(b + 'supplemental/ordinals.json'))
-                .then(function () {
-                return [].slice.apply(arguments, [0]).map(function (result) { return result[0]; });
+            $.when($.getJSON(b + 'cldr-data-' + WUX.global.locale + '.json'))
+                .then(function (data) {
+                Globalize.load(data);
             })
-                .then(Globalize.load)
                 .then(function () {
                 Globalize.locale(WUX.global.locale);
                 DevExpress.localization.locale(WUX.global.locale);
