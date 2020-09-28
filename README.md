@@ -41,7 +41,7 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
     "/hello/css/main.css"
   ],
   "scripts": [
-    "/hello/js/wux.min.js",
+    "/wrapp/wux/js/wux.min.js",
     "/hello/js/hello.min.js"
   ],
   "attributes": {
