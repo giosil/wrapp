@@ -14,11 +14,11 @@
  },
  "supplemental":{
   "version":{"_number":"$Revision: 13254 $","_unicodeVersion":"9.0.0","_cldrVersion":"31.0.1"},
-  "currencyData":{"fractions":{"DEFAULT":{"_rounding":"0","_digits":"2"}},"region":{"en":[{"ITL":{"_from":"1862-08-24","_to":"2002-02-28"}},{"EUR":{"_from":"1999-01-01"}}]}},
-  "likelySubtags":{"en":"en-Latn-US","en":"it-Latn-IT"},
+  "currencyData":{"fractions":{"DEFAULT":{"_rounding":"0","_digits":"2"}},"region":{"GB":[{"EUR":{"_from":"1999-01-01"}}]}},
+  "likelySubtags":{"en":"en-Latn-US","it":"it-Latn-IT"},
   "numberingSystems":{"latn":{"_digits":"0123456789","_type":"numeric"}},
-  "plurals-type-ordinal":{"en":{"pluralRule-count-one":"n % 10 = 1 and n % 100 != 11 @integer 1, 21, 31, 41, 51, 61, 71, 81, 101, 1001, …","pluralRule-count-two":"n % 10 = 2 and n % 100 != 12 @integer 2, 22, 32, 42, 52, 62, 72, 82, 102, 1002, …","pluralRule-count-few":"n % 10 = 3 and n % 100 != 13 @integer 3, 23, 33, 43, 53, 63, 73, 83, 103, 1003, …","pluralRule-count-other":" @integer 0, 4~18, 100, 1000, 10000, 100000, 1000000, …"},"en":{"pluralRule-count-many":"n = 11,8,80,800 @integer 8, 11, 80, 800","pluralRule-count-other":" @integer 0~7, 9, 10, 12~17, 100, 1000, 10000, 100000, 1000000, …"},"root":{"pluralRule-count-other":" @integer 0~15, 100, 1000, 10000, 100000, 1000000, …"}},
-  "timeData":{"en":{"_allowed":"H hB","_preferred":"H"},"US":{"_allowed":"h hb H hB","_preferred":"h"}},
-  "weekData":{"minDays":{"en":"4"},"firstDay":{"en":"mon","US":"sun"},"weekendStart":{"001":"sat"},"weekendEnd":{"001":"sun"},"en":{"_ordering":"weekOfMonth weekOfInterval"}}
+  "plurals-type-ordinal":{"en":{"pluralRule-count-one":"n % 10 = 1 and n % 100 != 11 @integer 1, 21, 31, 41, 51, 61, 71, 81, 101, 1001, …","pluralRule-count-two":"n % 10 = 2 and n % 100 != 12 @integer 2, 22, 32, 42, 52, 62, 72, 82, 102, 1002, …","pluralRule-count-few":"n % 10 = 3 and n % 100 != 13 @integer 3, 23, 33, 43, 53, 63, 73, 83, 103, 1003, …","pluralRule-count-other":" @integer 0, 4~18, 100, 1000, 10000, 100000, 1000000, …"},"it":{"pluralRule-count-many":"n = 11,8,80,800 @integer 8, 11, 80, 800","pluralRule-count-other":" @integer 0~7, 9, 10, 12~17, 100, 1000, 10000, 100000, 1000000, …"},"root":{"pluralRule-count-other":" @integer 0~15, 100, 1000, 10000, 100000, 1000000, …"}},
+  "timeData":{"GB":{"_allowed":"H hB","_preferred":"H"},"US":{"_allowed":"h hb H hB","_preferred":"h"}},
+  "weekData":{"minDays":{"GB":"4"},"firstDay":{"GB":"mon","US":"sun"},"weekendStart":{"001":"sat"},"weekendEnd":{"001":"sun"},"en":{"_ordering":"weekOfMonth weekOfInterval"}}
  }
 }
