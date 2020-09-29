@@ -1,15 +1,15 @@
 /**
- * CLDR JavaScript Library v0.4.8
+ * CLDR JavaScript Library v0.5.3
  * http://jquery.com/
  *
  * Copyright 2013 Rafael Xavier de Souza
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2016-11-26T15:03Z
+ * Date: 2020-08-05T21:43Z
  */
 /*!
- * CLDR JavaScript Library v0.4.8 2016-11-26T15:03Z MIT license © Rafael Xavier
+ * CLDR JavaScript Library v0.5.3 2020-08-05T21:43Z MIT license © Rafael Xavier
  * http://git.io/h4lmVg
  */
 (function( factory ) {
