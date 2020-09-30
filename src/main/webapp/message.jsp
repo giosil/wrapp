@@ -1,10 +1,11 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*" contentType="text/html; charset=UTF-8" %>
 <%
 	Locale locale  = WebUtil.getLocale(request);
+	String lang    = WebUtil.getLanguage(locale);
 	Object message = request.getAttribute("message");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="<%= lang %>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

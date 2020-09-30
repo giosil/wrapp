@@ -1,6 +1,6 @@
 {
 	"hello": {
-		"title": "en=Hello page^it=Pagina di saluto^fr=Salutation^es=Página de saludo",
+		"title": "en=Hello page^it=Pagina di saluto^fr=Page de salutation^es=Página de saludo",
 		"description": "en=Example of Wrapp page^it=Esempio di pagina Wrapp^fr=Exemple de page Wrapp^es=Ejemplo de página Wrapp",
 		"layout": "default",
 		"modifier": "private",

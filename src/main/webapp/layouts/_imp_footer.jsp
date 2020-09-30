@@ -47,11 +47,11 @@
 <script src="../js/plugins/datapicker/bootstrap-datepicker.<%= flang %>.js" type="text/javascript"></script>
 <script src="../js/plugins/scrollToFixed/jquery-scrolltofixed-min.js" type="text/javascript"></script>
 <script src="../js/plugins/select/bootstrap-select.min.js" type="text/javascript"></script>
-<script src="../js/plugins/select/i18n/defaults-it_IT.min.js" type="text/javascript"></script>
+<script src="../js/plugins/select/i18n/defaults-<%= flang %>.min.js" type="text/javascript"></script>
 <script src="../js/plugins/select/ajax-bootstrap-select.min.js" type="text/javascript"></script>
-<script src="../js/plugins/select/ajax-bootstrap-select.it-IT.min.js" type="text/javascript"></script>
-<script src="../js/plugins/select2/i18n/it.js" type="text/javascript"></script>
-<script src="../js/plugins/validate/messages_it.js" type="text/javascript"></script>
+<script src="../js/plugins/select/ajax-bootstrap-select-<%= flang %>.min.js" type="text/javascript"></script>
+<script src="../js/plugins/select2/i18n/<%= flang %>.js" type="text/javascript"></script>
+<script src="../js/plugins/validate/messages_<%= flang %>.js" type="text/javascript"></script>
 <script src="../js/plugins/validate/additional-methods.min.js" type="text/javascript"></script>
 <script src="../js/plugins/shortcut/shortcut.min.js" type="text/javascript"></script>
 <script src="../js/plugins/filesaver/FileSaver.min.js" type="text/javascript"></script>

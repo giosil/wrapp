@@ -2,10 +2,11 @@
 <%
 	Page   wpage  = WebUtil.getPage(request);
 	Locale locale = WebUtil.getLocale(request);
+	String lang   = WebUtil.getLanguage(locale);
 	String debug  = request.getParameter("debug");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="<%= lang %>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,7 @@
 	<%@ include  file="_imp_footer.jsp" %>
 	
 	<% 
-		WebUtil.writeScriptImport(out, wpage, debug);
+		WebUtil.writeScriptImport(out, wpage, locale, debug);
 	%>
 	<script>
 		<%= wpage.getScript() %>

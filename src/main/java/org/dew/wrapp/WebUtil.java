@@ -156,9 +156,12 @@ class WebUtil
     }
     int sep = locale.indexOf('-');
     if(sep < 0) {
-      return locale.toLowerCase();
+      sep = locale.indexOf('_');
     }
-    return locale.substring(0, sep).toLowerCase();
+    if(sep < 0) {
+      return locale.trim().toLowerCase();
+    }
+    return locale.substring(0, sep).trim().toLowerCase();
   }
   
   public static 
@@ -541,7 +544,7 @@ class WebUtil
   }
   
   public static 
-  void writeScriptImport(Writer out, Page page) 
+  void writeScriptImport(Writer out, Page page, Locale locale) 
       throws ServletException, IOException 
   {
     if (page == null) return;
@@ -559,6 +562,10 @@ class WebUtil
       if(scriptFile == null || scriptFile.length() == 0) {
         continue;
       }
+      if(locale != null) {
+        scriptFile = scriptFile.replace("$locale",   locale.toString());
+        scriptFile = scriptFile.replace("$language", locale.getLanguage());
+      }
       sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
     }
     
@@ -566,21 +573,21 @@ class WebUtil
   }
   
   public static 
-  void writeScriptImport(Writer out, Page page, Object debugParam) 
+  void writeScriptImport(Writer out, Page page, Locale locale, String debugParam) 
       throws ServletException, IOException 
   {
     boolean debug = WUtil.toBoolean(debugParam, false);
     
     if(debug) {
-      writeScriptImport(out, page, "*", ".min.js", ".js");
+      writeScriptImport(out, page, locale, "*", ".min.js", ".js");
     }
     else {
-      writeScriptImport(out, page);
+      writeScriptImport(out, page, locale);
     }
   }
   
   public static 
-  void writeScriptImport(Writer out, Page page, String filter, String target, String replacement) 
+  void writeScriptImport(Writer out, Page page, Locale locale, String filter, String target, String replacement) 
       throws ServletException, IOException 
   {
     if (page == null) return;
@@ -631,6 +638,11 @@ class WebUtil
       String scriptFile = asScripts[i];
       if(scriptFile == null || scriptFile.length() == 0) {
         continue;
+      }
+      
+      if(locale != null) {
+        scriptFile = scriptFile.replace("$locale",   locale.toString());
+        scriptFile = scriptFile.replace("$language", locale.getLanguage());
       }
       
       // Check filter to replace...

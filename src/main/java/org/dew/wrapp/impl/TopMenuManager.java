@@ -96,7 +96,7 @@ class TopMenuManager extends AMenuManager
             sClassLi = " class=\"active\"";
           }
           sb.append("<li" + sClassLi + ">");
-          sbc.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + sText + "</span><span class=\"caret\"></span></a>");
+          sbc.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + getLocalized(sText, locale) + "</span><span class=\"caret\"></span></a>");
           sb.append("</li>");
           sbc.append("<ul role=\"menu\" class=\"dropdown-menu\">");
           for (int j = 0; j < listChildren.size(); j++) {
@@ -129,7 +129,7 @@ class TopMenuManager extends AMenuManager
               sClassLiChild = " class=\"active\"";
             }
             sbc.append("<li" + sClassLiChild + ">");
-            sbc.append("<a href=\"" + sLinkChild + "\">" + sTextChild + "</a>");
+            sbc.append("<a href=\"" + sLinkChild + "\">" + getLocalized(sTextChild, locale) + "</a>");
             sbc.append("</li>");
           }
           sbc.append("</ul>");

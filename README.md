@@ -65,8 +65,8 @@ Here is a sample menu.
 ```json
 {
   "main": [
-    { "id": "app",       "text": "Application", "icon": "fa-edit" },
-    { "id": "app.hello", "text": "Hello",       "icon": null,     "link": "page/hello"}
+    { "id": "app",       "text": "en=Application^it=Applicazione^fr=Application^es=Aplicación", "icon": "fa-edit" },
+    { "id": "app.hello", "text": "en=Hello^it=Saluto^fr=Salutation^es=saludo",                  "icon": null,     "link": "page/hello"}
   ]
 }
 ```

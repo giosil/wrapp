@@ -35,7 +35,18 @@ var HelloWorld = (function (_super) {
         console.log("page.align = " + align);
         var locale = getLocale();
         console.log("locale = " + locale);
-        var greeting = locale == "it" ? "Ciao" : "Hello";
+        var greeting = "Hello";
+        switch (locale) {
+            case 'it':
+                greeting = "Ciao";
+                break;
+            case 'fr':
+                greeting = "Salut";
+                break;
+            case 'es':
+                greeting = "Hola";
+                break;
+        }
         return '<div class="hello" style="text-align:' + align + ';">' + greeting + ' ' + user.userName + '!</div>';
     };
     return HelloWorld;

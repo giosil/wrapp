@@ -275,21 +275,27 @@ class App
   }
   
   public static Locale toLocale(String locale) {
-    if(locale == null || locale.length() == 0) {
-      return null;
-    }
+    if(locale == null) return null;
+    locale = locale.trim();
+    if(locale.length() == 0) return null;
     int sep = locale.indexOf('-');
+    if(sep < 0) {
+      sep = locale.indexOf('_');
+    }
     if(sep < 0) {
       return new Locale(locale);
     }
-    String language = locale.substring(0,sep);
-    String country  = locale.substring(sep+1);
+    String language = locale.substring(0,sep).trim().toLowerCase();
+    String country  = locale.substring(sep+1).trim();
     sep = country.indexOf('-');
+    if(sep < 0) {
+      sep = country.indexOf('_');
+    }
     if(sep < 0) {
       return new Locale(language, country);
     }
-    String variant  = country.substring(sep+1);
-    country = country.substring(0,sep);
+    String variant  = country.substring(sep+1).trim();
+    country = country.substring(0,sep).trim();
     return new Locale(language, country, variant);
   }
   

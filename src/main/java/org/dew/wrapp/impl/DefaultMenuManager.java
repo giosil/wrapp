@@ -126,7 +126,7 @@ class DefaultMenuManager extends AMenuManager
               sClassLiChild = " class=\"active\"";
             }
             sbc.append("<li" + sClassLiChild + ">");
-            sbc.append("<a href=\"" + sLinkChild + "\">" + sTextChild + "</a>");
+            sbc.append("<a href=\"" + sLinkChild + "\">" + getLocalized(sTextChild, locale) + "</a>");
             sbc.append("</li>");
           }
           sbc.append("</ul>");
@@ -140,7 +140,7 @@ class DefaultMenuManager extends AMenuManager
           sClassLi = " class=\"active\"";
         }
         sb.append("<li" + sClassLi + ">");
-        sb.append("<a href=\"" + sLink + "\" title=\"" + sText + "\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + sText + "</span><span class=\"fa arrow\"></span></a>");
+        sb.append("<a href=\"" + sLink + "\" title=\"" + getLocalized(sText, locale) + "\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + getLocalized(sText, locale) + "</span><span class=\"fa arrow\"></span></a>");
         sb.append(sbc.toString());
         sb.append("</li>");
       }

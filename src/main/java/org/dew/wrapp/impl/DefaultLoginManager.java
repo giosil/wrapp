@@ -43,6 +43,15 @@ class DefaultLoginManager implements ILoginManager
     if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
       user.setLocale("it");
     }
+    else if(username.equalsIgnoreCase("en") || username.endsWith("-en")) {
+      user.setLocale("en");
+    }
+    else if(username.equalsIgnoreCase("fr") || username.endsWith("-fr")) {
+      user.setLocale("fr");
+    }
+    else if(username.equalsIgnoreCase("es") || username.endsWith("-es")) {
+      user.setLocale("es");
+    }
     if(username.equalsIgnoreCase("top") || username.startsWith("top-")) {
       user.setMenuManager(TopMenuManager.class.getName());
     }
