@@ -73,4 +73,4 @@
 <% WebUtil.writeScriptImport(out, "devextreme/dx.messages." + flang + ".min.js"); %>
 
 <% WebUtil.writeScriptImport(out, "js/jrpc.js"); %>
-<% WebUtil.writeScriptImport(out, "js/main.js"); %>
+<% WebUtil.writeScriptImport(out, "js/main-" + flang + ".js"); %>

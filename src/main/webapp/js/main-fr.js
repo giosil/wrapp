@@ -9,7 +9,7 @@ jQuery.validator.addMethod("date",function(val,ele){
 		str=bits[1]+'/'+bits[0]+'/'+bits[2];
 	}
 	return this.optional(ele) || !/Invalid|NaN/.test(new Date(str));
-},'Inserire una data valida');
+},'Veuillez entrer une date valide');
 jQuery.validator.addMethod("pwd",function(val,ele){
 	if(this.optional(ele)) return true;
 	if(val.length<8) return false;
@@ -20,15 +20,15 @@ jQuery.validator.addMethod("pwd",function(val,ele){
 	}
 	if (!ll || !lu || !nu)return false;
 	return true;
-},'Inserire password valida (lung=8, almeno 1 let. min, 1 let. maius., 1 num.)');
+},'Entrez un mot de passe valide (long=8, au moins 1 let. min, 1 let. maj., 1 num.)');
 jQuery.validator.addMethod("notEqualTo",function(val,ele,par){
 	if(this.optional(ele))return true;
 	if(par && par.indexOf('#')==0)return val!=$(par).val();
 	return val!=par;
-},'Valore digitato non ammesso');
+},'Valeur saisie non autorisée');
 jQuery.validator.classRuleSettings.notEqualTo={notEqualTo:true};
 
-$.fn.select2.defaults.set('language','it');
+$.fn.select2.defaults.set('language','fr');
 $.fn.modal.Constructor.prototype.enforceFocus=function(){}; // Fix for select2 in modal
 
 toastr.options={
@@ -52,7 +52,7 @@ function _showMessage(msg,title,type,dlg){
 	if(type=='error')   toastr.error(msg,title); else toastr.info(msg, title);
 }
 function _showInfo(msg,title,dlg,f){
-	if(!title)title="Informazioni";
+	if(!title)title="Information";
 	if(dlg){
 		swal({title:title,text:msg},f);
 	}
@@ -61,7 +61,7 @@ function _showInfo(msg,title,dlg,f){
 	}
 }
 function _showSuccess(msg,title,dlg){
-	if(!title)title="Informazioni";
+	if(!title)title="Information";
 	if(dlg){
 		swal({title:title,type:"success",text:msg});
 	}
@@ -70,7 +70,7 @@ function _showSuccess(msg,title,dlg){
 	}
 }
 function _showWarning(msg,title,dlg){
-	if(!title)title="Attenzione";
+	if(!title)title="Avertissement";
 	if(dlg){
 		swal({title:title,type:"warning",text:msg});
 	}
@@ -79,7 +79,7 @@ function _showWarning(msg,title,dlg){
 	}
 }
 function _showError(msg,title,dlg){
-	if(!title)title="Errore";
+	if(!title)title="Erreur";
 	if(dlg){
 		swal({title:title,type:"error",text:msg});
 	}
@@ -89,7 +89,7 @@ function _showError(msg,title,dlg){
 }
 function _confirm(msg,f){
 	if(typeof f==='function'){
-		swal({title:"Conferma",type:"warning",text:msg,confirmButtonText:"Si",cancelButtonText:"No",confirmButtonColor:"#dd6b55",showCancelButton:true,closeOnConfirm:true,closeOnCancel:true},f);
+		swal({title:"Confirmation",type:"warning",text:msg,confirmButtonText:"Oui",cancelButtonText:"Non",confirmButtonColor:"#dd6b55",showCancelButton:true,closeOnConfirm:true,closeOnCancel:true},f);
 	}
 	else{
 		return window.confirm(msg);
@@ -97,7 +97,7 @@ function _confirm(msg,f){
 }
 function _getInput(msg,f,d) {
 	if(typeof f==='function'){
-		swal({title:"Inserisci",type:"input",inputValue:d,text:msg,showCancelButton:true},f);
+		swal({title:"Entrée de données",type:"input",inputValue:d,text:msg,showCancelButton:true},f);
 	}
 	else {
 		return window.prompt(msg);
@@ -142,13 +142,13 @@ function updatePassword(){
 		},
 		success: function(res) {
 			$("#dlg-cp").modal('hide');
-			_showSuccess("Password updated");
+			_showSuccess("Mot de passe mis à jour");
 			$('#cpop').val('');
 			$('#cpnp').val('');
 			$('#cpcp').val('');
 		},
 		error: function(xhr) {
-			_showWarning("Invalid password");
+			_showWarning("Mot de passe incorrect");
 			$('#cpop').focus();
 		}
 	});
