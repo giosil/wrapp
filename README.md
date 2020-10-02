@@ -36,7 +36,7 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
   "header": "",
   "content": "",
   "footer": "",
-  "script": "WuxDOM.render(new HelloWorld(), 'view-root');",
+  "script": "WuxDOM.render(new GUI.HelloWorld(), 'view-root');",
   "css": [
     "/hello/css/main.css"
   ],
