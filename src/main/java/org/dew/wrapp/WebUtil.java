@@ -485,14 +485,14 @@ class WebUtil
           }
           if (menuItemPar != null) {
             out.write("<div class=\"search-result\">");
-            out.write("<h3><a href=\"" + sLink + "\">" + menuItem.getText() + "</a></h3>");
-            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + menuItemPar.getText() + " / " + menuItem.getText() + "</p>");
+            out.write("<h3><a href=\"" + sLink + "\">" + AMenuManager.getLocalized(menuItem.getText(), locale) + "</a></h3>");
+            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + AMenuManager.getLocalized(menuItemPar.getText(), locale) + " / " + AMenuManager.getLocalized(menuItem.getText(), locale) + "</p>");
             out.write("</div><div class=\"hr-line-dashed\"></div>");
           }
           else {
             out.write("<div class=\"search-result\">");
-            out.write("<h3><a href=\"" + sLink + "\">" + menuItem.getText() + "</a></h3>");
-            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + menuItem.getText() + "</p>");
+            out.write("<h3><a href=\"" + sLink + "\">" + AMenuManager.getLocalized(menuItem.getText(), locale) + "</a></h3>");
+            out.write("<p>" + App.getMessage(locale, "page") + " " + App.getMessage(locale, "home") + " / " + AMenuManager.getLocalized(menuItem.getText(), locale) + "</p>");
             out.write("</div><div class=\"hr-line-dashed\"></div>");
           }
           boAtLeastOne = true;

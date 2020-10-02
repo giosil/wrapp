@@ -4,12 +4,11 @@
 		"target": "es5",
 		"removeComments": true,
 		"preserveConstEnums": true,
-		"outFile": "../js/hello.js",
+		"outFile": "../../js/res-it.js",
 		"sourceMap": true
 	},
 	"include": [
-		"./types/**/*",
-		"../js/wux.d.ts",
+		"../types/**/*",
 		"*"
 	]
 }

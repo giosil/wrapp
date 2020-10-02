@@ -7,12 +7,13 @@
 		"header": "",
 		"content": "",
 		"footer": "",
-		"script": "WuxDOM.render(new HelloWorld(), 'view-root');",
+		"script": "WuxDOM.render(new GUI.HelloWorld(), 'view-root');",
 		"css": [
 			"/hello/css/main.css"
 		],
 		"scripts": [
 			"/wrapp/wux/js/wux.min.js",
+			"/hello/js/res-$language.min.js",
 			"/hello/js/hello.min.js"
 		],
 		"attributes": {
