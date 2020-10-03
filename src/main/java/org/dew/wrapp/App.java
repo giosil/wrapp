@@ -38,6 +38,9 @@ class App
   public static String SEARCH_PAGE        = "search.jsp";
   public static String DEFAULT_HOME_PAGE  = "home.jsp";
   
+  // See webapp/js/main-$language.js
+  public static String ID_DIALOG_CHN_PWD  = "dlg-cp";
+  
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
   protected static Map<String, List<MenuItem>> _menus   = new HashMap<String, List<MenuItem>>();

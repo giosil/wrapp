@@ -3,7 +3,7 @@
 	Locale flocale = WebUtil.getLocale(request);
 	String flang   = WebUtil.getLanguage(flocale);
 %>
-<div class="modal inmodal" id="dlg-cp" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="<%= App.ID_DIALOG_CHN_PWD %>" tabindex="-1" role="dialog" aria-hidden="true">
 <div class="modal-dialog">
 	<div class="modal-content animated fadeIn">
 		<div class="modal-header">
@@ -11,7 +11,7 @@
 			<h3><%= App.getMessage(flocale, "modpwd") %></h3>
 		</div>
 		<div class="modal-body">
-			<form class="m-t" id="dlg-cp-form" action="">
+			<form class="m-t" id="<%= App.ID_DIALOG_CHN_PWD %>-form" action="">
 				<div class="form-group"><input name="cpop" id="cpop" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "oldpwd") %>"></div>
 				<div class="form-group"><input name="cpnp" id="cpnp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "newpwd") %>"></div>
 				<div class="form-group"><input name="cpcp" id="cpcp" type="password" class="form-control" data-toggle="password" data-placement="after" placeholder="<%= App.getMessage(flocale, "conpwd") %>"></div>

@@ -56,7 +56,7 @@ var GUI;
         TXT.GROUP = 'Gruppo';
         TXT.ROLE = 'Ruolo';
         TXT.TYPE = 'Tipo';
-        TXT.HELLO = 'Hello';
+        TXT.HELLO = 'Ciao';
         return TXT;
     }());
     GUI.TXT = TXT;

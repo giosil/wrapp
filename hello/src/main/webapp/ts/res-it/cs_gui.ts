@@ -57,7 +57,7 @@ namespace GUI {
         static readonly ROLE = 'Ruolo';
         static readonly TYPE = 'Tipo';
         // APP
-        static readonly HELLO = 'Hello';
+        static readonly HELLO = 'Ciao';
     }
 
     export class MSG {

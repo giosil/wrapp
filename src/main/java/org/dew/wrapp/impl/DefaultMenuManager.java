@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
-
+import org.dew.wrapp.WebUtil;
 import org.dew.wrapp.mgr.AMenuManager;
 
 public 
@@ -60,8 +60,8 @@ class DefaultMenuManager extends AMenuManager
     sb.append("<ul class=\"dropdown-menu animated fadeInRight m-t-xs\">");
     sb.append("<li><a href=\"" + contextPath + App.HOME_PAGE + "\">" + App.getMessage(locale, "home") + "</a></li>");
     sb.append("<li class=\"divider\"></li>");
-    // See _imp_footer.jsp (dialog #dlg-cp)
-    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage(locale, "modpwd") + "</a></li>");
+    // See _imp_footer.jsp
+    sb.append("<li><a data-target=\"#" + App.ID_DIALOG_CHN_PWD + "\" data-toggle=\"modal\" href=\"#" + App.ID_DIALOG_CHN_PWD + "\">" + App.getMessage(locale, "modpwd") + "</a></li>");
     sb.append("<li><a href=\"" + contextPath + App.LOGOUT_PAGE + "\">" + App.getMessage(locale, "logout") + "</a></li>");
     sb.append("</ul>");
     sb.append("</div>");
@@ -126,7 +126,7 @@ class DefaultMenuManager extends AMenuManager
               sClassLiChild = " class=\"active\"";
             }
             sbc.append("<li" + sClassLiChild + ">");
-            sbc.append("<a href=\"" + sLinkChild + "\">" + getLocalized(sTextChild, locale) + "</a>");
+            sbc.append("<a href=\"" + sLinkChild + "\">" + WebUtil.getLocalized(sTextChild, locale) + "</a>");
             sbc.append("</li>");
           }
           sbc.append("</ul>");
@@ -140,7 +140,7 @@ class DefaultMenuManager extends AMenuManager
           sClassLi = " class=\"active\"";
         }
         sb.append("<li" + sClassLi + ">");
-        sb.append("<a href=\"" + sLink + "\" title=\"" + getLocalized(sText, locale) + "\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + getLocalized(sText, locale) + "</span><span class=\"fa arrow\"></span></a>");
+        sb.append("<a href=\"" + sLink + "\" title=\"" + WebUtil.getLocalized(sText, locale) + "\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + WebUtil.getLocalized(sText, locale) + "</span><span class=\"fa arrow\"></span></a>");
         sb.append(sbc.toString());
         sb.append("</li>");
       }

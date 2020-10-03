@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.User;
+import org.dew.wrapp.WebUtil;
 import org.dew.wrapp.mgr.AMenuManager;
 
 public 
@@ -96,7 +97,7 @@ class TopMenuManager extends AMenuManager
             sClassLi = " class=\"active\"";
           }
           sb.append("<li" + sClassLi + ">");
-          sbc.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + getLocalized(sText, locale) + "</span><span class=\"caret\"></span></a>");
+          sbc.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + WebUtil.getLocalized(sText, locale) + "</span><span class=\"caret\"></span></a>");
           sb.append("</li>");
           sbc.append("<ul role=\"menu\" class=\"dropdown-menu\">");
           for (int j = 0; j < listChildren.size(); j++) {
@@ -129,7 +130,7 @@ class TopMenuManager extends AMenuManager
               sClassLiChild = " class=\"active\"";
             }
             sbc.append("<li" + sClassLiChild + ">");
-            sbc.append("<a href=\"" + sLinkChild + "\">" + getLocalized(sTextChild, locale) + "</a>");
+            sbc.append("<a href=\"" + sLinkChild + "\">" + WebUtil.getLocalized(sTextChild, locale) + "</a>");
             sbc.append("</li>");
           }
           sbc.append("</ul>");
@@ -148,8 +149,8 @@ class TopMenuManager extends AMenuManager
     sb.append("<ul class=\"nav navbar-top-links navbar-right\"><li class=\"dropdown\" >");
     sb.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa fa-user\"></i><span class=\"nav-label\">" + sUserName + "</span><span class=\"caret\"></span></a>");
     sb.append("<ul role=\"menu\" class=\"dropdown-menu\">");
-    // See _imp_footer.jsp (dialog #dlg-cp)
-    sb.append("<li><a data-target=\"#dlg-cp\" data-toggle=\"modal\" href=\"#dlg-cp\">" + App.getMessage(locale, "modpwd") + "</a></li>");
+    // See _imp_footer.jsp
+    sb.append("<li><a data-target=\"#" + App.ID_DIALOG_CHN_PWD + "\" data-toggle=\"modal\" href=\"#" + App.ID_DIALOG_CHN_PWD + "\">" + App.getMessage(locale, "modpwd") + "</a></li>");
     sb.append("<li><a href=\"" + contextPath + App.LOGOUT_PAGE + "\">" + App.getMessage(locale, "logout") + "</a></li>");
     sb.append("</ul>");
     

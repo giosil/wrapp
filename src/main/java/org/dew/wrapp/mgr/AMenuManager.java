@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.User;
-import org.dew.wrapp.WebUtil;
 import org.dew.wrapp.util.WUtil;
 
 public abstract
@@ -229,33 +228,6 @@ class AMenuManager implements Serializable
     catch(Exception ex) {
       ex.printStackTrace();
     }
-  }
-  
-  public static String getLocalized(String text, Locale locale) {
-    if(text == null || text.length() == 0 || text.indexOf('=') < 0) {
-      return text;
-    }
-    
-    String language = WebUtil.getLanguage(locale);
-    
-    int l = -1;
-    if(text.startsWith(language + "=")) {
-      l = language.length() + 1;
-    }
-    else {
-      l = text.indexOf("^" + language + "=");
-      if(l >= 0) l += language.length() + 2;
-    }
-    if(l < 0) {
-      l = text.indexOf('=');
-      if(l >= 0) l++;
-    }
-    if(l < 0) {
-      return text;
-    }
-    int e = text.indexOf('^', l);
-    if(e < 0) e = text.length();
-    return text.substring(l, e);
   }
   
   public abstract String build(HttpServletRequest request);

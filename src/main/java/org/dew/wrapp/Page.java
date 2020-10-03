@@ -127,50 +127,23 @@ class Page implements Serializable
   // Localized fields
   
   public String getTitle(Locale locale) {
-    return getLocalized(title, locale);
+    return WebUtil.getLocalized(title, locale);
   }
   
   public String getDescription(Locale locale) {
-    return getLocalized(description, locale);
+    return WebUtil.getLocalized(description, locale);
   }
   
   public String getHeader(Locale locale) {
-    return getLocalized(header, locale);
+    return WebUtil.getLocalized(header, locale);
   }
   
   public String getContent(Locale locale) {
-    return getLocalized(content, locale);
+    return WebUtil.getLocalized(content, locale);
   }
   
   public String getFooter(Locale locale) {
-    return getLocalized(footer, locale);
-  }
-  
-  public static String getLocalized(String text, Locale locale) {
-    if(text == null || text.length() == 0 || text.indexOf('=') < 0) {
-      return text;
-    }
-    
-    String language = WebUtil.getLanguage(locale);
-    
-    int l = -1;
-    if(text.startsWith(language + "=")) {
-      l = language.length() + 1;
-    }
-    else {
-      l = text.indexOf("^" + language + "=");
-      if(l >= 0) l += language.length() + 2;
-    }
-    if(l < 0) {
-      l = text.indexOf('=');
-      if(l >= 0) l++;
-    }
-    if(l < 0) {
-      return text;
-    }
-    int e = text.indexOf('^', l);
-    if(e < 0) e = text.length();
-    return text.substring(l, e);
+    return WebUtil.getLocalized(footer, locale);
   }
   
   @Override

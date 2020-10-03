@@ -53,7 +53,7 @@ declare namespace GUI {
         static readonly GROUP = "Gruppo";
         static readonly ROLE = "Ruolo";
         static readonly TYPE = "Tipo";
-        static readonly HELLO = "Hello";
+        static readonly HELLO = "Ciao";
     }
     class MSG {
         static readonly CONF_DELETE = "Eliminare l'elemento selezionato?";
