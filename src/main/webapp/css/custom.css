@@ -52,29 +52,29 @@ margin-bottom:2px;
 .navbar-fixed-top, .navbar-static-top{
 background:#f8f8f9;
 }
-.container-fluid {
+.container-fluid{
 padding-right: 5px;
 padding-left: 5px;
 }
-#page-wrapper {
+#page-wrapper{
 padding-right: 10px;
 padding-left: 10px;
 }
-.row {
+.row{
 margin-left: -10px;
 }
-.wrapper-content .row {
+.wrapper-content .row{
 margin-right: -5px;
 margin-left: -5px;
 }
-.wrapper-content .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.wrapper-content .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12{
 padding-right: 5px;
 padding-left: 5px;
 }
-.tabs-container .panel-body {
+.tabs-container .panel-body{
 padding: 12px 8px 8px 8px;
 }
-.nav-tabs > li > a {
+.nav-tabs > li > a{
 padding: 8px 12px 8px 16px
 }
 .form-control, .single-line{
@@ -127,13 +127,13 @@ width:150px;
 .dashboard-header{
 padding:10px 10px 10px 10px;
 }
-.canvas-menu.mini-navbar .nav-second-level {
+.canvas-menu.mini-navbar .nav-second-level{
 font-size:12px;
 }
-.wrapper-content {
+.wrapper-content{
 padding:8px 0px 40px;
 }
-@media ( min-width :768px){
+@media (min-width:768px){
 #page-wrapper{
 margin:0 0 0 180px;
 }
@@ -170,13 +170,13 @@ padding:4px;
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
 vertical-align:middle;
 }
-.table-striped > tbody > tr:nth-of-type(odd) {
+.table-striped > tbody > tr:nth-of-type(odd){
 background-color:#f9f9f9;
 }
-.table-striped > tbody > tr:nth-of-type(even) {
+.table-striped > tbody > tr:nth-of-type(even){
 background-color:#ffffff;
 }
-.table-hover > tbody > tr:hover {
+.table-hover > tbody > tr:hover{
 background-color:#f0f0f0;
 }
 .h-51{
@@ -309,7 +309,7 @@ line-height:22px;
 .select2-container--default .select2-selection--single{
 border:1px solid #e5e6e7;
 }
-.select2-container--default .select2-selection--multiple {
+.select2-container--default .select2-selection--multiple{
 border:1px solid #e5e6e7;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow b{
@@ -332,10 +332,10 @@ border-right:4px solid transparent;
 border-left:4px solid transparent;
 color:#999
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
 margin-top: 3px;
 }
-.select2-selection__clear {
+.select2-selection__clear{
 margin-right: 4px;
 }
 .large-checkbox{
