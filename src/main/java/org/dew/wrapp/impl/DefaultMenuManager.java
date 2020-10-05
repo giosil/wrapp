@@ -49,11 +49,11 @@ class DefaultMenuManager extends AMenuManager
     
     sb.append("<nav class=\"navbar-default navbar-static-side\" role=\"navigation\">");
     sb.append("<div class=\"sidebar-collapse\">");
-    sb.append("<ul class=\"nav metismenu\" id=\"side-menu\">");
+    sb.append("<ul class=\"nav metismenu\" id=\"" + App.ID_SIDE_MENU + "\">");
     
     sb.append("<li class=\"nav-header\">");
     sb.append("<div class=\"dropdown profile-element\">");
-    sb.append("<span><img alt=\"image\" class=\"img-circle\" src=\"" + contextPath + "img/profile_small.jpg\" /></span>");
+    sb.append("<span><img alt=\"image\" class=\"img-circle\" src=\"" + contextPath + App.IMG_DEFAULT_AVATAR + "\" /></span>");
     sb.append("<a data-toggle=\"dropdown\" class=\"dropdown-toggle\" href=\"#\">");
     sb.append("<span class=\"clear\"> <span class=\"block m-t-xs\"> <strong class=\"font-bold\">" + sUserName + "</strong></span> ");
     sb.append("<span class=\"text-muted text-xs block\">" + sUserRole + "<b class=\"caret\"></b></span> </span> </a>");

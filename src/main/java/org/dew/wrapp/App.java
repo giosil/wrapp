@@ -38,8 +38,16 @@ class App
   public static String SEARCH_PAGE        = "search.jsp";
   public static String DEFAULT_HOME_PAGE  = "home.jsp";
   
-  // See webapp/js/main-$language.js
-  public static String ID_DIALOG_CHN_PWD  = "dlg-cp";
+  public static String ID_DIALOG_CHN_PWD  = "dlg-cp"; // See webapp/js/main-$language.js
+  public static String ID_PAGE_TOP        = "ptop";
+  public static String ID_PAGE_TITLE      = "ptitle";
+  public static String ID_PAGE_BREADCRUMP = "pbreadcrumb";
+  public static String ID_PAGE_WRAPPER    = "page-wrapper"; 
+  public static String ID_PAGE_HEADER     = "pheader";
+  public static String ID_PAGE_FOOTER     = "pfooter";
+  public static String ID_SIDE_MENU       = "side-menu";
+  
+  public static String IMG_DEFAULT_AVATAR = "img/profile_small.jpg";
   
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();

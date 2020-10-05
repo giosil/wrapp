@@ -290,7 +290,7 @@ class WebUtil
     
     Locale locale = App.getLocale(user);
     
-    out.write("<div class=\"row border-bottom\" id=\"ptop\">");
+    out.write("<div class=\"row border-bottom\" id=\"" + App.ID_PAGE_TOP + "\">");
     out.write("<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"margin-bottom: 0\">");
     out.write("<div class=\"navbar-header\">");
     out.write("<a class=\"navbar-minimalize minimalize-styl-2 btn btn-primary\" href=\"#\"><i class=\"fa fa-bars\"></i> </a>");
@@ -344,13 +344,13 @@ class WebUtil
         menuManger = (AMenuManager) oMenu;
       }
     }
-    out.write("<div class=\"row\" id=\"pheader\">");
+    out.write("<div class=\"row\" id=\"" + App.ID_PAGE_HEADER + "\">");
     if (sTitle != null && sTitle.length() > 0) {
       if (boSideMenu) {
-        out.write("<h2 style=\"margin-top: 8px; margin-bottom: 4px; margin-left: 8px;\" id=\"ptitle\">" + sTitle);
+        out.write("<h2 style=\"margin-top: 8px; margin-bottom: 4px; margin-left: 8px;\" id=\"" + App.ID_PAGE_TITLE + "\">" + sTitle);
       }
       else {
-        out.write("<h2 style=\"margin-top: 0px; margin-bottom: 4px;\" id=\"ptitle\">" + sTitle);
+        out.write("<h2 style=\"margin-top: 0px; margin-bottom: 4px;\" id=\"" + App.ID_PAGE_TITLE + "\">" + sTitle);
       }
       if (sSubTitle != null && sSubTitle.length() > 0) {
         out.write(" &nbsp;<small>" + sSubTitle + "</small>");
@@ -360,10 +360,10 @@ class WebUtil
         List<MenuItem> listOfMenuItem = menuManger.getBreadcrumb(request);
         if (listOfMenuItem != null && listOfMenuItem.size() > 0) {
           if (boSideMenu) {
-            out.write("<div style=\"margin-bottom: 6px; margin-left: 8px;\" id=\"pbreadcrumb\">");
+            out.write("<div style=\"margin-bottom: 6px; margin-left: 8px;\" id=\"" + App.ID_PAGE_BREADCRUMP + "\">");
           }
           else {
-            out.write("<div style=\"margin-bottom: 6px;\" id=\"pbreadcrumb\">");
+            out.write("<div style=\"margin-bottom: 6px;\" id=\"" + App.ID_PAGE_BREADCRUMP + "\">");
           }
           User user = menuManger.getUser();
           
@@ -424,21 +424,21 @@ class WebUtil
     AMenuManager menuManager = getMenu(request);
     if (menuManager != null) {
       if (menuManager instanceof DefaultMenuManager) {
-        out.write("<div id=\"page-wrapper\" class=\"gray-bg\">");
+        out.write("<div id=\"" + App.ID_PAGE_WRAPPER + "\" class=\"gray-bg\">");
         writeHeader(request, out, menuManager.getUser());
         writeTitleH(request, out, sTitle, sSubTitle, true);
         out.write("<div class=\"wrapper wrapper-content animated\">");
         writeHelp(out, sHelpTitle, sHelpText);
       }
       else if (menuManager instanceof TopMenuManager) {
-        out.write("<div id=\"page-wrapper\" class=\"gray-bg\">");
+        out.write("<div id=\"" + App.ID_PAGE_WRAPPER + "\" class=\"gray-bg\">");
         out.write("<div class=\"wrapper wrapper-content animated\">");
         writeTitleH(request, out, sTitle, sSubTitle, false);
         writeHelp(out, sHelpTitle, sHelpText);
       }
     }
     else {
-      out.write("<div id=\"page-wrapper\" class=\"gray-bg\">");
+      out.write("<div id=\"" + App.ID_PAGE_WRAPPER + "\" class=\"gray-bg\">");
       out.write("<div class=\"wrapper wrapper-content animated\">");
       writeHelp(out, sHelpTitle, sHelpText);
     }
@@ -448,9 +448,9 @@ class WebUtil
   void writePageFooter(HttpServletRequest request, Writer out) 
       throws ServletException, IOException 
   {
-    out.write("</div>"); // id="page-wrapper"
+    out.write("</div>"); // id="" + App.ID_PAGE_WRAPPER + ""
     out.write("</div>"); // id="wrapper wrapper-content animated"
-    out.write("<div id=\"pfooter\"></div>");
+    out.write("<div id=\"" + App.ID_PAGE_FOOTER + "\"></div>");
   }
   
   public static 
