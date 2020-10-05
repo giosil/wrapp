@@ -17,7 +17,7 @@
 	<div class="middle-box text-center loginscreen animated fadeInDown">
 		<div>
 			<div>
-				<h1 class="logo-name"><%= App.getAppName() %></h1>
+				<h1 class="logo-name" style="margin-left: -102px;"><%= App.getAppName() %></h1>
 			</div>
 			<br>
 			<h3><%= App.getMessage(locale, "welcome") %></h3>
