@@ -253,6 +253,16 @@ class App
     return ConfigManager.getConfigStr("versione", "1.0.0");
   }
   
+  public static String getAppLogo() {
+    String result = ConfigManager.getConfigStr("logo", "$app.name");
+    if(result == null || result.length() == 0) {
+      return "";
+    }
+    result = result.replace("$app.name", getAppName());
+    result = result.replace("$app.ver",  getAppVersion());
+    return result;
+  }
+  
   public static Locale getLocale() {
     if(_locale != null) return _locale;
     String locale = ConfigManager.getConfigStr("locale", DEFAULT_LOCALE);
@@ -361,7 +371,7 @@ class App
   public static IAppManager getAppManagerInstance() {
     if(_appManager != null) return _appManager;
     
-    String className = ConfigManager.getConfigStr("menu");
+    String className = ConfigManager.getConfigStr("app");
     if(className == null || className.length() == 0 || className.equalsIgnoreCase("default")) {
       _appManager = new DefaultAppManager();
       return _appManager;
