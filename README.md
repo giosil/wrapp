@@ -22,6 +22,24 @@ In that you can configure:
 * "login": implementation of *org.dew.wrapp.mgr.ILoginManager*;
 * "menu": implementation of *org.dew.wrapp.mgr.AMenuManager*.
 
+Example:
+
+```json
+{
+  "public": {
+    "name": "Wrapp",
+    "version": "1.0.0",
+    "locale": "en"
+  },
+  "private": {
+    "logo": "<h1 class=\"logo-name\" style=\"margin-left: -102px;\">$app.name</h1>",
+    "app": "org.dew.wrapp.impl.DefaultAppManager",
+    "login": "org.dew.wrapp.impl.DefaultLoginManager",
+    "menu": "org.dew.wrapp.impl.DefaultMenuManager"
+  }
+}
+```
+
 In **Wrapp** each page is mapped by the *Page* object and can be called up from the URL page/{id}.
 
 *Page* object has the following fields:
