@@ -3,3 +3,6 @@ encoding//src/main/resources/content/Language.properties=UTF-8
 encoding//src/main/resources/content/Language_en.properties=UTF-8
 encoding//src/main/resources/content/Language_fr.properties=UTF-8
 encoding//src/main/resources/content/Language_it.properties=UTF-8
+encoding//src/main/resources/wrapp_config.json=UTF-8
+encoding//src/main/resources/wrapp_menus.json=UTF-8
+encoding//src/main/resources/wrapp_pages.json=UTF-8
