@@ -1,6 +1,6 @@
 {
 	"main": [
-		{ "id": "app",       "text": "en=Application^it=Applicazione^fr=Application^es=Aplicación", "icon": "fa-edit" },
+		{ "id": "app",       "text": "en=Application^it=Applicazione^fr=Application^es=AplicaciÃ³n", "icon": "fa-edit" },
 		{ "id": "app.hello", "text": "en=Hello^it=Saluto^fr=Salutation^es=saludo",                  "icon": null,     "link": "page/hello"}
 	]
 }
