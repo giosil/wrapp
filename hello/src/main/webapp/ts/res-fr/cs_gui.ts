@@ -1,3 +1,12 @@
+WUX.RES.OK = 'OK';
+WUX.RES.CLOSE = 'Fermez';
+WUX.RES.CANCEL = 'Annulez';
+WUX.RES.ERR_DATE = 'Date non autorisée.';
+WUX.RES.FILE_NAME = 'Fichier';
+WUX.RES.FILE_SIZE = 'Dim.';
+WUX.RES.FILE_TYPE = 'Type';
+WUX.RES.FILE_LMOD = 'Der.Mod.';
+
 namespace GUI {
     import WIcon = WUX.WIcon;
 
@@ -15,7 +24,7 @@ namespace GUI {
         static readonly FORCE = 'Forcer';
         static readonly SEARCH = 'Recherchez';
         static readonly CANCEL = 'Annulez';
-        static readonly RESET = 'Réinitialiser';
+        static readonly RESET = 'Annulez';
         static readonly PRINT = 'Imprimez';
         static readonly PRINT_ALL = 'Tout imprimer';
         static readonly PREVIEW = 'Aperçu';

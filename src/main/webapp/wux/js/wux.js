@@ -2543,8 +2543,7 @@ var WUX;
                     callback();
             })
                 .fail(function () {
-                if (WUX.debug)
-                    console.log('[WUX] global.init failed');
+                console.error('[WUX] global.init failed: check cldr data.');
             });
         },
         setData: function (key, data, dontTrigger) {
@@ -3194,6 +3193,10 @@ var WUX;
         RES.CLOSE = 'Chiudi';
         RES.CANCEL = 'Annulla';
         RES.ERR_DATE = 'Data non ammessa.';
+        RES.FILE_NAME = 'File';
+        RES.FILE_SIZE = 'Dim.';
+        RES.FILE_TYPE = 'Tipo';
+        RES.FILE_LMOD = 'Ult.Mod.';
         return RES;
     }());
     WUX.RES = RES;
@@ -8988,10 +8991,10 @@ var WUX;
                         if (!lmd)
                             lmd = new Date(f['lastModified']);
                         var si = '<div class="selected-item">';
-                        si += '<span>' + WUX.buildIcon(WUX.WIcon.FILE_O) + ' &nbsp;<strong>Name</strong>: ' + f.name + ' &nbsp;';
-                        si += '<strong>Size</strong>: ' + f.size + ' byte &nbsp;';
-                        si += '<strong>Type</strong>: ' + f.type + ' &nbsp;';
-                        si += '<strong>Last Mod.</strong>: ' + WUX.formatDateTime(lmd, true) + '</span>';
+                        si += '<span>' + WUX.buildIcon(WUX.WIcon.FILE_O) + ' &nbsp;<strong>' + WUX.RES.FILE_NAME + '</strong>: ' + f.name + ' &nbsp;';
+                        si += '<strong>' + WUX.RES.FILE_SIZE + '</strong>: ' + f.size + ' byte &nbsp;';
+                        si += '<strong>' + WUX.RES.FILE_TYPE + '</strong>: ' + f.type + ' &nbsp;';
+                        si += '<strong>' + WUX.RES.FILE_LMOD + '</strong>: ' + WUX.formatDateTime(lmd, true) + '</span>';
                         si += '</div>';
                         _this.selectedFiles.append(si);
                     }

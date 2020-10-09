@@ -1,3 +1,12 @@
+WUX.RES.OK = 'OK';
+WUX.RES.CLOSE = 'Close';
+WUX.RES.CANCEL = 'Cancel';
+WUX.RES.ERR_DATE = 'Invalid date.';
+WUX.RES.FILE_NAME = 'File';
+WUX.RES.FILE_SIZE = 'Size';
+WUX.RES.FILE_TYPE = 'Type';
+WUX.RES.FILE_LMOD = 'Last.Mod.';
+
 namespace GUI {
     import WIcon = WUX.WIcon;
 

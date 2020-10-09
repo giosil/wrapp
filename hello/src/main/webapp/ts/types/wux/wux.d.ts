@@ -612,10 +612,14 @@ declare namespace WUX {
         WRENCH = "fa-wrench"
     }
     class RES {
-        static readonly OK = "OK";
-        static readonly CLOSE = "Chiudi";
-        static readonly CANCEL = "Annulla";
-        static readonly ERR_DATE = "Data non ammessa.";
+        static OK: string;
+        static CLOSE: string;
+        static CANCEL: string;
+        static ERR_DATE: string;
+        static FILE_NAME: string;
+        static FILE_SIZE: string;
+        static FILE_TYPE: string;
+        static FILE_LMOD: string;
     }
 }
 declare namespace WUX {

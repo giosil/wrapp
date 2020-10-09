@@ -1929,10 +1929,10 @@
                         if (!lmd) lmd = new Date(f['lastModified']);
 
                         let si = '<div class="selected-item">';
-                        si += '<span>' + WUX.buildIcon(WUX.WIcon.FILE_O) + ' &nbsp;<strong>Name</strong>: ' + f.name + ' &nbsp;';
-                        si += '<strong>Size</strong>: ' + f.size + ' byte &nbsp;';
-                        si += '<strong>Type</strong>: ' + f.type + ' &nbsp;';
-                        si += '<strong>Last Mod.</strong>: ' + WUX.formatDateTime(lmd, true) + '</span>';
+                        si += '<span>' + WUX.buildIcon(WUX.WIcon.FILE_O) + ' &nbsp;<strong>' + RES.FILE_NAME + '</strong>: ' + f.name + ' &nbsp;';
+                        si += '<strong>' + RES.FILE_SIZE + '</strong>: ' + f.size + ' byte &nbsp;';
+                        si += '<strong>' + RES.FILE_TYPE + '</strong>: ' + f.type + ' &nbsp;';
+                        si += '<strong>' + RES.FILE_LMOD + '</strong>: ' + WUX.formatDateTime(lmd, true) + '</span>';
                         si += '</div>';
                         this.selectedFiles.append(si);
                     }
