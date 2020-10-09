@@ -4,11 +4,11 @@
  */
 ;(function($){
 	$.fn.datepicker.dates['fr'] = {
-		days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
-		daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
-		daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
-		months: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
-		monthsShort: ["janv.", "févr.", "mars", "avril", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+		days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+		daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+		daysMin: ["D", "L", "Ma", "Me", "J", "V", "S"],
+		months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+		monthsShort: ["Janv", "Févr", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept", "Oct", "Nov", "Déc"],
 		today: "Aujourd'hui",
 		monthsTitle: "Mois",
 		clear: "Effacer",
