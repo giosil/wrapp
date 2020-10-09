@@ -595,7 +595,13 @@ class WebUtil
         scriptFile = scriptFile.replace("$locale",   locale.toString());
         scriptFile = scriptFile.replace("$language", locale.getLanguage());
       }
-      sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
+      if(scriptFile.endsWith("?")) {
+        // No marker
+        sb.append("<script src=\"" + scriptFile.substring(0, scriptFile.length()-1) + "\" type=\"text/javascript\"></script>\n");
+      }
+      else {
+        sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
+      }
     }
     
     out.write(sb.toString());
@@ -708,7 +714,13 @@ class WebUtil
         }
       }
       
-      sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
+      if(scriptFile.endsWith("?")) {
+        // No marker
+        sb.append("<script src=\"" + scriptFile.substring(0, scriptFile.length()-1) + "\" type=\"text/javascript\"></script>\n");
+      }
+      else {
+        sb.append("<script src=\"" + addMarkerIfNotExists(scriptFile, marker) + "\" type=\"text/javascript\"></script>\n");
+      }
     }
     
     out.write(sb.toString());
