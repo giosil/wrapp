@@ -1,3 +1,11 @@
+WUX.RES.OK = 'OK';
+WUX.RES.CLOSE = 'Chiudi';
+WUX.RES.CANCEL = 'Annulla';
+WUX.RES.ERR_DATE = 'Data non ammessa.';
+WUX.RES.FILE_NAME = 'File';
+WUX.RES.FILE_SIZE = 'Dim.';
+WUX.RES.FILE_TYPE = 'Tipo';
+WUX.RES.FILE_LMOD = 'Ult.Mod.';
 var GUI;
 (function (GUI) {
     var WIcon = WUX.WIcon;

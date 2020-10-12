@@ -13,7 +13,7 @@ declare namespace GUI {
         static readonly FORCE = "Forcer";
         static readonly SEARCH = "Recherchez";
         static readonly CANCEL = "Annulez";
-        static readonly RESET = "R\u00E9initialiser";
+        static readonly RESET = "Annulez";
         static readonly PRINT = "Imprimez";
         static readonly PRINT_ALL = "Tout imprimer";
         static readonly PREVIEW = "Aper\u00E7u";

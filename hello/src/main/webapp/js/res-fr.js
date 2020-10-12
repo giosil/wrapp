@@ -1,3 +1,11 @@
+WUX.RES.OK = 'OK';
+WUX.RES.CLOSE = 'Fermez';
+WUX.RES.CANCEL = 'Annulez';
+WUX.RES.ERR_DATE = 'Date non autorisée.';
+WUX.RES.FILE_NAME = 'Fichier';
+WUX.RES.FILE_SIZE = 'Dim.';
+WUX.RES.FILE_TYPE = 'Type';
+WUX.RES.FILE_LMOD = 'Der.Mod.';
 var GUI;
 (function (GUI) {
     var WIcon = WUX.WIcon;
@@ -16,7 +24,7 @@ var GUI;
         TXT.FORCE = 'Forcer';
         TXT.SEARCH = 'Recherchez';
         TXT.CANCEL = 'Annulez';
-        TXT.RESET = 'Réinitialiser';
+        TXT.RESET = 'Annulez';
         TXT.PRINT = 'Imprimez';
         TXT.PRINT_ALL = 'Tout imprimer';
         TXT.PREVIEW = 'Aperçu';
