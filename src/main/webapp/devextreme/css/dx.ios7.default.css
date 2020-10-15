@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.ios7.default.css)
-* Version: 20.1.7
-* Build date: Tue Aug 25 2020
+* Version: 20.1.8
+* Build date: Fri Oct 09 2020
 *
 * Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -6079,10 +6079,6 @@
 .dx-pivotgrid .dx-data-header {
   background-color: #f7f7f7;
 }
-.dx-pivotgrid .dx-column-header .dx-pivotgrid-fields-area {
-  margin-left: -5px;
-  padding-left: 5px;
-}
 .dx-pivotgrid .dx-column-header .dx-pivotgrid-fields-area-head tr > td:first-child {
   padding-left: 0;
 }
@@ -6434,12 +6430,6 @@
 .dx-rtl.dx-pivotgrid .dx-filter-header .dx-pivotgrid-toolbar .dx-pivotgrid-field-chooser-button {
   margin-right: 0;
   margin-left: 4px;
-}
-.dx-rtl.dx-pivotgrid .dx-column-header .dx-pivotgrid-fields-area {
-  margin-left: 0;
-  padding-left: 0;
-  margin-right: -5px;
-  padding-right: 5px;
 }
 .dx-rtl.dx-pivotgrid .dx-column-header .dx-pivotgrid-fields-area-head tr > td:first-child {
   padding-left: 2px;
@@ -9539,9 +9529,7 @@
 .dx-scheduler-appointment-content-date {
   opacity: .7;
   display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: pre-wrap;
 }
 .dx-scheduler-appointment-popup .dx-form .dx-field-item.dx-appointment-form-switch > div {
   -webkit-box-flex: 0;
