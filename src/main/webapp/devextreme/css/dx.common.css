@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.common.css)
-* Version: 20.1.8
-* Build date: Fri Oct 09 2020
+* Version: 20.1.9
+* Build date: Fri Nov 20 2020
 *
 * Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -6863,6 +6863,9 @@ input.dx-hidden {
 .dx-drawer-left .dx-drawer-panel-content {
   left: 0;
 }
+.dx-drawer-panel-content-push-top-or-bottom {
+  width: 100%;
+}
 .dx-drawer-content {
   overflow: hidden;
   width: 100%;
@@ -6933,8 +6936,8 @@ input.dx-hidden {
 .dx-drawer-overlap.dx-drawer-top .dx-drawer-wrapper {
   overflow-x: visible;
 }
-.dx-drawer-overlap.dx-drawer-right.dx-drawer-expand .dx-overlay-content,
-.dx-drawer-overlap.dx-drawer-right.dx-drawer-slide .dx-overlay-content {
+.dx-drawer-overlap.dx-drawer-right.dx-drawer-expand>.dx-drawer-wrapper>.dx-overlay>.dx-overlay-wrapper>.dx-overlay-content,
+.dx-drawer-overlap.dx-drawer-right.dx-drawer-slide>.dx-drawer-wrapper>.dx-overlay>.dx-overlay-wrapper>.dx-overlay-content {
   right: 0;
 }
 .dx-htmleditor {
@@ -7690,6 +7693,9 @@ input.dx-hidden {
 .dx-filemanager .dx-filemanager-container .dx-drawer-panel-content.dx-drawer-panel-content-initial {
   min-width: 250px;
   max-width: 300px;
+}
+.dx-filemanager .dx-filemanager-container .dx-drawer-panel-content.dx-drawer-panel-content-adaptive {
+  max-width: 100%;
 }
 .dx-filemanager .dx-filemanager-dirs-panel {
   height: 100%;

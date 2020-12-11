@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.softblue.css)
-* Version: 20.1.8
-* Build date: Fri Oct 09 2020
+* Version: 20.1.9
+* Build date: Fri Nov 20 2020
 *
 * Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -2320,7 +2320,7 @@
   display: inline-block;
   line-height: normal;
 }
-@-webkit-keyframes valid-badge-frames {
+@-webkit-keyframes dx-valid-badge-frames {
   from {
     opacity: 0;
     -webkit-transform: scale(.1);
@@ -2332,7 +2332,7 @@
     transform: scale(1);
   }
 }
-@keyframes valid-badge-frames {
+@keyframes dx-valid-badge-frames {
   from {
     opacity: 0;
     -webkit-transform: scale(.1);
@@ -3004,8 +3004,8 @@
   opacity: 0;
   -webkit-transform: scale(0);
   transform: scale(0);
-  -webkit-animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards valid-badge-frames;
-  animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards valid-badge-frames;
+  -webkit-animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards dx-valid-badge-frames;
+  animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards dx-valid-badge-frames;
 }
 .dx-validation-pending.dx-texteditor.dx-editor-filled .dx-texteditor-input-container .dx-pending-indicator,
 .dx-validation-pending.dx-texteditor.dx-editor-outlined .dx-texteditor-input-container .dx-pending-indicator,
@@ -5302,8 +5302,8 @@
   background-size: 90% 5px;
   border: 1px solid #e8eaeb;
   border-radius: 2px;
-  -webkit-animation: 2s linear infinite loader;
-  animation: 2s linear infinite loader;
+  -webkit-animation: 2s linear infinite dx-loader;
+  animation: 2s linear infinite dx-loader;
   background-image: -webkit-gradient(linear,right top,left top,color-stop(5%,transparent),color-stop(#7ab8eb),color-stop(95%,transparent));
   background-image: linear-gradient(-90deg,transparent 5%,#7ab8eb,transparent 95%);
   background-repeat: repeat;
@@ -5318,13 +5318,13 @@
 }
 .dx-rtl .dx-progressbar .dx-progressbar-animating-container,
 .dx-rtl.dx-progressbar .dx-progressbar-animating-container {
-  -webkit-animation: 2s linear infinite loader-rtl;
-  animation: 2s linear infinite loader-rtl;
+  -webkit-animation: 2s linear infinite dx-loader-rtl;
+  animation: 2s linear infinite dx-loader-rtl;
   background-image: -webkit-gradient(linear,right top,left top,color-stop(5%,transparent),color-stop(#7ab8eb),color-stop(95%,transparent));
   background-image: linear-gradient(-90deg,transparent 5%,#7ab8eb,transparent 95%);
   background-repeat: repeat;
 }
-@-webkit-keyframes loader {
+@-webkit-keyframes dx-loader {
   0% {
     background-position-x: 0;
   }
@@ -5332,7 +5332,7 @@
     background-position-x: 900%;
   }
 }
-@keyframes loader {
+@keyframes dx-loader {
   0% {
     background-position-x: 0;
   }
@@ -5340,7 +5340,7 @@
     background-position-x: 900%;
   }
 }
-@-webkit-keyframes loader-rtl {
+@-webkit-keyframes dx-loader-rtl {
   0% {
     background-position-x: 0;
   }
@@ -5348,7 +5348,7 @@
     background-position-x: -900%;
   }
 }
-@keyframes loader-rtl {
+@keyframes dx-loader-rtl {
   0% {
     background-position-x: 0;
   }
@@ -5632,8 +5632,8 @@
   opacity: 0;
   -webkit-transform: scale(0);
   transform: scale(0);
-  -webkit-animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards valid-badge-frames;
-  animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards valid-badge-frames;
+  -webkit-animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards dx-valid-badge-frames;
+  animation: .3s cubic-bezier(1,.008,.565,1.65) .1s forwards dx-valid-badge-frames;
 }
 .dx-rtl .dx-valid.dx-lookup .dx-lookup-field:after,
 .dx-rtl.dx-valid.dx-lookup .dx-lookup-field:after {
@@ -6349,47 +6349,43 @@
     background-color: rgba(51,51,51,.08);
   }
 }
-.dx-tabpanel .dx-tabs {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs {
   display: block;
   border: none;
   background-color: #f7f7f7;
   color: #e8eaeb;
+  -webkit-box-shadow: inset 0 -1px #e8eaeb,inset 0 1px,inset -1px 0,inset 1px 0;
+  box-shadow: inset 0 -1px #e8eaeb,inset 0 1px,inset -1px 0,inset 1px 0;
 }
-.dx-tabpanel .dx-tabs .dx-tab {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs .dx-tab {
   color: #e8eaeb;
 }
-.dx-tabpanel .dx-tabs .dx-tab .dx-tab-content {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs .dx-tab .dx-tab-content {
   color: #333;
 }
-.dx-tabpanel .dx-tabs .dx-tab:after,
-.dx-tabpanel .dx-tabs .dx-tab:before {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs .dx-tab:after,
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs .dx-tab:before {
   content: none;
 }
-.dx-tabpanel .dx-tabs .dx-tabs-nav-button {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs .dx-tabs-nav-button {
   color: #e8eaeb;
 }
-.dx-tabpanel .dx-tabs-scrollable {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tab {
+  width: 140px;
+  -webkit-box-shadow: inset 0 1px,inset 0 -1px #e8eaeb;
+  box-shadow: inset 0 1px,inset 0 -1px #e8eaeb;
+}
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs-scrollable {
   margin-top: 0;
   margin-bottom: 0;
   height: 100%;
 }
-.dx-tabpanel .dx-tabs-scrollable .dx-tabs-wrapper {
+.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs-scrollable .dx-tabs-wrapper {
   display: block;
   border: none;
 }
-.dx-tabpanel .dx-tab {
-  width: 140px;
-}
 .dx-tabpanel:not(.dx-empty-collection) .dx-multiview-wrapper {
   border-top: none;
-}
-.dx-tabpanel > .dx-tabpanel-tabs .dx-tabs {
-  -webkit-box-shadow: inset 0 -1px #e8eaeb,inset 0 1px,inset -1px 0,inset 1px 0;
-  box-shadow: inset 0 -1px #e8eaeb,inset 0 1px,inset -1px 0,inset 1px 0;
-}
-.dx-tabpanel > .dx-tabpanel-tabs .dx-tab {
-  -webkit-box-shadow: inset 0 1px,inset 0 -1px #e8eaeb;
-  box-shadow: inset 0 1px,inset 0 -1px #e8eaeb;
 }
 .dx-tabpanel > .dx-tabpanel-tabs .dx-tab.dx-tab-selected {
   -webkit-box-shadow: inset 0 1px #e8eaeb,inset -1px 0 #e8eaeb,inset 1px 0 #e8eaeb;
@@ -6862,6 +6858,9 @@
   text-align: center;
   line-height: 18px;
   margin: 0 3px;
+}
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit-with-icons .dx-link:not(.dx-link-icon) {
+  width: auto;
 }
 .dx-datagrid .dx-command-drag {
   width: 36px;
@@ -8634,6 +8633,9 @@
   line-height: 18px;
   margin: 0 3px;
 }
+.dx-treelist .dx-treelist-content .dx-treelist-table .dx-row .dx-command-edit-with-icons .dx-link:not(.dx-link-icon) {
+  width: auto;
+}
 .dx-treelist .dx-treelist-rowsview .dx-virtual-row > td[style*="text-align: right"]:before {
   background-position-y: 34px;
 }
@@ -9692,6 +9694,15 @@
   z-index: 100;
   position: absolute;
 }
+.dx-scheduler-fixed-appointments .dx-draggable-dragging {
+  z-index: 1000;
+  position: fixed;
+  opacity: .7;
+}
+.dx-scheduler-fixed-appointments .dx-draggable-dragging .dx-scheduler-appointment {
+  -webkit-box-shadow: 7px 7px 15px 0 rgba(50,50,50,.2),inset 0 -2px 0 0 rgba(0,0,0,.3),inset 0 2px 0 0 rgba(0,0,0,.3);
+  box-shadow: 7px 7px 15px 0 rgba(50,50,50,.2),inset 0 -2px 0 0 rgba(0,0,0,.3),inset 0 2px 0 0 rgba(0,0,0,.3);
+}
 .dx-scheduler-header {
   position: relative;
   z-index: 1;
@@ -10225,6 +10236,9 @@
 }
 .dx-scheduler-work-space-month .dx-scheduler-date-table-scrollable .dx-scrollable-content {
   min-height: 300px;
+}
+.dx-scheduler-work-space-month .dx-scrollable-native .dx-scrollable-content.dx-scheduler-scrollable-fixed-content {
+  height: 100%;
 }
 .dx-scheduler-work-space-month .dx-scheduler-date-table-cell {
   height: 50px;
@@ -11157,7 +11171,10 @@
   box-shadow: inset -5px 0 0 0 rgba(0,0,0,.3),inset 2px 0 0 0 rgba(0,0,0,.3);
 }
 .dx-scheduler-all-day-appointment.dx-draggable-dragging,
+.dx-scheduler-fixed-appointments .dx-draggable-dragging .dx-scheduler-all-day-appointment,
+.dx-scheduler-timeline .dx-draggable-dragging .dx-scheduler-appointment,
 .dx-scheduler-timeline .dx-scheduler-appointment.dx-draggable-dragging,
+.dx-scheduler-work-space-month .dx-draggable-dragging .dx-scheduler-appointment,
 .dx-scheduler-work-space-month .dx-scheduler-appointment.dx-draggable-dragging {
   -webkit-box-shadow: inset -2px 0 0 0 rgba(0,0,0,.3),inset 2px 0 0 0 rgba(0,0,0,.3),7px 7px 15px 0 rgba(50,50,50,.2);
   box-shadow: inset -2px 0 0 0 rgba(0,0,0,.3),inset 2px 0 0 0 rgba(0,0,0,.3),7px 7px 15px 0 rgba(50,50,50,.2);
