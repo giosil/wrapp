@@ -1,9 +1,5 @@
 eclipse.preferences.version=1
 encoding//hello/src/main/webapp/ts/hello/hello.ts=UTF-8
-encoding//hello/src/main/webapp/ts/res-en/cs_gui.ts=UTF-8
-encoding//hello/src/main/webapp/ts/res-es/cs_gui.ts=UTF-8
-encoding//hello/src/main/webapp/ts/res-fr/cs_gui.ts=UTF-8
-encoding//hello/src/main/webapp/ts/res-it/cs_gui.ts=UTF-8
 encoding//src/main/resources/content/Language.properties=UTF-8
 encoding//src/main/resources/content/Language_en.properties=UTF-8
 encoding//src/main/resources/content/Language_fr.properties=UTF-8
