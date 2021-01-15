@@ -41,6 +41,6 @@
           <packagingExcludes>.vs,.vs/*.*,.vscode,.vscode/*.*,bin,bin/*.*,obj,obj/*.*,Properties/*.*,*.cmd,Web.config,Web.Debug.config,Web.Release.config,*.csproj,*.csproj.user,*.sln</packagingExcludes>
         </configuration>
       </plugin>
-    </plugins>    
+    </plugins>
   </build>
 </project>
