@@ -111,6 +111,11 @@ class WebAPI extends HttpServlet
           
         }
       }
+      else if(command.equalsIgnoreCase("nop")) {
+        
+        logger.fine("WebWrapp " + command);
+      
+      }
       else {
         
         logger.warning("WebWrapp Unknow command " + command);
