@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//hello/src/main/webapp/ts/hello/hello.ts=UTF-8
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
 encoding//src/main/resources/content/Language.properties=UTF-8
 encoding//src/main/resources/content/Language_en.properties=UTF-8
 encoding//src/main/resources/content/Language_fr.properties=UTF-8
@@ -7,3 +9,5 @@ encoding//src/main/resources/content/Language_it.properties=UTF-8
 encoding//src/main/resources/wrapp_config.json=UTF-8
 encoding//src/main/resources/wrapp_menus.json=UTF-8
 encoding//src/main/resources/wrapp_pages.json=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8
