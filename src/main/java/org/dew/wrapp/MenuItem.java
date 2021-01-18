@@ -108,6 +108,9 @@ class MenuItem implements Serializable
     }
     int iSep = link.indexOf('/');
     if(iSep >= 0) {
+      if(sURI.indexOf('/') <= 0) {
+        return link.endsWith(sURI);
+      }
       return sURI.endsWith(link);
     }
     boolean boResult = sURI.endsWith("/" + link);

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
+import org.dew.wrapp.Page;
 import org.dew.wrapp.WebUtil;
 import org.dew.wrapp.mgr.AMenuManager;
 
@@ -24,7 +25,10 @@ class DefaultMenuManager extends AMenuManager
   {
     StringBuilder sb = new StringBuilder(770 + 100 * mapItems.size());
     
-    String sRequestURI = request.getRequestURI();
+    Page   page   = WebUtil.getPage(request);
+    String pageId = page != null ? page.getId() : null;
+    
+    String sRequestURI = pageId != null && pageId.length() > 0 ? "/" + pageId : request.getRequestURI();
     String sParamMenu  = request.getParameter("m");
     
     String sUserName = "";
