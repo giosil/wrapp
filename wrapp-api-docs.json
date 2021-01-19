@@ -45,6 +45,17 @@
         }
       }
     },
+    "/api/nop": {
+      "get": {
+        "operationId": "nop",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/update": {
       "post": {
         "operationId": "update",

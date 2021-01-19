@@ -191,7 +191,35 @@
         </con:request>
       </con:method>
     </con:resource>
-  </con:interface>
+  <con:resource name="nop" path="api/nop" id="5d169359-1c06-41c7-b396-1fbdf3460892">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="GET_api/nop" id="d74f85d4-2e32-4c4e-a7fe-60673ebe10ce" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>204</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="nop" id="d2a8ab16-739d-4046-af2a-76360e189f31" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:originalUri>http://localhost/wrapp/api/reload
+          </con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource></con:interface>
   <con:properties/>
   <con:wssContainer/>
   <con:oAuth2ProfileContainer/>

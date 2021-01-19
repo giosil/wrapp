@@ -113,7 +113,9 @@ class WebAPI extends HttpServlet
       }
       else if(command.equalsIgnoreCase("nop")) {
         
-        logger.fine("WebWrapp " + command);
+        User user = WebUtil.getUser(request);
+        
+        logger.fine("WebWrapp " + command + " (user=" + user + ")");
       
       }
       else {
