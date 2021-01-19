@@ -112,8 +112,17 @@ Request:<br />
 Response:<br />
 HTTP 204 No Content<br />
 
+### No Operation 
+Used to keep the session active or to ping webapp.
+
+Request:<br />
+**GET** `http://localhost:8080/wrapp/api/nop`
+
+Response:<br />
+HTTP 204 No Content<br />
+
 ### Update
-Update password of legged user.
+Update password of logged user.
 
 Request:<br />
 **POST** `http://localhost:8080/wrapp/api/update`
