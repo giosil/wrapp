@@ -72,6 +72,7 @@ class App
     }
     _loginManager = null;
     _appManager   = null;
+    _locale       = null;
   }
   
   public static void startup() {
