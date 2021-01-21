@@ -1,9 +1,9 @@
 /**
 * DevExtreme (dx.common.css)
-* Version: 20.1.9
-* Build date: Fri Nov 20 2020
+* Version: 20.1.10
+* Build date: Fri Jan 15 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 .dx-clearfix:after,
@@ -1642,7 +1642,8 @@
 .dx-dropdowneditor {
   position: relative;
 }
-.dx-dropdowneditor.dx-dropdowneditor-field-clickable {
+.dx-dropdowneditor.dx-dropdowneditor-field-clickable,
+.dx-dropdowneditor.dx-dropdowneditor-field-clickable .dx-texteditor-input {
   cursor: pointer;
 }
 .dx-dropdowneditor-input-wrapper {
@@ -2355,7 +2356,7 @@
 .dx-toolbar-text-auto-hide .dx-button .dx-button-text {
   display: none;
 }
-.dx-toolbar .dx-texteditor {
+.dx-toolbar-item-content > .dx-texteditor {
   width: 150px;
 }
 .dx-toolbar-item-invisible {

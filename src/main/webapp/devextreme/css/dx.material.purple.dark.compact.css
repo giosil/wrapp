@@ -1,9 +1,9 @@
 /**
 * DevExtreme (dx.material.purple.dark.compact.css)
-* Version: 20.1.9
-* Build date: Fri Nov 20 2020
+* Version: 20.1.10
+* Build date: Fri Jan 15 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
@@ -8064,11 +8064,11 @@
 .dx-field-item .dx-switch {
   vertical-align: middle;
 }
-.dx-label-v-align .dx-field-item .dx-textarea {
+.dx-field-item.dx-label-v-align .dx-textarea {
   margin-top: 6px;
 }
-.dx-label-v-align .dx-field-item .dx-invalid-message > .dx-overlay-content,
-.dx-label-v-align .dx-field-item .dx-invalid-message > .dx-overlay-wrapper {
+.dx-field-item.dx-label-v-align .dx-invalid-message > .dx-overlay-content,
+.dx-field-item.dx-label-v-align .dx-invalid-message > .dx-overlay-wrapper {
   -webkit-transform: translate(0,0)!important;
   transform: translate(0,0)!important;
 }
@@ -10158,6 +10158,14 @@
   color: rgba(255,255,255,.54);
   padding: 7px 8px;
 }
+.dx-pivotgrid .dx-pivotgrid-area td.dx-pivotgrid-collapsed,
+.dx-pivotgrid .dx-pivotgrid-area td.dx-pivotgrid-expanded {
+  padding: 7px 8px 7px 13px;
+}
+.dx-pivotgrid .dx-pivotgrid-area td.dx-pivotgrid-collapsed > span,
+.dx-pivotgrid .dx-pivotgrid-area td.dx-pivotgrid-expanded > span {
+  padding: 0 5px 0 10px;
+}
 .dx-pivotgrid .dx-area-description-cell .dx-pivotgrid-toolbar {
   padding-left: 8px;
 }
@@ -10197,7 +10205,7 @@
 }
 .dx-pivotgrid .dx-grandtotal.dx-last-cell,
 .dx-pivotgrid .dx-row-total.dx-last-cell {
-  padding-left: 22px;
+  padding-left: 16px;
 }
 .dx-pivotgrid .dx-column-header .dx-pivotgrid-toolbar .dx-button,
 .dx-pivotgrid .dx-filter-header .dx-pivotgrid-toolbar .dx-button {
@@ -10244,7 +10252,7 @@
   background-color: rgba(255,255,255,.2);
 }
 .dx-pivotgrid .dx-expand-icon-container {
-  margin: 0 0 0 5px;
+  margin: 0;
   font: 12px/1 DXIcons;
 }
 .dx-pivotgrid .dx-expand-icon-container:before {
@@ -10280,10 +10288,6 @@
   margin-top: -10px;
   left: 50%;
   margin-left: -10px;
-}
-.dx-pivotgrid .dx-pivotgrid-collapsed > span,
-.dx-pivotgrid .dx-pivotgrid-expanded > span {
-  padding: 0 5px 0 10px;
 }
 .dx-pivotgrid .dx-ie .dx-pivotgrid-fields-area {
   color: #fff;
@@ -16373,6 +16377,10 @@
 }
 .dx-filemanager .dx-filemanager-toolbar {
   background: #363640;
+  min-height: 68px;
+}
+.dx-device-mobile .dx-filemanager .dx-filemanager-toolbar {
+  min-height: 68px;
 }
 .dx-filemanager .dx-filemanager-toolbar.dx-filemanager-file-toolbar,
 .dx-filemanager .dx-filemanager-toolbar.dx-filemanager-file-toolbar .dx-toolbar {

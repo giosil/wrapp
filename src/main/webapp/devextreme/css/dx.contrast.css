@@ -1,9 +1,9 @@
 /**
 * DevExtreme (dx.contrast.css)
-* Version: 20.1.9
-* Build date: Fri Nov 20 2020
+* Version: 20.1.10
+* Build date: Fri Jan 15 2021
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 .dx-theme-generic-typography {
@@ -13236,7 +13236,13 @@
 .dx-filemanager .dx-filemanager-progress-box .dx-filemanager-progress-box-close-button {
   margin-top: 9px;
 }
-.dx-filemanager .dx-filemanager-toolbar,
+.dx-filemanager .dx-filemanager-toolbar {
+  background: #000;
+  min-height: 48px;
+}
+.dx-device-mobile .dx-filemanager .dx-filemanager-toolbar {
+  min-height: 48px;
+}
 .dx-filemanager .dx-filemanager-toolbar.dx-filemanager-file-toolbar,
 .dx-filemanager .dx-filemanager-toolbar.dx-filemanager-file-toolbar .dx-toolbar {
   background: #000;
