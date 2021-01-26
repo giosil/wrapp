@@ -31,7 +31,7 @@ class WebModule extends HttpServlet
   @Override
   public
   void init()
-    throws ServletException
+      throws ServletException
   {
     System.out.println("WebModule.init()...");
     
@@ -64,15 +64,15 @@ class WebModule extends HttpServlet
   public 
   void destroy() 
   {
-	  System.out.println("WebModule.destroy()...");
-	  
-		try {
-			INoSQLDB noSQLDB = ConnectionManager.getDefaultNoSQLDB();
-			
-			noSQLDB.save(new HashMap<String, Object>());
-		}
-		catch(Exception ex) {
-			System.err.println("WebModule.destroy(): " + ex);
-		}
+    System.out.println("WebModule.destroy()...");
+    
+    try {
+      INoSQLDB noSQLDB = ConnectionManager.getDefaultNoSQLDB();
+      
+      noSQLDB.save(new HashMap<String, Object>());
+    }
+    catch(Exception ex) {
+      System.err.println("WebModule.destroy(): " + ex);
+    }
   }
 }
