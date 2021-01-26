@@ -1,9 +1,4 @@
 declare namespace GUI {
-    class GUIEvents extends WUX.WComponent {
-        protected render(): string;
-    }
-}
-declare namespace GUI {
     class GUIPathologies extends WUX.WComponent {
         container: WUX.WContainer;
         tagsFilter: WUX.WTags;

@@ -1,19 +1,5 @@
 var GUI;
 (function (GUI) {
-    var GUIEvents = (function (_super) {
-        __extends(GUIEvents, _super);
-        function GUIEvents() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        GUIEvents.prototype.render = function () {
-            return '<p>GUIEvents</p>';
-        };
-        return GUIEvents;
-    }(WUX.WComponent));
-    GUI.GUIEvents = GUIEvents;
-})(GUI || (GUI = {}));
-var GUI;
-(function (GUI) {
     var WUtil = WUX.WUtil;
     var GUIPathologies = (function (_super) {
         __extends(GUIPathologies, _super);
