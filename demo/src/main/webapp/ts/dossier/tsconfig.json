@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"module": "system",
+		"target": "es5",
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"outFile": "../../js/dossier.js",
+		"sourceMap": true
+	},
+	"include": [
+		"../types/**/*",
+		"../../js/res-it.d.ts",
+		"../../js/common.d.ts",
+		"*"
+	]
+}

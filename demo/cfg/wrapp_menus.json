@@ -1,0 +1,12 @@
+{
+  "main": [
+    { "id": "mgr",     "text": "en=Dossier^it=Dossier^fr=Dossier^es=Dossier",                         "icon": "fa-edit" },
+    { "id": "mgr.pat", "text": "en=Patients^it=Pazienti^fr=Patients^es=Pacientes",                    "icon": null,     "link": "page/patients"},
+    { "id": "mgr.str", "text": "en=Structures^it=Strutture^fr=Structures^es=Estructuras",             "icon": null,     "link": "page/structures"},
+    { "id": "cat",     "text": "en=Catalogs^it=Cataloghi^fr=Catalogues^es=Catálogos",                 "icon": "fa-folder-open" },
+    { "id": "cat.ser", "text": "en=Services^it=Prestazioni^fr=Soins de santé^es=Cuidado de la salud", "icon": null,     "link": "page/services"},
+    { "id": "cat.pat", "text": "en=Pathologies^it=Patologie^fr=Pathologies^es=Patologías",            "icon": null,     "link": "page/pathologies"},
+    { "id": "sta",     "text": "en=Statistics^it=Statistiche^fr=Statistiques^es=Estadísticas",        "icon": "fa-bar-chart-o" },
+    { "id": "sta.evn", "text": "en=Events^it=Eventi^fr=Événements^es=Eventos",                        "icon": null,     "link": "page/sta_events"}
+  ]
+}

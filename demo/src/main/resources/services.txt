@@ -1,0 +1,9 @@
+0001;Visite cardiologique;CAR;Cardiologie;50.00
+0002;Examen des yeux;OPH;Ophtalmologie;60.00
+0003;Visite orthopédique;ORT;Orthopédie;70.00
+0004;Examen dermatologique;DER;Dermatologie;40.00
+0005;Visite dentaire;DEN;Dentisterie;100.00
+0006;Visite d'oto-rhino-laryngologie;OTO;Otolaryngologie;80.00
+0007;Visite physiatrique;PHI;Physiatrie;50.00
+0008;Visite diabétique;DIA;Diabétologie;80.00
+

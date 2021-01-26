@@ -1,0 +1,8 @@
+491.2;Bronchite ostructive chronique;OTO;Otolaryngologie
+715;Arthrose;ORT;Orthopédie
+733.01;Ostéoporose sénile;ORT;Orthopédie
+366;Cataracte;OPH;Ophtalmologie;
+368;Troubles visuels;OPH;Ophtalmologie
+521.0;Caries dentaires;DEN;Dentisterie
+428;Insuffisance cardiaque;CAR;Cardiologie
+250;Diabète sucré;DIA;Diabétologie

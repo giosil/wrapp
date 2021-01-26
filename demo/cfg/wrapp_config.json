@@ -1,0 +1,13 @@
+{
+  "public": {
+    "name": "Dossier",
+    "version": "1.0.0",
+    "locale": "fr"
+  },
+  "private": {
+    "logo": "<h1 class=\"logo-name\" style=\"margin-left: -124px;\">$app.name</h1>",
+    "app": "org.dew.wrapp.impl.DefaultAppManager",
+    "login": "org.dew.wrapp.impl.DefaultLoginManager",
+    "menu": "org.dew.wrapp.impl.DefaultMenuManager"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "patients": {
+    "title": "en=Patients^it=Pazienti^fr=Patients^es=Pacientes",
+    "description": "en=Dossier^it=Dossier^fr=Dossier^es=Dossier",
+    "layout": "default",
+    "modifier": "private",
+    "header": "",
+    "content": "",
+    "footer": "",
+    "script": "WuxDOM.render(new GUI.GUIPatients(), 'view-root');",
+    "css": [
+      "/dossier/css/main.css"
+    ],
+    "scripts": [
+      "/wrapp/wux/js/wux.min.js",
+      "/dossier/js/res-$language.min.js",
+      "/dossier/js/common.min.js",
+      "/dossier/js/dossier.min.js"
+    ],
+    "attributes": {}
+  },
+  "structures": {
+    "title": "en=Structures^it=Strutture^fr=Structures^es=Estructuras",
+    "description": "en=Dossier^it=Dossier^fr=Dossier^es=Dossier",
+    "layout": "default",
+    "modifier": "private",
+    "header": "",
+    "content": "",
+    "footer": "",
+    "script": "WuxDOM.render(new GUI.GUIStructures(), 'view-root');",
+    "css": [
+      "/dossier/css/main.css"
+    ],
+    "scripts": [
+      "/wrapp/wux/js/wux.min.js",
+      "/dossier/js/res-$language.min.js",
+      "/dossier/js/common.min.js",
+      "/dossier/js/dossier.min.js"
+    ],
+    "attributes": {}
+  },
+  "services": {
+    "title": "en=Services^it=Prestazioni^fr=Soins de santé^es=Cuidado de la salud",
+    "description": "en=Catalogs^it=Cataloghi^fr=Catalogues^es=Catálogos",
+    "layout": "default",
+    "modifier": "private",
+    "header": "",
+    "content": "",
+    "footer": "",
+    "script": "WuxDOM.render(new GUI.GUIServices(), 'view-root');",
+    "css": [
+      "/dossier/css/main.css"
+    ],
+    "scripts": [
+      "/wrapp/wux/js/wux.min.js",
+      "/dossier/js/res-$language.min.js",
+      "/dossier/js/common.min.js",
+      "/dossier/js/dossier.min.js"
+    ],
+    "attributes": {}
+  },
+  "pathologies": {
+    "title": "en=Pathologies^it=Patologie^fr=Les pathologies^es=Patologías",
+    "description": "en=Catalogs^it=Cataloghi^fr=Catalogues^es=Catálogos",
+    "layout": "default",
+    "modifier": "private",
+    "header": "",
+    "content": "",
+    "footer": "",
+    "script": "WuxDOM.render(new GUI.GUIPathologies(), 'view-root');",
+    "css": [
+      "/dossier/css/main.css"
+    ],
+    "scripts": [
+      "/wrapp/wux/js/wux.min.js",
+      "/dossier/js/res-$language.min.js",
+      "/dossier/js/common.min.js",
+      "/dossier/js/dossier.min.js"
+    ],
+    "attributes": {}
+  },
+  "sta_events": {
+    "title": "en=Events^it=Eventi^fr=Événements^es=Eventos",
+    "description": "en=Statistics^it=Statistiche^fr=Statistiques^es=Estadísticas",
+    "layout": "default",
+    "modifier": "private",
+    "header": "",
+    "content": "",
+    "footer": "",
+    "script": "WuxDOM.render(new GUI.GUIStatEvents(), 'view-root');",
+    "css": [
+      "/dossier/css/main.css"
+    ],
+    "scripts": [
+      "/wrapp/inspinia/js/plugins/chartJs/Chart.min.js",
+      "/wrapp/wux/js/wux.min.js",
+      "/dossier/js/res-$language.min.js",
+      "/dossier/js/common.min.js",
+      "/dossier/js/dossier.min.js"
+    ],
+    "attributes": {}
+  }
+}

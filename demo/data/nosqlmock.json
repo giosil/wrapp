@@ -1,0 +1,442 @@
+{
+  "dossier": {
+    "patients": [
+      {
+        "code": "0001",
+        "gender": "M",
+        "phone": "333-1111111",
+        "name": "ALAIN",
+        "_id": "600fd734e41e371f7295b43a",
+        "family": "MARTIN",
+        "birthDate": "1974-03-14T23:00:00.000Z",
+        "email": "m.a@email.com"
+      },
+      {
+        "code": "0002",
+        "gender": "M",
+        "phone": "333-2222222",
+        "name": "ALBERT",
+        "_id": "600fd734e41e371f7295b43b",
+        "family": "BERNARD",
+        "birthDate": "1972-04-12T23:00:00.000Z",
+        "email": "b.a@email.com"
+      },
+      {
+        "code": "0003",
+        "gender": "M",
+        "phone": "333-3333333",
+        "name": "ALFRED",
+        "_id": "600fd734e41e371f7295b43c",
+        "family": "DUBOIS",
+        "birthDate": "1978-02-24T23:00:00.000Z",
+        "email": "d.a@email.com"
+      },
+      {
+        "code": "0004",
+        "gender": "M",
+        "phone": "333-4444444",
+        "name": "ANTOINE",
+        "_id": "600fd734e41e371f7295b43d",
+        "family": "THOMAS",
+        "birthDate": "1984-08-10T22:00:00.000Z",
+        "email": "t.a@email.com"
+      },
+      {
+        "code": "0005",
+        "gender": "M",
+        "phone": "333-5555555",
+        "name": "BASTIEN",
+        "_id": "600fd734e41e371f7295b43e",
+        "family": "ROBERT",
+        "birthDate": "1964-06-07T23:00:00.000Z",
+        "email": "r.b@email.com"
+      },
+      {
+        "code": "0006",
+        "gender": "M",
+        "phone": "333-6666666",
+        "name": "AUBIN",
+        "_id": "600fd734e41e371f7295b43f",
+        "family": "RICHARD",
+        "birthDate": "1966-05-15T23:00:00.000Z",
+        "email": "r.a@email.com"
+      },
+      {
+        "code": "0007",
+        "gender": "M",
+        "phone": "333-7777777",
+        "name": "BERNARD",
+        "_id": "600fd734e41e371f7295b440",
+        "family": "PETIT",
+        "birthDate": "1973-09-02T22:00:00.000Z",
+        "email": "p.a@email.com"
+      },
+      {
+        "code": "0008",
+        "gender": "M",
+        "phone": "333-8888888",
+        "name": "DENIS",
+        "_id": "600fd734e41e371f7295b441",
+        "family": "VINCENT",
+        "birthDate": "1975-11-01T23:00:00.000Z",
+        "email": "v.d@email.com"
+      },
+      {
+        "code": "0009",
+        "gender": "M",
+        "phone": "333-9999999",
+        "name": "DAVID",
+        "_id": "600fd734e41e371f7295b442",
+        "family": "FOURNIER",
+        "birthDate": "1981-12-18T23:00:00.000Z",
+        "email": "f.d@email.com"
+      },
+      {
+        "code": "0010",
+        "gender": "F",
+        "phone": "331-1111111",
+        "name": "ALICE",
+        "_id": "600fd734e41e371f7295b443",
+        "family": "DURAND",
+        "birthDate": "1974-01-25T23:00:00.000Z",
+        "email": "d.al@email.com"
+      }
+    ],
+    "pathologies": [
+      {
+        "code": "491.2",
+        "typeDesc": "Otolaryngologie",
+        "_id": "600fd734e41e371f7295b44c",
+        "type": "OTO",
+        "desc": "Bronchite ostructive chronique"
+      },
+      {
+        "code": "715",
+        "typeDesc": "Orthopédie",
+        "_id": "600fd734e41e371f7295b44d",
+        "type": "ORT",
+        "desc": "Arthrose"
+      },
+      {
+        "code": "733.01",
+        "typeDesc": "Orthopédie",
+        "_id": "600fd734e41e371f7295b44e",
+        "type": "ORT",
+        "desc": "Ostéoporose sénile"
+      },
+      {
+        "code": "366",
+        "typeDesc": "Ophtalmologie",
+        "_id": "600fd734e41e371f7295b44f",
+        "type": "OPH",
+        "desc": "Cataracte"
+      },
+      {
+        "code": "368",
+        "typeDesc": "Ophtalmologie",
+        "_id": "600fd734e41e371f7295b450",
+        "type": "OPH",
+        "desc": "Troubles visuels"
+      },
+      {
+        "code": "521.0",
+        "typeDesc": "Dentisterie",
+        "_id": "600fd734e41e371f7295b451",
+        "type": "DEN",
+        "desc": "Caries dentaires"
+      },
+      {
+        "code": "428",
+        "typeDesc": "Cardiologie",
+        "_id": "600fd734e41e371f7295b452",
+        "type": "CAR",
+        "desc": "Insuffisance cardiaque"
+      },
+      {
+        "code": "250",
+        "typeDesc": "Diabétologie",
+        "_id": "600fd734e41e371f7295b453",
+        "type": "DIA",
+        "desc": "Diabète sucré"
+      }
+    ],
+    "structures": [
+      {
+        "code": "0001",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": false,
+        "_id": "600fd734e41e371f7295b454",
+        "type": "PLU",
+        "desc": "ST.AUGUSTIN"
+      },
+      {
+        "code": "0002",
+        "typeDesc": "OPHTALMOLOGIE",
+        "agre": true,
+        "_id": "600fd734e41e371f7295b455",
+        "type": "OPH",
+        "desc": "RIDHA MRAD"
+      },
+      {
+        "code": "0003",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": false,
+        "_id": "600fd734e41e371f7295b456",
+        "type": "PLU",
+        "desc": "LES JASMINS"
+      },
+      {
+        "code": "0004",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": true,
+        "_id": "600fd734e41e371f7295b457",
+        "type": "PLU",
+        "desc": "CARTHAGE"
+      },
+      {
+        "code": "0005",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": false,
+        "_id": "600fd734e41e371f7295b458",
+        "type": "PLU",
+        "desc": "TAOUFIK TUNIS"
+      },
+      {
+        "code": "0006",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": true,
+        "_id": "600fd734e41e371f7295b459",
+        "type": "PLU",
+        "desc": "EL MENZAH"
+      },
+      {
+        "code": "0007",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": false,
+        "_id": "600fd734e41e371f7295b45a",
+        "type": "PLU",
+        "desc": "LE SECOURS"
+      },
+      {
+        "code": "0008",
+        "typeDesc": "PLURIDISCIPLINAIRE",
+        "agre": true,
+        "_id": "600fd734e41e371f7295b45b",
+        "type": "PLU",
+        "desc": "SIDI SALAH"
+      }
+    ],
+    "services": [
+      {
+        "fare": 50,
+        "code": "0001",
+        "typeDesc": "Cardiologie",
+        "_id": "600fd734e41e371f7295b444",
+        "type": "CAR",
+        "desc": "Visite cardiologique"
+      },
+      {
+        "fare": 60,
+        "code": "0002",
+        "typeDesc": "Ophtalmologie",
+        "_id": "600fd734e41e371f7295b445",
+        "type": "OPH",
+        "desc": "Examen des yeux"
+      },
+      {
+        "fare": 70,
+        "code": "0003",
+        "typeDesc": "Orthopédie",
+        "_id": "600fd734e41e371f7295b446",
+        "type": "ORT",
+        "desc": "Visite orthopédique"
+      },
+      {
+        "fare": 40,
+        "code": "0004",
+        "typeDesc": "Dermatologie",
+        "_id": "600fd734e41e371f7295b447",
+        "type": "DER",
+        "desc": "Examen dermatologique"
+      },
+      {
+        "fare": 100,
+        "code": "0005",
+        "typeDesc": "Dentisterie",
+        "_id": "600fd734e41e371f7295b448",
+        "type": "DEN",
+        "desc": "Visite dentaire"
+      },
+      {
+        "fare": 80,
+        "code": "0006",
+        "typeDesc": "Otolaryngologie",
+        "_id": "600fd734e41e371f7295b449",
+        "type": "OTO",
+        "desc": "Visite d'oto-rhino-laryngologie"
+      },
+      {
+        "fare": 50,
+        "code": "0007",
+        "typeDesc": "Physiatrie",
+        "_id": "600fd734e41e371f7295b44a",
+        "type": "PHI",
+        "desc": "Visite physiatrique"
+      },
+      {
+        "fare": 80,
+        "code": "0008",
+        "typeDesc": "Diabétologie",
+        "_id": "600fd734e41e371f7295b44b",
+        "type": "DIA",
+        "desc": "Visite diabétique"
+      }
+    ],
+    "statistics": [
+      {
+        "pp": {
+          "series": [
+            [
+              0,
+              20.01,
+              13.89,
+              12.39,
+              0,
+              0.21,
+              39.09,
+              14.41
+            ]
+          ],
+          "labels": [
+            "Consultant",
+            "Otolaryngologie",
+            "Orthopédie",
+            "Ophtalmologie",
+            "Chirurgie",
+            "Ophtalmologie",
+            "Dentisterie",
+            "Cardiologie"
+          ]
+        },
+        "code": "202011",
+        "pe": {
+          "series": [
+            [
+              57,
+              220,
+              579,
+              280,
+              1,
+              21,
+              1855,
+              420
+            ]
+          ],
+          "labels": [
+            "Consultant",
+            "Otolaryngologie",
+            "Orthopédie",
+            "Ophtalmologie",
+            "Chirurgie",
+            "Ophtalmologie",
+            "Dentisterie",
+            "Cardiologie"
+          ]
+        },
+        "pv": {
+          "series": [
+            [
+              0,
+              21172,
+              14699,
+              13104,
+              0,
+              224,
+              41356,
+              15250
+            ]
+          ],
+          "labels": [
+            "Consultant",
+            "Otolaryngologie",
+            "Orthopédie",
+            "Ophtalmologie",
+            "Chirurgie",
+            "Ophtalmologie",
+            "Dentisterie",
+            "Cardiologie"
+          ]
+        },
+        "_id": "600fd734e41e371f7295b45c",
+        "gv": {
+          "series": [
+            [
+              3092,
+              2749,
+              2704,
+              3842,
+              4017,
+              5920,
+              4277,
+              3702,
+              2573,
+              3344,
+              3564,
+              4180,
+              3900,
+              3765,
+              2973,
+              3058,
+              3107,
+              3714,
+              3964,
+              3859,
+              4375,
+              3674,
+              2699,
+              3366,
+              3078,
+              4180,
+              4052,
+              4767,
+              3310,
+              2699
+            ]
+          ],
+          "labels": [
+            "2020-11-01",
+            "2020-11-02",
+            "2020-11-03",
+            "2020-11-04",
+            "2020-11-05",
+            "2020-11-06",
+            "2020-11-07",
+            "2020-11-08",
+            "2020-11-09",
+            "2020-11-10",
+            "2020-11-11",
+            "2020-11-12",
+            "2020-11-13",
+            "2020-11-14",
+            "2020-11-15",
+            "2020-11-16",
+            "2020-11-17",
+            "2020-11-18",
+            "2020-11-19",
+            "2020-11-20",
+            "2020-11-21",
+            "2020-11-22",
+            "2020-11-23",
+            "2020-11-24",
+            "2020-11-25",
+            "2020-11-26",
+            "2020-11-27",
+            "2020-11-28",
+            "2020-11-29",
+            "2020-11-30"
+          ]
+        }
+      }
+    ]
+  }
+}
