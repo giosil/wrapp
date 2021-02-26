@@ -15,7 +15,7 @@
 <link href="css/plugins/select/ajax-bootstrap-select.min.css" rel="stylesheet">
 
 <link href="inspinia/css/animate.css" rel="stylesheet">
-<link href="inspinia/css/style.css" rel="stylesheet">
+<link href="inspinia/css/style<%= App.getAppTheme("_") %>.css" rel="stylesheet">
 
 <% WebUtil.writeCSSImport(out, "devextreme/css/dx.common.css"); %>
 <% WebUtil.writeCSSImport(out, "devextreme/css/dx.light.compact.css"); %>

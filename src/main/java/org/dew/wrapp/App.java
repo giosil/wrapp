@@ -254,6 +254,17 @@ class App
     return ConfigManager.getConfigStr("versione", "1.0.0");
   }
   
+  public static String getAppTheme() {
+    return ConfigManager.getConfigStr("theme", "");
+  }
+  
+  public static String getAppTheme(String prefix) {
+    if(prefix == null) prefix = "";
+    String result = ConfigManager.getConfigStr("theme", "");
+    if(result == null || result.length() == 0) return "";
+    return prefix + result;
+  }
+  
   public static String getAppLogo() {
     String result = ConfigManager.getConfigStr("logo", "$app.name");
     if(result == null || result.length() == 0) {

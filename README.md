@@ -29,6 +29,7 @@ Example:
   "public": {
     "name": "Wrapp",
     "version": "1.0.0",
+	"theme": "",
     "locale": "en"
   },
   "private": {
