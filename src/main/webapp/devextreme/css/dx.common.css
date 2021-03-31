@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.common.css)
-* Version: 20.1.10
-* Build date: Fri Jan 15 2021
+* Version: 20.1.11
+* Build date: Mon Mar 15 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -2197,7 +2197,7 @@
   width: 100%;
 }
 .dx-dropdownmenu-popup-wrapper .dx-dropdownmenu-list {
-  min-height: 40px;
+  min-height: 0;
   min-width: 100px;
 }
 .dx-dropdownmenu-popup-wrapper .dx-dropdownmenu-list .dx-list-item {
@@ -3902,6 +3902,18 @@
 .dx-datagrid-table {
   background-color: transparent;
 }
+.dx-datagrid-borders > .dx-datagrid-total-footer {
+  border-top: 0;
+}
+.dx-datagrid-borders > .dx-datagrid-pager {
+  margin-top: 1px;
+}
+.dx-datagrid-borders > .dx-datagrid-header-panel {
+  border-bottom: 0;
+}
+.dx-datagrid-borders > .dx-datagrid-rowsview.dx-last-row-border tbody:last-child > .dx-data-row:nth-last-child(2) > td {
+  border-bottom-width: 0;
+}
 .dx-datagrid .dx-datagrid-content-fixed {
   position: absolute;
   top: 0;
@@ -3930,18 +3942,6 @@
 }
 .dx-datagrid .dx-datagrid-content-fixed .dx-datagrid-table.dx-datagrid-table-fixed .dx-row td.dx-pointer-events-none {
   width: auto;
-}
-.dx-datagrid.dx-datagrid-borders > .dx-datagrid-total-footer {
-  border-top: 0;
-}
-.dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
-  margin-top: 1px;
-}
-.dx-datagrid.dx-datagrid-borders > .dx-datagrid-header-panel {
-  border-bottom: 0;
-}
-.dx-datagrid.dx-datagrid-borders > .dx-datagrid-rowsview.dx-last-row-border tbody:last-child > .dx-data-row:nth-last-child(2) > td {
-  border-bottom-width: 0;
 }
 .dx-datagrid .dx-menu-subitem ul li {
   padding-top: 0;
@@ -4264,6 +4264,7 @@
   -webkit-touch-callout: none;
 }
 .dx-header-row > td > .dx-datagrid-text-content {
+  display: inline-block;
   white-space: normal;
   vertical-align: top;
 }
@@ -4977,6 +4978,18 @@
 .dx-treelist-table {
   background-color: transparent;
 }
+.dx-treelist-borders > .dx-treelist-total-footer {
+  border-top: 0;
+}
+.dx-treelist-borders > .dx-treelist-pager {
+  margin-top: 1px;
+}
+.dx-treelist-borders > .dx-treelist-header-panel {
+  border-bottom: 0;
+}
+.dx-treelist-borders > .dx-treelist-rowsview.dx-last-row-border tbody:last-child > .dx-data-row:nth-last-child(2) > td {
+  border-bottom-width: 0;
+}
 .dx-treelist .dx-treelist-content-fixed {
   position: absolute;
   top: 0;
@@ -5005,18 +5018,6 @@
 }
 .dx-treelist .dx-treelist-content-fixed .dx-treelist-table.dx-treelist-table-fixed .dx-row td.dx-pointer-events-none {
   width: auto;
-}
-.dx-treelist.dx-treelist-borders > .dx-treelist-total-footer {
-  border-top: 0;
-}
-.dx-treelist.dx-treelist-borders > .dx-treelist-pager {
-  margin-top: 1px;
-}
-.dx-treelist.dx-treelist-borders > .dx-treelist-header-panel {
-  border-bottom: 0;
-}
-.dx-treelist.dx-treelist-borders > .dx-treelist-rowsview.dx-last-row-border tbody:last-child > .dx-data-row:nth-last-child(2) > td {
-  border-bottom-width: 0;
 }
 .dx-treelist .dx-menu-subitem ul li {
   padding-top: 0;
@@ -5399,12 +5400,12 @@ input.dx-hidden {
   overflow: hidden;
 }
 .dx-header-row > td > .dx-treelist-text-content {
+  display: inline-block;
   white-space: normal;
   vertical-align: top;
 }
 .dx-header-row .dx-text-content-alignment-left,
 .dx-header-row .dx-text-content-alignment-right {
-  display: inline-block;
   max-width: 100%;
 }
 .dx-header-row .dx-header-filter-indicator,
