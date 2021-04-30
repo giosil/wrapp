@@ -1,7 +1,7 @@
 /*!
 * DevExtreme (dx.all.d.ts)
-* Version: 20.1.11
-* Build date: Tue Mar 16 2021
+* Version: 20.1.12
+* Build date: Thu Apr 22 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -4539,7 +4539,7 @@ declare module DevExpress.ui {
          */
         repaintChangesOnly?: boolean;
         /**
-         * The index number of the currently selected item.
+         * [tags] expandedItem, expand The index number of the currently expanded item.
          */
         selectedIndex?: number;
     }
@@ -7868,7 +7868,7 @@ declare module DevExpress.ui {
          */
         onPageLoading?: ((e: { component?: dxList, element?: DevExpress.core.dxElement, model?: any }) => any);
         /**
-         * A function that is executed when the 'pull to refresh' gesture is performed. Supported in mobile themes only.
+         * A function that is executed when the 'pull to refresh' gesture is performed. Supported on mobile devices only.
          */
         onPullRefresh?: ((e: { component?: dxList, element?: DevExpress.core.dxElement, model?: any }) => any);
         /**
@@ -8229,7 +8229,7 @@ declare module DevExpress.ui {
          */
         onPageLoading?: ((e: { component?: dxLookup, element?: DevExpress.core.dxElement, model?: any }) => any);
         /**
-         * A function that is executed when the 'pull to refresh' gesture is performed on the drop-down item list. Supported in mobile themes only.
+         * A function that is executed when the 'pull to refresh' gesture is performed on the drop-down item list. Supported on mobile devices only.
          */
         onPullRefresh?: ((e: { component?: dxLookup, element?: DevExpress.core.dxElement, model?: any }) => any);
         /**
@@ -9983,7 +9983,7 @@ declare module DevExpress.ui {
      */
     export interface dxScrollViewOptions extends dxScrollableOptions<dxScrollView> {
         /**
-         * A function that is executed when the 'pull to refresh' gesture is performed. Supported in mobile themes only.
+         * A function that is executed when the 'pull to refresh' gesture is performed. Supported on mobile devices only.
          */
         onPullDown?: ((e: { component?: dxScrollView, element?: DevExpress.core.dxElement, model?: any }) => any);
         /**
@@ -10084,11 +10084,7 @@ declare module DevExpress.ui {
         /**
          * Scrolls the content by a specific distance.
          */
-        scrollBy(distance: number): void;
-        /**
-         * Scrolls the content by a specific distance in horizontal and vertical directions.
-         */
-        scrollBy(distanceObject: any): void;
+        scrollBy(distance: number | any): void;
         /**
          * Gets the scrollable content's height in pixels.
          */
@@ -10104,13 +10100,9 @@ declare module DevExpress.ui {
         /**
          * Scrolls the content to a specific position.
          */
-        scrollTo(targetLocation: number): void;
+        scrollTo(targetLocation: number | any): void;
         /**
-         * Scrolls the content to a specific position.
-         */
-        scrollTo(targetLocation: any): void;
-        /**
-         * Scrolls the content to an element.
+         * Scrolls content to an element.
          */
         scrollToElement(element: Element | JQuery): void;
         /**
@@ -11686,11 +11678,11 @@ declare module DevExpress.ui {
         /**
          * A function that is executed when a single TreeView item is selected or selection is canceled.
          */
-        onItemSelectionChanged?: ((e: { component?: dxTreeView, element?: DevExpress.core.dxElement, model?: any, node?: dxTreeViewNode, itemElement?: DevExpress.core.dxElement }) => any);
+        onItemSelectionChanged?: ((e: { component?: dxTreeView, element?: DevExpress.core.dxElement, model?: any, node?: dxTreeViewNode, itemElement?: DevExpress.core.dxElement, itemData?: any, itemIndex?: number }) => any);
         /**
          * A function that is executed when the 'Select All' check box value is changed. Applies only if showCheckBoxesMode is 'selectAll' and selectionMode is 'multiple'.
          */
-        onSelectAllValueChanged?: ((e: { component?: dxTreeView, element?: DevExpress.core.dxElement, model?: any, value?: boolean }) => any);
+        onSelectAllValueChanged?: ((e: { component?: dxTreeView, element?: DevExpress.core.dxElement, model?: any, value?: boolean | undefined }) => any);
         /**
          * A function that is executed when a TreeView item is selected or selection is canceled.
          */
@@ -12061,11 +12053,11 @@ declare module DevExpress.ui {
          */
         static current(themeName: string): void;
         /**
-         * 
+         * Specifies a function to be executed after a theme is loaded.
          */
         static initialized(callback: Function): void;
         /**
-         * Specifies a function to be executed after the theme is loaded.
+         * Specifies a function to be executed each time a theme is switched.
          */
         static ready(callback: Function): void;
     }
