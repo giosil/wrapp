@@ -42,7 +42,7 @@ class WebLogin extends HttpServlet
       if(homePage == null || homePage.length() == 0) {
         homePage = App.DEFAULT_HOME_PAGE;
       }
-      if(homePage.lastIndexOf('.') < 0) homePage += ".jsp";
+      if(homePage.indexOf('.') < 0) homePage += ".jsp";
       
       RequestDispatcher requestDispatcher = request.getRequestDispatcher("/" + homePage);
       requestDispatcher.forward(request, response);

@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-        
-    <wb-module deploy-name="dossier">
-                
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-                
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
-                
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-                
-        <property name="context-root" value="dossier"/>
-                
-        <property name="java-output-path" value="/dossier/target/classes"/>
-        <property name="component.exclusion.patterns" value=".vs,.vs/*.*,.vscode,.vscode/*.*,bin,bin/*.*,obj,obj/*.*,Properties/*.*,*.cmd,Web.config,Web.Debug.config,Web.Release.config,*.csproj,*.csproj.user,*.sln"/>
             
-    </wb-module>
     
+    <wb-module deploy-name="dossier">
+                        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+                        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+                
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                        
+        
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                        
+        
+        <property name="context-root" value="dossier"/>
+                        
+        
+        <property name="java-output-path" value="/dossier/target/classes"/>
+                
+        <property name="component.exclusion.patterns" value=".vs,.vs/*.*,.vscode,.vscode/*.*,bin,bin/*.*,obj,obj/*.*,Properties/*.*,*.cmd,Web.config,Web.Debug.config,Web.Release.config,*.csproj,*.csproj.user,*.sln"/>
+                    
+    
+    </wb-module>
+        
+
 </project-modules>

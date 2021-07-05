@@ -1,5 +1,15 @@
 <%@ page import="java.util.Locale, org.dew.wrapp.*" contentType="text/html; charset=UTF-8" %>
 <%
+	User user = WebUtil.getUser(request);
+	if(user != null) {
+		String homePage = user.getHome();
+		if(homePage == null || homePage.length() == 0) {
+			homePage = App.DEFAULT_HOME_PAGE;
+		}
+		if(homePage.indexOf('.') < 0) homePage += ".jsp";
+		response.sendRedirect(homePage);
+		return;
+	}
 	Locale locale  = WebUtil.getLocale(request);
 	String lang    = WebUtil.getLanguage(locale);
 	Object message = request.getAttribute("message");
