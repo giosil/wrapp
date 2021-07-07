@@ -7370,8 +7370,7 @@ var WUX;
             this.handlers['_clickaction'].push(h);
         };
         WDXTable.prototype.onSelectionChanged = function (h) {
-            this.handlers['_selectionchanged'] = [];
-            this.handlers['_selectionchanged'].push(h);
+            this.handlers['_selectionchanged'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onSelectionChanged: h
@@ -7395,8 +7394,7 @@ var WUX;
             this.handlers['_donerefresh'].push(h);
         };
         WDXTable.prototype.onRowPrepared = function (h) {
-            this.handlers['_rowprepared'] = [];
-            this.handlers['_rowprepared'].push(h);
+            this.handlers['_rowprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onRowPrepared: h
@@ -7405,8 +7403,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onCellPrepared = function (h) {
-            this.handlers['_cellprepared'] = [];
-            this.handlers['_cellprepared'].push(h);
+            this.handlers['_cellprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onCellPrepared: h
@@ -7415,8 +7412,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onContentReady = function (h) {
-            this.handlers['_contentready'] = [];
-            this.handlers['_contentready'].push(h);
+            this.handlers['_contentready'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onContentReady: h
@@ -7425,8 +7421,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onRowUpdated = function (h) {
-            this.handlers['_rowupdated'] = [];
-            this.handlers['_rowupdated'].push(h);
+            this.handlers['_rowupdated'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onRowUpdated: h
@@ -7435,8 +7430,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onEditorPreparing = function (h) {
-            this.handlers['_editorpreparing'] = [];
-            this.handlers['_editorpreparing'].push(h);
+            this.handlers['_editorpreparing'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditorPreparing: h
@@ -7445,8 +7439,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onEditorPrepared = function (h) {
-            this.handlers['_editorprepared'] = [];
-            this.handlers['_editorprepared'].push(h);
+            this.handlers['_editorprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditorPrepared: h
@@ -7455,8 +7448,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onEditingStart = function (h) {
-            this.handlers['_editingstart'] = [];
-            this.handlers['_editingstart'].push(h);
+            this.handlers['_editingstart'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditingStart: h
@@ -7465,8 +7457,7 @@ var WUX;
             }
         };
         WDXTable.prototype.onCellClick = function (h) {
-            this.handlers['_cellclick'] = [];
-            this.handlers['_cellclick'].push(h);
+            this.handlers['_cellclick'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onCellClick: h
@@ -7474,19 +7465,26 @@ var WUX;
                 this.root.dxDataGrid(gopt);
             }
         };
-        WDXTable.prototype.onScroll = function (handler) {
-            this.handlers['_scroll'] = [];
-            this.handlers['_scroll'].push(handler);
+        WDXTable.prototype.onScroll = function (h) {
+            this.handlers['_scroll'] = [h];
             if (this.mounted) {
-                this.root.dxDataGrid('instance').getScrollable().on('scroll', handler);
+                this.root.dxDataGrid('instance').getScrollable().on('scroll', h);
             }
         };
         WDXTable.prototype.onKeyDown = function (h) {
-            this.handlers['_keydown'] = [];
-            this.handlers['_keydown'].push(h);
+            this.handlers['_keydown'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onKeyDown: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        };
+        WDXTable.prototype.onToolbarPreparing = function (h) {
+            this.handlers['_toolbarpreparing'] = [h];
+            if (this.mounted) {
+                var gopt = {
+                    onToolbarPreparing: h
                 };
                 this.root.dxDataGrid(gopt);
             }
@@ -7526,6 +7524,8 @@ var WUX;
                 gopt.onCellClick = null;
             if (events.indexOf('_keydown') >= 0)
                 gopt.onKeyDown = null;
+            if (events.indexOf('_toolbarpreparing') >= 0)
+                gopt.onToolbarPreparing = null;
             this.root.dxDataGrid(gopt);
             return this;
         };
@@ -8021,6 +8021,9 @@ var WUX;
             if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
                 gopt.onKeyDown = this.handlers['_keydown'][0];
             }
+            if (this.handlers['_toolbarpreparing'] && this.handlers['_toolbarpreparing'].length) {
+                gopt.onToolbarPreparing = this.handlers['_toolbarpreparing'][0];
+            }
             this.beforeInit(gopt);
             this.root.dxDataGrid(gopt);
             if (this.handlers['_scroll'] && this.handlers['_scroll'].length) {
@@ -8288,8 +8291,7 @@ var WUX;
             this.handlers['_clickaction'].push(h);
         };
         WDXTreeList.prototype.onSelectionChanged = function (h) {
-            this.handlers['_selectionchanged'] = [];
-            this.handlers['_selectionchanged'].push(h);
+            this.handlers['_selectionchanged'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onSelectionChanged: h
@@ -8303,8 +8305,7 @@ var WUX;
             this.handlers['_doubleclick'].push(h);
         };
         WDXTreeList.prototype.onRowPrepared = function (h) {
-            this.handlers['_rowprepared'] = [];
-            this.handlers['_rowprepared'].push(h);
+            this.handlers['_rowprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onRowPrepared: h
@@ -8313,8 +8314,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onCellPrepared = function (h) {
-            this.handlers['_cellprepared'] = [];
-            this.handlers['_cellprepared'].push(h);
+            this.handlers['_cellprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onCellPrepared: h
@@ -8323,8 +8323,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onContentReady = function (h) {
-            this.handlers['_contentready'] = [];
-            this.handlers['_contentready'].push(h);
+            this.handlers['_contentready'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onContentReady: h
@@ -8333,8 +8332,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onRowUpdated = function (h) {
-            this.handlers['_rowupdated'] = [];
-            this.handlers['_rowupdated'].push(h);
+            this.handlers['_rowupdated'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onRowUpdated: h
@@ -8343,8 +8341,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onEditorPreparing = function (h) {
-            this.handlers['_editorpreparing'] = [];
-            this.handlers['_editorpreparing'].push(h);
+            this.handlers['_editorpreparing'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditorPreparing: h
@@ -8353,8 +8350,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onEditorPrepared = function (h) {
-            this.handlers['_editorprepared'] = [];
-            this.handlers['_editorprepared'].push(h);
+            this.handlers['_editorprepared'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditorPrepared: h
@@ -8363,8 +8359,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onEditingStart = function (h) {
-            this.handlers['_editingstart'] = [];
-            this.handlers['_editingstart'].push(h);
+            this.handlers['_editingstart'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onEditingStart: h
@@ -8373,8 +8368,7 @@ var WUX;
             }
         };
         WDXTreeList.prototype.onCellClick = function (h) {
-            this.handlers['_cellclick'] = [];
-            this.handlers['_cellclick'].push(h);
+            this.handlers['_cellclick'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onCellClick: h
@@ -8382,21 +8376,28 @@ var WUX;
                 this.root.dxTreeList(gopt);
             }
         };
-        WDXTreeList.prototype.onScroll = function (handler) {
-            this.handlers['_scroll'] = [];
-            this.handlers['_scroll'].push(handler);
+        WDXTreeList.prototype.onScroll = function (h) {
+            this.handlers['_scroll'] = [h];
             if (this.mounted) {
                 var dxtl = this.root.dxTreeList('instance');
                 if (dxtl)
-                    dxtl.getScrollable().on('scroll', handler);
+                    dxtl.getScrollable().on('scroll', h);
             }
         };
         WDXTreeList.prototype.onKeyDown = function (h) {
-            this.handlers['_keydown'] = [];
-            this.handlers['_keydown'].push(h);
+            this.handlers['_keydown'] = [h];
             if (this.mounted) {
                 var gopt = {
                     onKeyDown: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        };
+        WDXTreeList.prototype.onToolbarPreparing = function (h) {
+            this.handlers['_toolbarpreparing'] = [h];
+            if (this.mounted) {
+                var gopt = {
+                    onToolbarPreparing: h
                 };
                 this.root.dxTreeList(gopt);
             }
@@ -8436,6 +8437,8 @@ var WUX;
                 gopt.onCellClick = null;
             if (events.indexOf('_keydown') >= 0)
                 gopt.onKeyDown = null;
+            if (events.indexOf('_toolbarpreparing') >= 0)
+                gopt.onToolbarPreparing = null;
             this.root.dxTreeList(gopt);
             return this;
         };
@@ -8915,6 +8918,9 @@ var WUX;
             }
             if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
                 gopt.onKeyDown = this.handlers['_keydown'][0];
+            }
+            if (this.handlers['_toolbarpreparing'] && this.handlers['_toolbarpreparing'].length) {
+                gopt.onToolbarPreparing = this.handlers['_toolbarpreparing'][0];
             }
             this.beforeInit(gopt);
             this.root.dxTreeList(gopt);

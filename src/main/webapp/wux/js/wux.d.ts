@@ -1308,7 +1308,7 @@ declare namespace WUX {
             cellElement?: DevExpress.core.dxElement;
             row?: DevExpress.ui.dxDataGridRowObject;
         }) => any): void;
-        onScroll(handler: (e: {
+        onScroll(h: (e: {
             element?: JQuery;
             reachedBottom?: boolean;
             reachedLeft?: boolean;
@@ -1326,6 +1326,12 @@ declare namespace WUX {
             jQueryEvent?: JQueryEventObject;
             event?: DevExpress.event;
             handled?: boolean;
+        }) => any): void;
+        onToolbarPreparing(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            toolbarOptions?: DevExpress.ui.dxToolbarOptions;
         }) => any): void;
         scrollTo(location: any): void;
         clearFilter(): void;
@@ -1521,7 +1527,7 @@ declare namespace WUX {
             cellElement?: DevExpress.core.dxElement;
             row?: DevExpress.ui.dxTreeListRowObject;
         }) => any): void;
-        onScroll(handler: (e: {
+        onScroll(h: (e: {
             element?: JQuery;
             reachedBottom?: boolean;
             reachedLeft?: boolean;
@@ -1539,6 +1545,12 @@ declare namespace WUX {
             jQueryEvent?: JQueryEventObject;
             event?: DevExpress.event;
             handled?: boolean;
+        }) => any): void;
+        onToolbarPreparing(h: (e: {
+            component?: DevExpress.DOMComponent;
+            element?: DevExpress.core.dxElement;
+            model?: any;
+            toolbarOptions?: DevExpress.ui.dxToolbarOptions;
         }) => any): void;
         scrollTo(location: any): void;
         clearFilter(): void;
@@ -1587,7 +1599,7 @@ declare namespace WUX {
         protected mapOfId: {
             [idx: number]: string;
         };
-        protected mtitle: any;
+        protected mtitle: string;
         constructor(id?: string, classStyle?: string, title?: string);
         addItem(item: WUX.WEntity): this;
         addItem(id: string, icon: WUX.WIcon | string, text: string, bdef?: boolean): this;

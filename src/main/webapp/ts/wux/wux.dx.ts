@@ -251,8 +251,7 @@
 
         onSelectionChanged(h: (e: { element?: JQuery, selectedRowsData?: Array<any> }) => any): void {
             // Single handler
-            this.handlers['_selectionchanged'] = [];
-            this.handlers['_selectionchanged'].push(h);
+            this.handlers['_selectionchanged'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onSelectionChanged: h
@@ -278,8 +277,7 @@
 
         onRowPrepared(h: (e: { element?: JQuery, rowElement?: JQuery, data?: any, rowIndex?: number, isSelected?: boolean }) => any) {
             // Single handler
-            this.handlers['_rowprepared'] = [];
-            this.handlers['_rowprepared'].push(h);
+            this.handlers['_rowprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onRowPrepared: h
@@ -290,8 +288,7 @@
 
         onCellPrepared(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, data?: any, key?: any, value?: any, displayValue?: string, text?: string, columnIndex?: number, column?: DevExpress.ui.dxDataGridColumn, rowIndex?: number, rowType?: string, row?: DevExpress.ui.dxDataGridRowObject, isSelected?: boolean, isExpanded?: boolean, cellElement?: DevExpress.core.dxElement }) => any) {
             // Single handler
-            this.handlers['_cellprepared'] = [];
-            this.handlers['_cellprepared'].push(h);
+            this.handlers['_cellprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onCellPrepared: h
@@ -302,8 +299,7 @@
 
         onContentReady(h: (e: { component?: DevExpress.ui.dxDataGrid, element?: DevExpress.core.dxElement, model?: any }) => any) {
             // Single handler
-            this.handlers['_contentready'] = [];
-            this.handlers['_contentready'].push(h);
+            this.handlers['_contentready'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onContentReady: h
@@ -314,8 +310,7 @@
 
         onRowUpdated(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, data?: any, key?: any, error?: Error }) => any) {
             // Single handler
-            this.handlers['_rowupdated'] = [];
-            this.handlers['_rowupdated'].push(h);
+            this.handlers['_rowupdated'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onRowUpdated: h
@@ -326,8 +321,7 @@
 
         onEditorPreparing(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, cancel?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, editorName?: string, editorOptions?: any, dataField?: string, row?: DevExpress.ui.dxDataGridRowObject }) => any) {
             // Single handler
-            this.handlers['_editorpreparing'] = [];
-            this.handlers['_editorpreparing'].push(h);
+            this.handlers['_editorpreparing'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onEditorPreparing: h
@@ -338,8 +332,7 @@
 
         onEditorPrepared(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, dataField?: string, row?: DevExpress.ui.dxDataGridRowObject }) => any) {
             // Single handler
-            this.handlers['_editorprepared'] = [];
-            this.handlers['_editorprepared'].push(h);
+            this.handlers['_editorprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onEditorPrepared: h
@@ -350,8 +343,7 @@
 
         onEditingStart(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, dataField?: string, row?: DevExpress.ui.dxDataGridRowObject }) => any) {
             // Single handler
-            this.handlers['_editingstart'] = [];
-            this.handlers['_editingstart'].push(h);
+            this.handlers['_editingstart'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onEditingStart: h
@@ -362,8 +354,7 @@
 
         onCellClick(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, jQueryEvent?: JQueryEventObject, event?: DevExpress.event, data?: any, key?: any, value?: any, displayValue?: string, text?: string, columnIndex?: number, column?: any, rowIndex?: number, rowType?: string, cellElement?: DevExpress.core.dxElement, row?: DevExpress.ui.dxDataGridRowObject }) => any) {
             // Single handler
-            this.handlers['_cellclick'] = [];
-            this.handlers['_cellclick'].push(h);
+            this.handlers['_cellclick'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onCellClick: h
@@ -372,22 +363,31 @@
             }
         }
 
-        onScroll(handler: (e: { element?: JQuery, reachedBottom?: boolean, reachedLeft?: boolean, reachedRight?: boolean, reachedTop?: boolean, scrollOffset?: { top?: number, left?: number } }) => any) {
+        onScroll(h: (e: { element?: JQuery, reachedBottom?: boolean, reachedLeft?: boolean, reachedRight?: boolean, reachedTop?: boolean, scrollOffset?: { top?: number, left?: number } }) => any) {
             // Single handler
-            this.handlers['_scroll'] = [];
-            this.handlers['_scroll'].push(handler);
+            this.handlers['_scroll'] = [h];
             if (this.mounted) {
-                this.root.dxDataGrid('instance').getScrollable().on('scroll', handler);
+                this.root.dxDataGrid('instance').getScrollable().on('scroll', h);
             }
         }
 
         onKeyDown(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, jQueryEvent?: JQueryEventObject, event?: DevExpress.event, handled?: boolean }) => any) {
             // Single handler
-            this.handlers['_keydown'] = [];
-            this.handlers['_keydown'].push(h);
+            this.handlers['_keydown'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxDataGridOptions = {
                     onKeyDown: h
+                };
+                this.root.dxDataGrid(gopt);
+            }
+        }
+
+        onToolbarPreparing(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, toolbarOptions?: DevExpress.ui.dxToolbarOptions }) => any) {
+            // Single handler
+            this.handlers['_toolbarpreparing'] = [h];
+            if (this.mounted) {
+                let gopt: DevExpress.ui.dxDataGridOptions = {
+                    onToolbarPreparing: h
                 };
                 this.root.dxDataGrid(gopt);
             }
@@ -417,6 +417,7 @@
             if (events.indexOf('_editingstart') >= 0) gopt.onEditingStart = null;
             if (events.indexOf('_cellclick') >= 0) gopt.onCellClick = null;
             if (events.indexOf('_keydown') >= 0) gopt.onKeyDown = null;
+            if (events.indexOf('_toolbarpreparing') >= 0) gopt.onToolbarPreparing = null;
             this.root.dxDataGrid(gopt);
             return this;
         }
@@ -562,7 +563,7 @@
         }
 
         cellValue(rowIndex: number, dataField: string): any;
-        cellValue(rowIndex: number, dataField: string, value?: any);
+        cellValue(rowIndex: number, dataField: string, value?: any) : any;
         cellValue(rowIndex: number, dataField: string, value?: any) {
             if (!this.root) return null;
             let i = this.root.dxDataGrid('instance');
@@ -816,7 +817,7 @@
                                 f.build(container, options.row.data);
                                 continue;
                             }
-                            let cid;
+                            let cid : any;
                             if (f.key) cid = WUtil.getValue(options.row.data, f.key);
                             if (!cid) cid = '_' + options.row.rowIndex;
                             let s = WUX.style(f.labelCss);
@@ -847,7 +848,7 @@
             }
             else {
                 // "as any" to pass compiling checks added in ver. 18.1
-                gopt.scrolling = { mode: this.scrolling as any };            
+                gopt.scrolling = { mode: this.scrolling as any };
             }
             gopt.onRowClick = (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, jQueryEvent?: JQueryEventObject, event?: DevExpress.event, data?: any, key?: any, values?: Array<any>, columns?: Array<any>, rowIndex?: number, rowType?: string, isSelected?: boolean, isExpanded?: boolean, groupIndex?: number, rowElement?: DevExpress.core.dxElement, handled?: boolean }) => {
                 let lastClick = e.component['lastClick'] as Date;
@@ -904,6 +905,9 @@
             }
             if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
                 gopt.onKeyDown = this.handlers['_keydown'][0];
+            }
+            if (this.handlers['_toolbarpreparing'] && this.handlers['_toolbarpreparing'].length) {
+                gopt.onToolbarPreparing = this.handlers['_toolbarpreparing'][0];
             }
 
             this.beforeInit(gopt);
@@ -1200,8 +1204,7 @@
 
         onSelectionChanged(h: (e: { element?: JQuery, selectedRowsData?: Array<any> }) => any): void {
             // Single handler
-            this.handlers['_selectionchanged'] = [];
-            this.handlers['_selectionchanged'].push(h);
+            this.handlers['_selectionchanged'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onSelectionChanged: h
@@ -1217,8 +1220,7 @@
 
         onRowPrepared(h: (e: { element?: JQuery, rowElement?: JQuery, data?: any, rowIndex?: number, level?: number, isSelected?: boolean }) => any) {
             // Single handler
-            this.handlers['_rowprepared'] = [];
-            this.handlers['_rowprepared'].push(h);
+            this.handlers['_rowprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onRowPrepared: h
@@ -1229,8 +1231,7 @@
 
         onCellPrepared(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, data?: any, key?: any, value?: any, displayValue?: string, text?: string, columnIndex?: number, column?: DevExpress.ui.dxTreeListColumn, rowIndex?: number, rowType?: string, row?: DevExpress.ui.dxTreeListRowObject, isSelected?: boolean, isExpanded?: boolean, cellElement?: DevExpress.core.dxElement }) => any) {
             // Single handler
-            this.handlers['_cellprepared'] = [];
-            this.handlers['_cellprepared'].push(h);
+            this.handlers['_cellprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onCellPrepared: h
@@ -1241,8 +1242,7 @@
 
         onContentReady(h: (e: { component?: DevExpress.ui.dxTreeList, element?: DevExpress.core.dxElement, model?: any }) => any) {
             // Single handler
-            this.handlers['_contentready'] = [];
-            this.handlers['_contentready'].push(h);
+            this.handlers['_contentready'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onContentReady: h
@@ -1253,8 +1253,7 @@
 
         onRowUpdated(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, data?: any, key?: any, error?: Error }) => any) {
             // Single handler
-            this.handlers['_rowupdated'] = [];
-            this.handlers['_rowupdated'].push(h);
+            this.handlers['_rowupdated'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onRowUpdated: h
@@ -1265,8 +1264,7 @@
 
         onEditorPreparing(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, cancel?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, editorName?: string, editorOptions?: any, dataField?: string, row?: DevExpress.ui.dxTreeListRowObject }) => any) {
             // Single handler
-            this.handlers['_editorpreparing'] = [];
-            this.handlers['_editorpreparing'].push(h);
+            this.handlers['_editorpreparing'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onEditorPreparing: h
@@ -1277,8 +1275,7 @@
 
         onEditorPrepared(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, dataField?: string, row?: DevExpress.ui.dxTreeListRowObject }) => any) {
             // Single handler
-            this.handlers['_editorprepared'] = [];
-            this.handlers['_editorprepared'].push(h);
+            this.handlers['_editorprepared'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onEditorPrepared: h
@@ -1289,8 +1286,7 @@
 
         onEditingStart(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, parentType?: string, value?: any, setValue?: any, updateValueTimeout?: number, width?: number, disabled?: boolean, rtlEnabled?: boolean, editorElement?: DevExpress.core.dxElement, readOnly?: boolean, dataField?: string, row?: DevExpress.ui.dxTreeListRowObject }) => any) {
             // Single handler
-            this.handlers['_editingstart'] = [];
-            this.handlers['_editingstart'].push(h);
+            this.handlers['_editingstart'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onEditingStart: h
@@ -1301,8 +1297,7 @@
 
         onCellClick(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, jQueryEvent?: JQueryEventObject, event?: DevExpress.event, data?: any, key?: any, value?: any, displayValue?: string, text?: string, columnIndex?: number, column?: any, rowIndex?: number, rowType?: string, cellElement?: DevExpress.core.dxElement, row?: DevExpress.ui.dxTreeListRowObject }) => any) {
             // Single handler
-            this.handlers['_cellclick'] = [];
-            this.handlers['_cellclick'].push(h);
+            this.handlers['_cellclick'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onCellClick: h
@@ -1311,23 +1306,32 @@
             }
         }
 
-        onScroll(handler: (e: { element?: JQuery, reachedBottom?: boolean, reachedLeft?: boolean, reachedRight?: boolean, reachedTop?: boolean, scrollOffset?: { top?: number, left?: number } }) => any) {
+        onScroll(h: (e: { element?: JQuery, reachedBottom?: boolean, reachedLeft?: boolean, reachedRight?: boolean, reachedTop?: boolean, scrollOffset?: { top?: number, left?: number } }) => any) {
             // Single handler
-            this.handlers['_scroll'] = [];
-            this.handlers['_scroll'].push(handler);
+            this.handlers['_scroll'] = [h];
             if (this.mounted) {
                 let dxtl = this.root.dxTreeList('instance');
-                if (dxtl) dxtl.getScrollable().on('scroll', handler);
+                if (dxtl) dxtl.getScrollable().on('scroll', h);
             }
         }
 
         onKeyDown(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, jQueryEvent?: JQueryEventObject, event?: DevExpress.event, handled?: boolean }) => any) {
             // Single handler
-            this.handlers['_keydown'] = [];
-            this.handlers['_keydown'].push(h);
+            this.handlers['_keydown'] = [h];
             if (this.mounted) {
                 let gopt: DevExpress.ui.dxTreeListOptions = {
                     onKeyDown: h
+                };
+                this.root.dxTreeList(gopt);
+            }
+        }
+
+        onToolbarPreparing(h: (e: { component?: DevExpress.DOMComponent, element?: DevExpress.core.dxElement, model?: any, toolbarOptions?: DevExpress.ui.dxToolbarOptions }) => any) {
+            // Single handler
+            this.handlers['_toolbarpreparing'] = [h];
+            if (this.mounted) {
+                let gopt: DevExpress.ui.dxTreeListOptions = {
+                    onToolbarPreparing: h
                 };
                 this.root.dxTreeList(gopt);
             }
@@ -1357,6 +1361,7 @@
             if (events.indexOf('_editingstart') >= 0) gopt.onEditingStart = null;
             if (events.indexOf('_cellclick') >= 0) gopt.onCellClick = null;
             if (events.indexOf('_keydown') >= 0) gopt.onKeyDown = null;
+            if (events.indexOf('_toolbarpreparing') >= 0) gopt.onToolbarPreparing = null;
             this.root.dxTreeList(gopt);
             return this;
         }
@@ -1487,7 +1492,7 @@
         }
 
         cellValue(rowIndex: number, dataField: string): any;
-        cellValue(rowIndex: number, dataField: string, value?: any);
+        cellValue(rowIndex: number, dataField: string, value?: any): any;
         cellValue(rowIndex: number, dataField: string, value?: any) {
             if (!this.root) return null;
             let i = this.root.dxTreeList('instance');
@@ -1826,6 +1831,9 @@
             if (this.handlers['_keydown'] && this.handlers['_keydown'].length) {
                 gopt.onKeyDown = this.handlers['_keydown'][0];
             }
+            if (this.handlers['_toolbarpreparing'] && this.handlers['_toolbarpreparing'].length) {
+                gopt.onToolbarPreparing = this.handlers['_toolbarpreparing'][0];
+            }
 
             this.beforeInit(gopt);
 
@@ -1855,23 +1863,23 @@
      *
      * Server side java code:
      * public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     *		String fileName = null;
-     *		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-     *		try {
-     *			Collection<Part> colParts = request.getParts();
-     *			if(colParts == null || colParts.isEmpty()) return;
-     *			Part part = colParts.iterator().next();
-     *			fileName  = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-     *			InputStream inputStream = part.getInputStream();
-     *			int read = 0;
-     *			final byte[] buffer = new byte[1024];
-     *			while((read = inputStream.read(buffer)) != -1) {
-     *				baos.write(buffer, 0, read);
-     *			}
-     *		}
-     *		catch(Exception ex) {
-     *		}
-     *      // Save file ...
+     *        String fileName = null;
+     *        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     *        try {
+     *            Collection<Part> colParts = request.getParts();
+     *            if(colParts == null || colParts.isEmpty()) return;
+     *            Part part = colParts.iterator().next();
+     *            fileName  = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+     *            InputStream inputStream = part.getInputStream();
+     *            int read = 0;
+     *            final byte[] buffer = new byte[1024];
+     *            while((read = inputStream.read(buffer)) != -1) {
+     *                baos.write(buffer, 0, read);
+     *            }
+     *        }
+     *        catch(Exception ex) {
+     *        }
+     *        // Save file ...
      * }
      */
     export class WDXFileUploader extends WComponent<string, string> {
@@ -1952,7 +1960,7 @@
         title: string;
         caret: string;
         protected mapOfId: { [idx: number]: string };
-        protected mtitle;
+        protected mtitle: string;
 
         constructor(id?: string, classStyle?: string, title?: string) {
             super(id ? id : '*', 'WDXMenu', '', classStyle);
