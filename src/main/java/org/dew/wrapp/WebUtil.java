@@ -890,8 +890,14 @@ class WebUtil
       return null;
     }
     
-    if (user != null) {
+    if(user != null) {
       HttpSession httpSession = request.getSession(true);
+      
+      String tokenId = user.getTokenId();
+      if(tokenId == null || tokenId.length() == 0) {
+        user.setTokenId(httpSession.getId());
+      }
+      
       httpSession.setAttribute("user", user);
       
       String remoteAddr = request.getHeader("X-Forwarded-For");

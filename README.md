@@ -48,8 +48,8 @@ In **Wrapp** each page is mapped by the *Page* object and can be called up from 
 ```json
 {
   "id": "hello",
-  "title": "en=Hello page^it=Pagina di saluto^fr=Salutation^es=Página de saludo",
-  "description": "en=Example of Wrapp page^it=Esempio di pagina Wrapp^fr=Exemple de page Wrapp^es=Ejemplo de página Wrapp",
+  "title": "en=Hello page^it=Pagina di saluto^fr=Salutation^es=Pï¿½gina de saludo",
+  "description": "en=Example of Wrapp page^it=Esempio di pagina Wrapp^fr=Exemple de page Wrapp^es=Ejemplo de pï¿½gina Wrapp",
   "layout": "default",
   "modifier": "private",
   "header": "",
@@ -85,7 +85,7 @@ Here is a sample menu.
 ```json
 {
   "main": [
-    { "id": "app",       "text": "en=Application^it=Applicazione^fr=Application^es=Aplicación", "icon": "fa-edit" },
+    { "id": "app",       "text": "en=Application^it=Applicazione^fr=Application^es=Aplicaciï¿½n", "icon": "fa-edit" },
     { "id": "app.hello", "text": "en=Hello^it=Saluto^fr=Salutation^es=saludo",                  "icon": null,     "link": "page/hello"}
   ]
 }
@@ -121,6 +121,18 @@ Request:<br />
 
 Response:<br />
 HTTP 204 No Content<br />
+
+### User
+Get user logged in current session.
+
+Request:<br />
+**GET** `http://localhost:8080/wrapp/api/user`
+
+Response:<br />
+HTTP 200 OK<br />
+Content-Type: application/json
+
+{"userName":"test","role":"admin","tokenId":"..."}
 
 ### Update
 Update password of logged user.

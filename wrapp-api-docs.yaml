@@ -22,7 +22,7 @@ paths:
           type: string
       responses:
         '204':
-          description: Success
+          description: No Content
         '400':
           description: Invalid module
   /api/reload:
@@ -31,13 +31,20 @@ paths:
       parameters: []
       responses:
         '204':
-          description: Success
+          description: No Content
   /api/nop:
     get:
       operationId: nop
       parameters: []
       responses:
         '204':
+          description: No Content
+  /api/user:
+    get:
+      operationId: user
+      parameters: []
+      responses:
+        '200':
           description: Success
   /api/update:
     post:
@@ -55,7 +62,7 @@ paths:
           type: string
       responses:
         '204':
-          description: Success
+          description: No Content
         '400':
           description: Invalid parameters
         '403':

@@ -1,6 +1,7 @@
 package org.dew.wrapp.web;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dew.wrapp.App;
 import org.dew.wrapp.User;
 import org.dew.wrapp.WebUtil;
+import org.dew.wrapp.json.JSON;
 import org.dew.wrapp.log.LoggerFactory;
 
 @WebServlet(name = "WebAPI", loadOnStartup = 1, urlPatterns = { "/api/*" })
@@ -117,6 +119,24 @@ class WebAPI extends HttpServlet
         
         logger.fine("WebWrapp " + command + " (user=" + user + ")");
       
+      }
+      else if(command.equalsIgnoreCase("user")) {
+        
+        User user = WebUtil.getUser(request);
+        
+        logger.fine("WebWrapp " + command + " (user=" + user + ")");
+        
+        String jsonUser = JSON.stringify(user);
+        if(jsonUser == null || jsonUser.length() < 5) {
+          jsonUser = "{}";
+        }
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.setContentLength(jsonUser.length());
+        OutputStream outputStream = response.getOutputStream();
+        outputStream.write(jsonUser.getBytes());
+        outputStream.close();
+        return;
       }
       else {
         

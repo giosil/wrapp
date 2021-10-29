@@ -3,7 +3,6 @@ package org.dew.wrapp.impl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.dew.wrapp.User;
 
@@ -13,10 +12,6 @@ public
 class DefaultLoginManager implements ILoginManager
 {
   protected static Map<String, User> users = new HashMap<String, User>();
-  
-  public DefaultLoginManager()
-  {
-  }
   
   @Override
   public 
@@ -38,7 +33,6 @@ class DefaultLoginManager implements ILoginManager
     user.setId(username.hashCode());
     user.setRole("oper");
     user.setCurrLogin(new Date());
-    user.setTokenId(UUID.randomUUID().toString());
     
     if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
       user.setLocale("it");
