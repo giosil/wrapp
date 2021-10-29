@@ -122,14 +122,20 @@ class WebAPI extends HttpServlet
       }
       else if(command.equalsIgnoreCase("user")) {
         
-        User user = WebUtil.getUser(request);
+        User user = null;
+        String authorization = request.getHeader("Authorization");
+        if(authorization != null && authorization.startsWith("Bearer")) {
+          user = App.getUser(authorization.substring(6).trim());
+        }
+        else {
+          user = WebUtil.getUser(request);
+        }
         
         logger.fine("WebWrapp " + command + " (user=" + user + ")");
         
         String jsonUser = JSON.stringify(user);
-        if(jsonUser == null || jsonUser.length() < 5) {
-          jsonUser = "{}";
-        }
+        if(jsonUser == null || jsonUser.length() < 5) jsonUser = "{}";
+        
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.setContentLength(jsonUser.length());
@@ -137,6 +143,7 @@ class WebAPI extends HttpServlet
         outputStream.write(jsonUser.getBytes());
         outputStream.close();
         return;
+        
       }
       else {
         

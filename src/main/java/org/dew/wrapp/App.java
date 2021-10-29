@@ -52,6 +52,7 @@ class App
   protected static Map<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
   protected static Map<String, Page>           _pages   = new HashMap<String, Page>();
   protected static Map<String, List<MenuItem>> _menus   = new HashMap<String, List<MenuItem>>();
+  protected static Map<String, User>           _users   = new HashMap<String, User>();
   
   protected static ILoginManager _loginManager;
   protected static IAppManager   _appManager;
@@ -163,6 +164,31 @@ class App
       menuItems = new ArrayList<MenuItem>();
     }
     _menus.put(idMenu, menuItems);
+  }
+
+  public static void addUser(User user) {
+    if(user == null || user.getTokenId() == null) return;
+    _users.put(user.getTokenId(), user);
+  }
+
+  public static void addUser(String tokenId, User user) {
+    if(tokenId == null || user == null) return;
+    _users.put(tokenId, user);
+  }
+  
+  public static User removeUser(String tokenId) {
+    if(tokenId == null) return null;
+    return _users.remove(tokenId);
+  }
+  
+  public static User removeUser(User user) {
+    if(user == null || user.getTokenId() == null) return null;
+    return _users.remove(user.getTokenId());
+  }
+  
+  public static User getUser(String tokenId) {
+    if(tokenId == null) return null;
+    return _users.get(tokenId);
   }
   
   public static int refresh(String module) {

@@ -29,48 +29,48 @@ class WebUtil
   public static 
   String jsString(Object value) 
   {
-    if (value == null) return "''";
+    if(value == null) return "''";
     String sValue = null;
-    if (value instanceof Date) {
+    if(value instanceof Date) {
       sValue = WUtil.formatDate((Date) value, "IT");
     }
-    else if (value instanceof Calendar) {
+    else if(value instanceof Calendar) {
       sValue = WUtil.formatDate((Calendar) value, "IT");
     }
     else {
       sValue = value.toString();
     }
-    if (sValue == null || sValue.length() == 0) return "''";
+    if(sValue == null || sValue.length() == 0) return "''";
     return "'" + sValue.replace("'", "\\'") + "'";
   }
   
   public static 
   String jsDate(Date value) 
   {
-    if (value == null) return "null";
+    if(value == null) return "null";
     return "new Date('" + WUtil.formatDate(value, "-") + "')";
   }
   
   public static 
   String jsDate(Calendar value) 
   {
-    if (value == null) return "null";
+    if(value == null) return "null";
     return "new Date('" + WUtil.formatDate(value, "-") + "')";
   }
   
   public static 
   User getUser(HttpServletRequest request) 
   {
-    if (request == null) return null;
+    if(request == null) return null;
     User user = null;
     HttpSession httpSession = request.getSession();
-    if (httpSession != null) {
+    if(httpSession != null) {
       Object oUser = httpSession.getAttribute("user");
       if (oUser instanceof User) {
         user = (User) oUser;
       }
     }
-    if (user == null) {
+    if(user == null) {
       try {
         Principal userPrincipal = request.getUserPrincipal();
         if (userPrincipal != null) {
@@ -86,7 +86,7 @@ class WebUtil
         ex.printStackTrace();
       }
     }
-    if (user != null) {
+    if(user != null) {
       String sLogout = request.getParameter("logout");
       if (sLogout != null && sLogout.equals("1")) {
         // Don't use logout(request): loop!
@@ -220,7 +220,7 @@ class WebUtil
   AMenuManager getMenu(HttpServletRequest request) 
       throws ServletException, IOException 
   {
-    if (request == null) return null;
+    if(request == null) return null;
     
     HttpSession httpSession = request.getSession();
     if (httpSession != null) {
@@ -262,7 +262,7 @@ class WebUtil
   void writeMenu(HttpServletRequest request, Writer out) 
       throws ServletException, IOException 
   {
-    if (request == null || out == null) return;
+    if(request == null || out == null) return;
     AMenuManager menuManger = null;
     HttpSession httpSession = request.getSession();
     if (httpSession != null) {
@@ -281,7 +281,7 @@ class WebUtil
   void writeHeader(HttpServletRequest request, Writer out, User user) 
       throws ServletException, IOException 
   {
-    if (request == null || out == null) return;
+    if(request == null || out == null) return;
     
     String contextPath = request.getContextPath();
     if(contextPath == null) contextPath = "";
@@ -457,7 +457,7 @@ class WebUtil
   void writeFooter(HttpServletRequest request, Writer out) 
       throws ServletException, IOException 
   {
-    if (request == null || out == null) return;
+    if(request == null || out == null) return;
     out.write("<div class=\"row\"><div class=\"footer\"><div>");
     out.write("</div></div></div>");
   }
@@ -466,8 +466,8 @@ class WebUtil
   void writeHelp(Writer out, String sTitle, String sText) 
       throws ServletException, IOException 
   {
-    if (sTitle == null || sTitle.length() == 0) return;
-    if (sText  == null || sText.length()  == 0) return;
+    if(sTitle == null || sTitle.length() == 0) return;
+    if(sText  == null || sText.length()  == 0) return;
     out.write("\n");
     out.write("<div class=\"row\">\n");
     out.write("<div class=\"ibox float-e-margins collapsed\">\n");
@@ -488,7 +488,7 @@ class WebUtil
   void writeSearchResult(HttpServletRequest request, Writer out, Locale locale, String sText)
       throws ServletException, IOException 
   {
-    if (request == null || out == null) return;
+    if(request == null || out == null) return;
     
     AMenuManager menuManger = null;
     HttpSession httpSession = request.getSession();
@@ -538,7 +538,7 @@ class WebUtil
   void writeScriptImport(Writer out, String scriptFile) 
       throws ServletException, IOException 
   {
-    if (scriptFile == null || scriptFile.length() == 0) return;
+    if(scriptFile == null || scriptFile.length() == 0) return;
     String html= "<script src=\"" + scriptFile + "?" + App.STARTUP_TIME + "\" type=\"text/javascript\"></script>";
     out.write(html);
   }
@@ -576,7 +576,7 @@ class WebUtil
   void writeScriptImport(Writer out, Page page, Locale locale) 
       throws ServletException, IOException 
   {
-    if (page == null) return;
+    if(page == null) return;
     
     String[] asScripts = page.getScripts();
     if(asScripts == null || asScripts.length == 0) {
@@ -625,7 +625,7 @@ class WebUtil
   void writeScriptImport(Writer out, Page page, Locale locale, String filter, String target, String replacement) 
       throws ServletException, IOException 
   {
-    if (page == null) return;
+    if(page == null) return;
     
     String[] asScripts = page.getScripts();
     if(asScripts == null || asScripts.length == 0) {
@@ -730,7 +730,7 @@ class WebUtil
   void writeCSSImport(Writer out, String cssFile) 
       throws ServletException, IOException 
   {
-    if (cssFile == null || cssFile.length() == 0) return;
+    if(cssFile == null || cssFile.length() == 0) return;
     String html= "<link href=\"" + cssFile + "?" + App.STARTUP_TIME + "\" rel=\"stylesheet\">";
     out.write(html);
   }
@@ -739,7 +739,7 @@ class WebUtil
   void writeCSSImport(Writer out, Page page) 
       throws ServletException, IOException 
   {
-    if (page == null) return;
+    if(page == null) return;
     
     String[] asCss = page.getCss();
     if(asCss == null || asCss.length == 0) {
@@ -851,16 +851,16 @@ class WebUtil
   public static 
   void append(PageContext pageContext, String attributeName, String text) 
   {
-    if (pageContext == null) return;
+    if(pageContext == null) return;
     append(pageContext.getRequest(), attributeName, text);
   }
   
   public static 
   void append(ServletRequest request, String attributeName, String text) 
   {
-    if (request == null) return;
-    if (text == null || text.length() == 0) return;
-    if (attributeName == null || attributeName.length() == 0) return;
+    if(request == null) return;
+    if(text == null || text.length() == 0) return;
+    if(attributeName == null || attributeName.length() == 0) return;
     Object attribute = request.getAttribute(attributeName);
     if (attribute == null) {
       request.setAttribute(attributeName, text);
@@ -898,6 +898,8 @@ class WebUtil
         user.setTokenId(httpSession.getId());
       }
       
+      App.addUser(user);
+      
       httpSession.setAttribute("user", user);
       
       String remoteAddr = request.getHeader("X-Forwarded-For");
@@ -929,9 +931,8 @@ class WebUtil
   {
     boolean result = invoke(request, "logout");
     HttpSession httpSession = request.getSession();
-    if (httpSession != null) {
-      httpSession.invalidate();
-    }
+    if(httpSession != null) httpSession.invalidate();
+    // httpSession.invalidate triggers SessionListener.sessionDestroyed -> App.removeUser / loginManager.logout
     return result;
   }
   
@@ -940,9 +941,8 @@ class WebUtil
   {
     boolean result = invoke(request, "logout");
     HttpSession httpSession = request.getSession();
-    if (httpSession != null) {
-      httpSession.invalidate();
-    }
+    if(httpSession != null) httpSession.invalidate();
+    // httpSession.invalidate triggers SessionListener.sessionDestroyed -> App.removeUser / loginManager.logout
     return result;
   }
   
@@ -953,18 +953,18 @@ class WebUtil
     try {
       Method method = null;
       Method[] methods = object.getClass().getMethods();
-      for (Method m : methods) {
+      for(Method m : methods) {
         if (m.getName().equals(methodName)) {
           method = m;
           break;
         }
       }
-      if (method != null) {
+      if(method != null) {
         method.invoke(object, new Object[0]);
         result = true;
       }
     } 
-    catch (Throwable th) {
+    catch(Throwable th) {
       th.printStackTrace();
     }
     return result;
