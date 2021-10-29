@@ -25,7 +25,7 @@
           </con:settings>
           <con:endpoint>http://localhost:8080</con:endpoint>
           <con:request/>
-          <con:originalUri>http://localhost/wrapp/api/reload
+          <con:originalUri>http://localhost:8080/wrapp/api/reload
           </con:originalUri>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
@@ -74,7 +74,7 @@
           </con:settings>
           <con:endpoint>http://localhost:8080</con:endpoint>
           <con:request/>
-          <con:originalUri>http://localhost/wrapp/api/refresh
+          <con:originalUri>http://localhost:8080/wrapp/api/refresh
           </con:originalUri>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
@@ -173,7 +173,7 @@
           </con:settings>
           <con:endpoint>http://localhost:8080</con:endpoint>
           <con:request/>
-          <con:originalUri>http://localhost/wrapp/api/update
+          <con:originalUri>http://localhost:8080/wrapp/api/update
           </con:originalUri>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
@@ -209,7 +209,7 @@
           </con:settings>
           <con:endpoint>http://localhost:8080</con:endpoint>
           <con:request/>
-          <con:originalUri>http://localhost/wrapp/api/nop
+          <con:originalUri>http://localhost:8080/wrapp/api/nop
           </con:originalUri>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
@@ -238,7 +238,7 @@
           </con:settings>
           <con:endpoint>http://localhost:8080</con:endpoint>
           <con:request/>
-          <con:originalUri>http://localhost/wrapp/api/user
+          <con:originalUri>http://localhost:8080/wrapp/api/user
           </con:originalUri>
           <con:credentials>
             <con:authType>No Authorization</con:authType>
