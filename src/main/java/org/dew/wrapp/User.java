@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.dew.wrapp.util.WMap;
+
 public 
 class User implements Principal, Serializable 
 {
@@ -51,6 +53,48 @@ class User implements Principal, Serializable
   public User(int id, String userName) {
     this.id = id;
     this.userName = userName;
+  }
+  
+  public User(Map<String, Object> mapUserInfo) {
+    if(mapUserInfo == null) return;
+    WMap wmUser = new WMap(mapUserInfo);
+    id = wmUser.getInt("id");
+    if(id == 0) id = wmUser.getInt("sub");
+    userName = wmUser.getString("userName");
+    if(userName == null || userName.length() == 0) {
+      userName = wmUser.getString("username");
+    }
+    if(userName == null || userName.length() == 0) {
+      userName = wmUser.getString("name");
+    }
+    if(userName == null || userName.length() == 0) {
+      userName = wmUser.getString("nickname");
+    }
+    firstName  = wmUser.getString("given_name");
+    if(firstName == null || firstName.length() == 0) {
+      firstName = wmUser.getString("givenName");
+    }
+    if(firstName == null || firstName.length() == 0) {
+      firstName = wmUser.getString("firstName");
+    }
+    lastName = wmUser.getString("family_name");
+    if(lastName == null || lastName.length() == 0) {
+      lastName = wmUser.getString("familyName");
+    }
+    if(lastName == null || lastName.length() == 0) {
+      lastName = wmUser.getString("lastName");
+    }
+    email   = wmUser.getString("email");
+    mobile  = wmUser.getString("mobile");
+    role    = wmUser.getString("role");
+    locale  = wmUser.getString("locale");
+    taxCode = wmUser.getString("tax_code");
+    if(taxCode == null || taxCode.length() == 0) {
+      taxCode = wmUser.getString("taxCode");
+    }
+    if(taxCode == null || taxCode.length() == 0) {
+      taxCode = wmUser.getString("tin");
+    }
   }
   
   // java.security.Principal

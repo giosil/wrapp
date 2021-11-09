@@ -1,9 +1,5 @@
 package org.dew.wrapp.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.dew.wrapp.User;
 
 import org.dew.wrapp.mgr.ILoginManager;
@@ -11,8 +7,6 @@ import org.dew.wrapp.mgr.ILoginManager;
 public 
 class DefaultLoginManager implements ILoginManager
 {
-  protected static Map<String, User> users = new HashMap<String, User>();
-  
   @Override
   public 
   User login(String username, String password) 
@@ -25,14 +19,14 @@ class DefaultLoginManager implements ILoginManager
       return null;
     }
     if(password == null || password.length() == 0) {
-      System.out.println("DefaultLoginManager.login(" + username + ",*) -> null");
+      System.out.println("DefaultLoginManager.login(" + username + ",*) -> null (no password)");
       return null;
     }
     
     User user = new User(username);
     user.setId(username.hashCode());
     user.setRole("oper");
-    user.setCurrLogin(new Date());
+    user.setCurrLogin(new java.util.Date());
     
     if(username.equalsIgnoreCase("it") || username.endsWith("-it")) {
       user.setLocale("it");
@@ -67,7 +61,7 @@ class DefaultLoginManager implements ILoginManager
   boolean updatePassword(String username, String currentPassword, String newPassword) 
     throws Exception 
   {
-    System.out.println("DefaultLoginManager.updatePassword(" + username + "," + currentPassword + "," + newPassword + ")...");
+    System.out.println("DefaultLoginManager.updatePassword(" + username + ",*,*)...");
     return true;
   }
 }
