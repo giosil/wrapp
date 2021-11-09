@@ -94,13 +94,6 @@ class WebUtil
         return null;
       }
     } 
-    else {
-      String username = request.getParameter("j_username");
-      String password = request.getParameter("j_password");
-      if (username != null && username.length() > 0 && password != null && password.length() > 0) {
-        return login(request);
-      }
-    }
     return user;
   }
   
