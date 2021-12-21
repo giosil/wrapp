@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.contrast.css)
-* Version: 20.1.13
-* Build date: Fri Jul 02 2021
+* Version: 20.1.14
+* Build date: Fri Dec 03 2021
 *
 * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -6340,6 +6340,9 @@
   -webkit-box-shadow: inset 0 -1px #fff,inset 0 1px,inset -1px 0;
   box-shadow: inset 0 -1px #fff,inset 0 1px,inset -1px 0;
 }
+.dx-tabpanel > .dx-tabpanel-container > .dx-multiview-wrapper {
+  border-color: #fff;
+}
 .dx-tabpanel.dx-state-focused > .dx-tabpanel-tabs .dx-tabs {
   -webkit-box-shadow: inset 0 -1px #cf00d7,inset 0 1px,inset -1px 0,inset 1px 0;
   box-shadow: inset 0 -1px #cf00d7,inset 0 1px,inset -1px 0,inset 1px 0;
@@ -6376,7 +6379,7 @@
   -webkit-box-shadow: inset 0 -1px #cf00d7,inset 0 1px,inset -1px 0;
   box-shadow: inset 0 -1px #cf00d7,inset 0 1px,inset -1px 0;
 }
-.dx-tabpanel.dx-state-focused .dx-multiview-wrapper {
+.dx-tabpanel.dx-state-focused > .dx-tabpanel-container > .dx-multiview-wrapper {
   border-color: #cf00d7;
 }
 .dx-tabpanel .dx-multiview-wrapper {
