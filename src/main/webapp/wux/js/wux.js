@@ -1,18 +1,22 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -467,12 +471,12 @@ var WUX;
             else if (this.root && this.root.length) {
                 if (this.debug)
                     console.log('[' + str(this) + '] trigger ' + eventType + ' on root=' + str(this.root));
-                (_a = this.root).trigger.apply(_a, __spreadArrays([eventType], extParams));
+                (_a = this.root).trigger.apply(_a, __spreadArray([eventType], extParams, false));
             }
             if (this.internal) {
                 if (this.debug)
                     console.log('[' + str(this) + '] trigger ' + eventType + ' on internal=' + str(this.internal));
-                (_b = this.internal).trigger.apply(_b, __spreadArrays([eventType], extParams));
+                (_b = this.internal).trigger.apply(_b, __spreadArray([eventType], extParams, false));
             }
             return this;
         };
@@ -3412,10 +3416,10 @@ var WUX;
             for (var _i = 1; _i < arguments.length; _i++) {
                 extParams[_i - 1] = arguments[_i];
             }
-            _super.prototype.trigger.apply(this, __spreadArrays([eventType], extParams));
+            _super.prototype.trigger.apply(this, __spreadArray([eventType], extParams, false));
             if (eventType == 'statechange') {
                 if (this.stateComp)
-                    (_a = this.stateComp).trigger.apply(_a, __spreadArrays(['statechange'], extParams));
+                    (_a = this.stateComp).trigger.apply(_a, __spreadArray(['statechange'], extParams, false));
             }
             return this;
         };
@@ -9473,7 +9477,10 @@ var WUX;
             }
             else if (this.state) {
                 if (typeof this.state == 'object') {
-                    this.root.append('<option value="' + this.state.id + '">' + this.state.text + '</option>');
+                    var text_2 = this.state.text ? this.state.text : this.state.name;
+                    if (text_2 == null)
+                        text_2 = this.state.id;
+                    this.root.append('<option value="' + this.state.id + '">' + WUX.WUtil.toText(text_2) + '</option>');
                     this.root.val(this.state.id).trigger('change');
                 }
                 else {
@@ -9802,7 +9809,7 @@ var WUX;
             for (var _i = 2; _i < arguments.length; _i++) {
                 components[_i - 2] = arguments[_i];
             }
-            return (_a = this.row).addCol.apply(_a, __spreadArrays([width, height], components));
+            return (_a = this.row).addCol.apply(_a, __spreadArray([width, height], components, false));
         };
         WGridCol.prototype.addRow = function (width, height, classStyle, style) {
             return this.grid.addRow(width, height, classStyle, style);
@@ -9901,7 +9908,7 @@ var WUX;
                     width = this.grid.rows[0].cols[this.cols.length].width;
                 }
             }
-            var col = new (WGridCol.bind.apply(WGridCol, __spreadArrays([void 0, this.grid, this, this.cols.length, width, height, '', ''], components)))();
+            var col = new (WGridCol.bind.apply(WGridCol, __spreadArray([void 0, this.grid, this, this.cols.length, width, height, '', ''], components, false)))();
             this.cols.push(col);
             return col;
         };
@@ -9976,7 +9983,7 @@ var WUX;
             for (var _i = 2; _i < arguments.length; _i++) {
                 components[_i - 2] = arguments[_i];
             }
-            return (_a = this.row()).addCol.apply(_a, __spreadArrays([width, height], components));
+            return (_a = this.row()).addCol.apply(_a, __spreadArray([width, height], components, false));
         };
         WGrid.prototype.add = function (component) {
             if (!component)

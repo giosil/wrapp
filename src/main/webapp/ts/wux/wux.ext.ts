@@ -153,7 +153,9 @@
             }
             else if (this.state) {
                 if (typeof this.state == 'object') {
-                    this.root.append('<option value="' + this.state.id + '">' + this.state.text + '</option>');
+                    let text = this.state.text ? this.state.text : this.state.name;
+                    if(text == null) text = this.state.id;
+                    this.root.append('<option value="' + this.state.id + '">' + WUtil.toText(text) + '</option>');
                     this.root.val(this.state.id).trigger('change');
                 }
                 else {
