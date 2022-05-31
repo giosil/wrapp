@@ -665,7 +665,7 @@
                     }, d.prototype.bind = function(a, b, d) {
                         var e = this;
                         a.call(this, b, d), b.on("open", function() {
-                            e.$search.attr("tabindex", 0), e.$search.focus()
+                            e.$search.attr("tabindex", 0), setTimeout(function(){e.$search.focus()},10)
                         }), b.on("close", function() {
                             e.$search.attr("tabindex", -1), e.$search.val(""), e.$search.focus()
                         }), b.on("enable", function() {
@@ -1935,7 +1935,7 @@
                         }), this.$search.on("keyup input", function(a) {
                             e.handleSearch(a)
                         }), c.on("open", function() {
-                            e.$search.attr("tabindex", 0), e.$search.focus(), window.setTimeout(function() {
+                            e.$search.attr("tabindex", 0), setTimeout(function(){e.$search.focus()},10), window.setTimeout(function() {
                                 e.$search.focus()
                             }, 0)
                         }), c.on("close", function() {
