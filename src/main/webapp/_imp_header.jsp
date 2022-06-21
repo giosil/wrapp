@@ -2,7 +2,7 @@
 
 <link href="inspinia/css/bootstrap.min.css" rel="stylesheet">
 
-<link href="inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="inspinia/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 <link href="inspinia/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 <link href="inspinia/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
