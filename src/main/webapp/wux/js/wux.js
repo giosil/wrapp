@@ -7631,9 +7631,11 @@ var WUX;
             }
             return '';
         };
-        WDXTable.prototype.getInstance = function () {
+        WDXTable.prototype.getInstance = function (gopt) {
             if (!this.mounted)
                 return null;
+            if (gopt)
+                this.root.dxDataGrid(gopt);
             return this.root.dxDataGrid('instance');
         };
         WDXTable.prototype.getSelectedKeys = function () {
@@ -8527,9 +8529,11 @@ var WUX;
             }
             return '';
         };
-        WDXTreeList.prototype.getInstance = function () {
+        WDXTreeList.prototype.getInstance = function (gopt) {
             if (!this.mounted)
                 return null;
+            if (gopt)
+                this.root.dxTreeList(gopt);
             return this.root.dxTreeList('instance');
         };
         WDXTreeList.prototype.getSelectedRows = function () {
