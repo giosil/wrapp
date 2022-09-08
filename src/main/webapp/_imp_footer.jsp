@@ -32,9 +32,9 @@
 <script src="inspinia/js/plugins/metisMenu/jquery.metisMenu.js" type="text/javascript"></script>
 <script src="inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="inspinia/js/plugins/pace/pace.min.js" type="text/javascript"></script>
-<script src="inspinia/js/plugins/wow/wow.min.js"></script>
+<script src="inspinia/js/plugins/wow/wow.min.js" type="text/javascript"></script>
 <script src="inspinia/js/plugins/sweetalert/sweetalert.min.js" type="text/javascript"></script>
-<script src="inspinia/js/plugins/toastr/toastr.min.js"></script>
+<script src="inspinia/js/plugins/toastr/toastr.min.js" type="text/javascript"></script>
 
 <script src="inspinia/js/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="inspinia/js/plugins/fullcalendar/moment.min.js" type="text/javascript"></script>
