@@ -1,13 +1,14 @@
 package org.dew.wrapp.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.dew.wrapp.App;
 import org.dew.wrapp.MenuItem;
 import org.dew.wrapp.User;
-import org.dew.wrapp.WebUtil;
 import org.dew.wrapp.mgr.AMenuManager;
 
 public 
@@ -82,24 +83,12 @@ class TopMenuManager extends AMenuManager
         if (sLink == null || sLink.length() == 0) {
           sLink = "#";
         }
-        if(!sLink.startsWith("/") && !sLink.startsWith(contextPath)) {
-          sLink = contextPath + sLink;
-        }
         
         boolean boAtLeastOneActive = false;
         StringBuilder sbc = null;
         List<MenuItem> listChildren = getChildren(menuItem);
         if (listChildren != null && listChildren.size() > 0) {
           sbc = new StringBuilder(75 * listChildren.size());
-          sbc.append("<li class=\"dropdown\">");
-          String sClassLi = "";
-          if (boAtLeastOneActive || menuItem.isActive()) {
-            sClassLi = " class=\"active\"";
-          }
-          sb.append("<li" + sClassLi + ">");
-          sbc.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + WebUtil.getLocalized(sText, locale) + "</span><span class=\"caret\"></span></a>");
-          sb.append("</li>");
-          sbc.append("<ul role=\"menu\" class=\"dropdown-menu\">");
           for (int j = 0; j < listChildren.size(); j++) {
             MenuItem menuItemChild = listChildren.get(j);
             if (menuItemChild == null) continue;
@@ -111,9 +100,6 @@ class TopMenuManager extends AMenuManager
             String sLinkChild = menuItemChild.getLink();
             if (sLinkChild == null || sLinkChild.length() == 0) {
               sLinkChild = "#";
-            }
-            if(!sLinkChild.startsWith("/") && !sLinkChild.startsWith(contextPath)) {
-              sLinkChild = contextPath + sLinkChild;
             }
             
             boolean boMatch = menuItemChild.matchLink(sRequestURI, sParamMenu);
@@ -130,15 +116,21 @@ class TopMenuManager extends AMenuManager
               sClassLiChild = " class=\"active\"";
             }
             sbc.append("<li" + sClassLiChild + ">");
-            sbc.append("<a href=\"" + sLinkChild + "\">" + WebUtil.getLocalized(sTextChild, locale) + "</a>");
+            sbc.append("<a href=\"" + sLinkChild + "\">" + sTextChild + "</a>");
             sbc.append("</li>");
           }
-          sbc.append("</ul>");
-          sbc.append("</li>");
-        } else {
-          sbc = new StringBuilder();
+          
+          String sClassLi = " class=\"dropdown\"";
+          if (boAtLeastOneActive || menuItem.isActive()) {
+            sClassLi = " class=\"dropdown active\"";
+          }
+          sb.append("<li" + sClassLi + ">");
+          sb.append("<a aria-expanded=\"false\" role=\"button\" href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><i class=\"fa " + sIcon + "\"></i> <span class=\"nav-label\">" + sText + "</span><span class=\"caret\"></span></a>");
+          sb.append("<ul role=\"menu\" class=\"dropdown-menu\">");
+          sb.append(sbc.toString());
+          sb.append("</ul>");
+          sb.append("</li>");
         }
-        sb.append(sbc.toString());
       }
     }
     sb.append("</ul>");

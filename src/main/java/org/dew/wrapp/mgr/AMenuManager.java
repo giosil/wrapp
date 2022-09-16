@@ -3,7 +3,11 @@ package org.dew.wrapp.mgr;
 import java.io.Serializable;
 import java.io.Writer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +18,7 @@ import org.dew.wrapp.util.WUtil;
 public abstract
 class AMenuManager implements Serializable
 {
-  private static final long serialVersionUID = 5630332859634627779L;
+  private static final long serialVersionUID = 1241454491971709472L;
   
   protected String title;
   protected String cached;
@@ -143,6 +147,10 @@ class AMenuManager implements Serializable
         enabled = false;
       }
     }
+    else {
+      // if user == null -> public menu (enabled always true)
+      enabled = true;
+    }
     if(!enabled) return;
     
     String sParent = menuItem.getParent();
@@ -150,10 +158,10 @@ class AMenuManager implements Serializable
       sParent = ".";
     }
     if(mapMenu == null) {
-      mapMenu = new HashMap<String,List<MenuItem>>();
+      mapMenu = new HashMap<String, List<MenuItem>>();
     }
     if(mapItems == null) {
-      mapItems = new HashMap<String,MenuItem>();
+      mapItems = new HashMap<String, MenuItem>();
     }
     mapItems.put(sId, menuItem);
     List<MenuItem> listOfMenuItem = mapMenu.get(sParent);
@@ -166,13 +174,13 @@ class AMenuManager implements Serializable
   
   public void clear() {
     if(mapItems == null) {
-      mapItems = new HashMap<String,MenuItem>(); 
+      mapItems = new HashMap<String, MenuItem>(); 
     }
     else {
       mapItems.clear();
     }   
     if(mapMenu == null) {
-      mapMenu = new HashMap<String,List<MenuItem>>(); 
+      mapMenu = new HashMap<String, List<MenuItem>>(); 
     }
     else {
       mapMenu.clear();
