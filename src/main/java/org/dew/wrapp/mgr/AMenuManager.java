@@ -18,7 +18,7 @@ import org.dew.wrapp.util.WUtil;
 public abstract
 class AMenuManager implements Serializable
 {
-  private static final long serialVersionUID = 1241454491971709472L;
+  private static final long serialVersionUID = 59720555317817521L;
   
   protected String title;
   protected String cached;
@@ -26,7 +26,6 @@ class AMenuManager implements Serializable
   protected Map<String,MenuItem>       mapItems = new HashMap<String,MenuItem>();
   protected Map<String,List<MenuItem>> mapMenu  = new HashMap<String,List<MenuItem>>();
   protected String prefixResources = "";
-  public abstract String getBodyClass();
   
   public AMenuManager()
   {
@@ -243,6 +242,10 @@ class AMenuManager implements Serializable
   public abstract String buildSubMenu(HttpServletRequest request);
   
   public abstract List<MenuItem> getBreadcrumb(HttpServletRequest request);
+  
+  public String getBodyClass() {
+    return "";
+  }
   
   @Override
   public boolean equals(Object object) {
