@@ -9529,7 +9529,7 @@ var WUX;
             var _this = this;
             if (this._init) {
                 this.root.empty();
-                this.root.next('span').remove();
+                this.root.next('span.select2').remove();
             }
             this.root.select2(options);
             this.updateState(this.state);

@@ -189,7 +189,7 @@
             if (this._init) {
                 // Fix reset options 
                 this.root.empty();
-                this.root.next('span').remove();
+                this.root.next('span.select2').remove();
             }
 
             this.root.select2(options);
