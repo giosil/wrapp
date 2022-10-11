@@ -186,6 +186,12 @@
         }
 
         protected init(options: Select2Options) {
+            if (this._init) {
+                // Fix reset options 
+                this.root.empty();
+                this.root.next('span').remove();
+            }
+
             this.root.select2(options);
             this.updateState(this.state);
 

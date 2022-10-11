@@ -9527,6 +9527,10 @@ var WUX;
         };
         WSelect2.prototype.init = function (options) {
             var _this = this;
+            if (this._init) {
+                this.root.empty();
+                this.root.next('span').remove();
+            }
             this.root.select2(options);
             this.updateState(this.state);
             if (options) {
