@@ -2288,4 +2288,126 @@
             this.root.dxCircularGauge(opt);
         }
     }
+
+    /**
+    * Wrapper dxTreeView. Required DevExpress.ui.dxTreeView https://js.devexpress.com/
+    */
+    export class WDxTreeView extends WUX.WComponent<string, any[]> {
+        height: number;
+        width: number;
+        searchEnabled: boolean;
+        selectionMode: 'multiple' | 'single';
+
+        constructor(id?: string) {
+            super(id ? id : '*', 'WDxTreeView');
+        }
+
+        getInstance(opt?: DevExpress.ui.dxTreeViewOptions): DevExpress.ui.dxTreeView {
+            if (!this.mounted) return null;
+            if(opt) this.root.dxTreeView(opt);
+            return this.root.dxTreeView('instance');
+        }
+
+        onItemClick(h: (e: { component?: DevExpress.ui.dxTreeView, element?: DevExpress.core.dxElement, model?: any, itemData?: any, itemElement?: DevExpress.core.dxElement, itemIndex?: number | any, jQueryEvent?: JQueryEventObject, event?: DevExpress.events.event, node?: DevExpress.ui.dxTreeViewNode }) => any): void {
+            // Single handler
+            this.handlers['_onItemClick'] = [h];
+            if (this.mounted) {
+                let opt: DevExpress.ui.dxTreeViewOptions = {
+                    onItemClick: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        }
+
+        onSelectionChanged(h: (e: { component?: DevExpress.ui.dxTreeView, element?: DevExpress.core.dxElement, model?: any, itemData?: any, itemElement?: DevExpress.core.dxElement, itemIndex?: number | any, jQueryEvent?: JQueryEventObject, event?: DevExpress.events.event, node?: DevExpress.ui.dxTreeViewNode }) => any): void {
+            // Single handler
+            this.handlers['_onSelectionChanged'] = [h];
+            if (this.mounted) {
+                let opt: DevExpress.ui.dxTreeViewOptions = {
+                    onSelectionChanged: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        }
+
+        onItemRendered(h: (e: { component?: DevExpress.ui.dxTreeView, element?: DevExpress.core.dxElement, model?: any, itemData?: any, itemElement?: DevExpress.core.dxElement, itemIndex?: number, node?: DevExpress.ui.dxTreeViewNode }) => any): void {
+            // Single handler
+            this.handlers['_onItemRendered'] = [h];
+            if (this.mounted) {
+                let opt: DevExpress.ui.dxTreeViewOptions = {
+                    onItemRendered: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        }
+
+        getSelectedItems(): any[] {
+            if (!this.mounted) return [];
+            let n = this.root.dxTreeView('instance').getSelectedNodes();
+            if(!n) return [];
+            return n.map(function(node) { return node.itemData; });
+        }
+
+        off(events?: string): this {
+            super.off(events);
+            if (!events) return this;
+            let opt: DevExpress.ui.dxTreeViewOptions = {};
+            if (events.indexOf('_onItemClick') >= 0) opt.onItemClick = null;
+            if (events.indexOf('_onSelectionChanged') >= 0) opt.onSelectionChanged = null;
+            if (events.indexOf('_onItemRendered') >= 0) opt.onItemRendered = null;
+            this.root.dxTreeView(opt);
+            return this;
+        }
+
+        protected updateState(nextState: any[]): void {
+            super.updateState(nextState);
+            if (this.root && this.root.length) {
+                let opt: DevExpress.ui.dxTreeViewOptions = {
+                    items: nextState
+                }
+                this.root.dxTreeView(opt);
+            }
+        }
+
+        protected updateProps(nextProps: string): void {
+            super.updateProps(nextProps);
+            if (!this.mounted) return;
+            if(this.props) {
+                this.root.dxTreeView('instance').option('searchMode', this.props);
+            }
+        }
+
+        beforeInit(opt: DevExpress.ui.dxTreeViewOptions): void {
+        }
+
+        protected componentDidMount(): void {
+
+            let opt: DevExpress.ui.dxTreeViewOptions = {
+                height: this.height,
+                width: this.width,
+                searchEnabled: this.searchEnabled,
+                items: this.state
+            }
+            if(this.selectionMode == "multiple") {
+                opt.selectionMode = "multiple";
+                opt.showCheckBoxesMode = "normal";
+            }
+            if (this.handlers['_onItemClick'] && this.handlers['_onItemClick'].length) {
+                opt.onItemClick = this.handlers['_onItemClick'][0];
+            }
+            if (this.handlers['_onSelectionChanged'] && this.handlers['_onSelectionChanged'].length) {
+                opt.onSelectionChanged = this.handlers['_onSelectionChanged'][0];
+            }
+            if (this.handlers['_onItemRendered'] && this.handlers['_onItemRendered'].length) {
+                opt.onItemRendered = this.handlers['_onItemRendered'][0];
+            }
+
+            this.beforeInit(opt);
+
+            let t = this.root.dxTreeView(opt);
+            if(this.props) {
+                t.option('searchMode', this.props);
+            }
+        }
+    }
 }

@@ -9340,6 +9340,115 @@ var WUX;
         return WDxCircularGauge;
     }(WUX.WComponent));
     WUX.WDxCircularGauge = WDxCircularGauge;
+    var WDxTreeView = (function (_super) {
+        __extends(WDxTreeView, _super);
+        function WDxTreeView(id) {
+            return _super.call(this, id ? id : '*', 'WDxTreeView') || this;
+        }
+        WDxTreeView.prototype.getInstance = function (opt) {
+            if (!this.mounted)
+                return null;
+            if (opt)
+                this.root.dxTreeView(opt);
+            return this.root.dxTreeView('instance');
+        };
+        WDxTreeView.prototype.onItemClick = function (h) {
+            this.handlers['_onItemClick'] = [h];
+            if (this.mounted) {
+                var opt = {
+                    onItemClick: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        };
+        WDxTreeView.prototype.onSelectionChanged = function (h) {
+            this.handlers['_onSelectionChanged'] = [h];
+            if (this.mounted) {
+                var opt = {
+                    onSelectionChanged: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        };
+        WDxTreeView.prototype.onItemRendered = function (h) {
+            this.handlers['_onItemRendered'] = [h];
+            if (this.mounted) {
+                var opt = {
+                    onItemRendered: h
+                };
+                this.root.dxTreeView(opt);
+            }
+        };
+        WDxTreeView.prototype.getSelectedItems = function () {
+            if (!this.mounted)
+                return [];
+            var n = this.root.dxTreeView('instance').getSelectedNodes();
+            if (!n)
+                return [];
+            return n.map(function (node) { return node.itemData; });
+        };
+        WDxTreeView.prototype.off = function (events) {
+            _super.prototype.off.call(this, events);
+            if (!events)
+                return this;
+            var opt = {};
+            if (events.indexOf('_onItemClick') >= 0)
+                opt.onItemClick = null;
+            if (events.indexOf('_onSelectionChanged') >= 0)
+                opt.onSelectionChanged = null;
+            if (events.indexOf('_onItemRendered') >= 0)
+                opt.onItemRendered = null;
+            this.root.dxTreeView(opt);
+            return this;
+        };
+        WDxTreeView.prototype.updateState = function (nextState) {
+            _super.prototype.updateState.call(this, nextState);
+            if (this.root && this.root.length) {
+                var opt = {
+                    items: nextState
+                };
+                this.root.dxTreeView(opt);
+            }
+        };
+        WDxTreeView.prototype.updateProps = function (nextProps) {
+            _super.prototype.updateProps.call(this, nextProps);
+            if (!this.mounted)
+                return;
+            if (this.props) {
+                this.root.dxTreeView('instance').option('searchMode', this.props);
+            }
+        };
+        WDxTreeView.prototype.beforeInit = function (opt) {
+        };
+        WDxTreeView.prototype.componentDidMount = function () {
+            var opt = {
+                height: this.height,
+                width: this.width,
+                searchEnabled: this.searchEnabled,
+                items: this.state
+            };
+            if (this.selectionMode == "multiple") {
+                opt.selectionMode = "multiple";
+                opt.showCheckBoxesMode = "normal";
+            }
+            if (this.handlers['_onItemClick'] && this.handlers['_onItemClick'].length) {
+                opt.onItemClick = this.handlers['_onItemClick'][0];
+            }
+            if (this.handlers['_onSelectionChanged'] && this.handlers['_onSelectionChanged'].length) {
+                opt.onSelectionChanged = this.handlers['_onSelectionChanged'][0];
+            }
+            if (this.handlers['_onItemRendered'] && this.handlers['_onItemRendered'].length) {
+                opt.onItemRendered = this.handlers['_onItemRendered'][0];
+            }
+            this.beforeInit(opt);
+            var t = this.root.dxTreeView(opt);
+            if (this.props) {
+                t.option('searchMode', this.props);
+            }
+        };
+        return WDxTreeView;
+    }(WUX.WComponent));
+    WUX.WDxTreeView = WDxTreeView;
 })(WUX || (WUX = {}));
 var WUX;
 (function (WUX) {
