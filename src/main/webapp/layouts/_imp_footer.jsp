@@ -25,7 +25,7 @@
 </div>
 </div>
 
-<script src="../inspinia/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="../inspinia/js/jquery-3.6.1.min.js" type="text/javascript"></script>
 <script src="../inspinia/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="../inspinia/js/inspinia.js" type="text/javascript"></script>
 
