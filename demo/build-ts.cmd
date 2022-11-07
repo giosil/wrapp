@@ -28,4 +28,10 @@ call minify ./js/common.js
 call minify ./js/dossier.js
 
 rem Install first https://www.npmjs.com/package/uglify-js
-rem uglifyjs -c -o ./wux/js/wux.min.js -m -- ./wux/js/wux.js
+rem Usage: uglifyjs input_file -c (compress) -o (output_file) output_file
+rem call uglifyjs ./js/res-en.js -c -o ./js/res-en.min.js
+rem call uglifyjs ./js/res-it.js -c -o ./js/res-it.min.js
+rem call uglifyjs ./js/res-fr.js -c -o ./js/res-fr.min.js
+rem call uglifyjs ./js/res-es.js -c -o ./js/res-es.min.js
+rem call uglifyjs ./js/common.js -c -o ./js/common.min.js
+rem call uglifyjs ./js/dossier.js -c -o ./js/dossier.min.js
