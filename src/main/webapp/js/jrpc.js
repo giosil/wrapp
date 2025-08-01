@@ -101,6 +101,14 @@ JRPC.prototype.execute = function(methodName, params, successHandler, exceptionH
 					location.reload(true);
 					break;
 				default:
+					if(xhr.status>=400) {
+						if (typeof exceptionHandler == 'function'){
+							exceptionHandler({"message": 'HTTP error ' + xhr.status});
+						}
+						else {
+							_onRpcError({"message": 'HTTP error ' + xhr.status});
+						}
+					}
 					console.log('JRPC.execute("' + methodName + '") -> HTTP ' + xhr.status);
 					break;
 			}
@@ -147,6 +155,9 @@ JRPC.prototype.executeSync = function(methodName, params){
 		return response.result;
 	}
 	else {
+		if(xhr.status>=400) {
+			_onRpcError({"message": 'HTTP error ' + xhr.status});
+		}
 		console.log('JRPC.execute("' + methodName + '") -> HTTP ' + xhr.status);
 	}
 	return null;
